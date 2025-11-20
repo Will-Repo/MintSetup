@@ -17,6 +17,15 @@ sudo ufw default allow outgoing
 sudo ufw status verbose
 echo "[PROGRESS} Set up basic firewall - outgoing allowed, incoming blocked."
 
+# Install neovim, with kickstarter config.
+# sudo apt install neovim -y
+sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo apt update
+sudo apt install neovim -y
+git clone https://github.com/nvim-lua/kickstart.nvim ~/.config/nvim
+nvim --headless "+Laxy! sync" +qa
+echo "[PROGRESS] Neovim with kickstarter config set up."
+
 # Copy my xinput config file to my home directory.
 cp ./configs/.xinputrc $HOME/.xinputrc 
 echo "[PROGRESS] Set up .xinputrc file."
