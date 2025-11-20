@@ -19,7 +19,7 @@ echo "[PROGRESS} Set up basic firewall - outgoing allowed, incoming blocked."
 
 # Install neovim, with kickstarter config.
 # sudo apt install neovim -y
-sudo add-apt-repository ppa:neovim-ppa/unstable -y
+sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo apt update
 sudo apt install neovim -y
 git clone https://github.com/nvim-lua/kickstart.nvim ~/.config/nvim
