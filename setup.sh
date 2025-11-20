@@ -30,6 +30,21 @@ echo "[PROGRESS] Neovim with kickstarter config set up."
 cp ./configs/.xinputrc $HOME/.xinputrc 
 echo "[PROGRESS] Set up .xinputrc file."
 
+# Set up flatpak with flathub repository.
+flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+echo "[PROGRESS] Do you wish to install Prism Launcher? (Y/n)"
+read input
+if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
+	flatpak install -y --user flathub org.prismlauncher.PrismLauncher
+fi
+
+echo "[PROGRESS] Do you wish to install Heroic Launcher? (Y/n)"
+read input
+if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
+	flatpak install -y --user flathub com.heroicgameslauncher.hgl
+fi
+
 echo "[PROGRESS] To apply some changes, please log out and log into the i3 desktop environment, would you like to do this automatically? (Y/n)"
 read input
 if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
