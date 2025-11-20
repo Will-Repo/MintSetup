@@ -1,12 +1,29 @@
 # Run the script using the bash shell. 
-#!/bin/bash 
-set -e # Stop script execution if an error occurs. 
+#!/bin/bash
 
-sudo apt update && sudo apt upgrade -y # If updating the package database succeeds, update packages to their latest version.
+# Stop script execution if an error occurs. 
+set -e
+
+# If updating the package database succeeds, update packages to their latest version.
+sudo apt update && sudo apt upgrade -y
 echo "[PROGRESS] Package database updated and all packages upgraded."
 
-cp ./configs/.xinputrc $HOME/.xinputrc # Copy my xinput config file to my home directoy.
+sudo apt install i3 -y
+echo "[PROGRESS] i3 desktop environment installed."
+
+# Set up basic firewall, allowing outging traffic but blocking incoming traffic.
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw status verbose
+echo "[PROGRESS} Set up basic firewall - outgoing allowed, incoming blocked."
+
+# Copy my xinput config file to my home directory.
+cp ./configs/.xinputrc $HOME/.xinputrc 
 echo "[PROGRESS] Set up .xinputrc file."
 
-echo "[PROGRESS] Logging out now to apply relevant changes."
-loginctl terminate-session "$XDG_SESSION_ID"
+echo "[PROGRESS] To apply some changes, please log out and log into the i3 desktop environment, would you like to do this automatically? (Y/n)"
+read input
+if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
+	loginctl terminate-session "$XDG_SESSION_ID"
+fi
+
