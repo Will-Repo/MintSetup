@@ -11,6 +11,9 @@ echo "[PROGRESS] Package database updated and all packages upgraded."
 sudo apt install i3 -y
 echo "[PROGRESS] i3 desktop environment installed."
 
+#sudo apt install sway -y
+#echo "[PROGRESS] sway desktop environment installed."
+
 # Delete unecessary (empty) folders.
 rm -rf ~/Desktop/ ~/Games/ ~/Pictures/ ~/Videos/ ~/Templates/ ~/Music/ ~/Public/
 echo "[PROGRESS] Deleted unecessary home directory folders."
@@ -32,7 +35,7 @@ nvim --headless "+Laxy! sync" +qa
 echo "[PROGRESS] Neovim with kickstarter config set up."
 
 # Copy my xinput config file to my home directory.
-cp ./configs/.xinputrc $HOME/.xinputrc 
+cp -f ./configs/.xinputrc ~/.xinputrc 
 echo "[PROGRESS] Set up .xinputrc file."
 
 # Install the JDK (JDK 25)
@@ -43,14 +46,21 @@ echo "[PROGRESS] Jave JDK 25 installed and set up."
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 echo "[PROGRESS] Flatpak set up with flathub repository."
 
-# Create file for storing bash aliasse.
-echo "alias prismmc='flatpak run org.prismlauncher.PrismLauncher'" >> ~/.bashrc
-echo "alias signout='i3-msg exit'" >> ~/.bashrc
-source .bashrc
-echo "[PROGRESS] Set up alias's for all shell sessions."
+# Overwrite bashrc with my custom one, then set it up for this shell session.
+cp -f ./configs/.bashrc ~/.bashrc
+source ~/.bashrc
+echo "[PROGRESS] Set up .bashrc - aliases set up."
 
 sudo apt install ssh
 echo "[PROGRESS] Ssh installed."
+
+sudo apt remove firefox
+echo "[PROGRESS] Removed firefox."
+
+sudo apt install extrepo -y
+sudo extrepo enable librewolf
+sudo apt update && sudo apt install librewolf -y
+echo "[PROGESS] Librewolf installed."
 
 echo "[PROGRESS] Do you wish to install Prism Launcher? (Y/n)"
 read input
