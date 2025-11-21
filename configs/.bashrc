@@ -122,6 +122,7 @@ alias browser='librewolf'
 alias github='browser https://github.com/'
 alias myuob='browser https://myuob.bham.ac.uk/dashboard/student-home'
 alias msteams='browser https://teams.microsoft.com/v2/'
+alias closeall='i3-msg "[class=\".*\"] kill"'
 
 canvas() {
     if [ -z "$1" ]; then

@@ -15,6 +15,9 @@ echo "[PROGRESS] i3 desktop environment installed."
 sudo apt install polybar -y
 echo "[PROGRESS] Installed polybar for i3 configuration."
 
+if [ ! -d ~/.config/polybar ]; then
+  mkdir ~/.config/polybar
+fi
 cp -f ./configs/polybar ~/.config/polybar/config.ini
 echo "[PROGRESS] Set up polybar config."
 

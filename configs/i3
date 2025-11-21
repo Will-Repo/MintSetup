@@ -188,4 +188,5 @@ bindsym $mod+r mode "resize"
 bar {
        # status_command i3status
 	status_command polybar
+	workspace_buttons no
 }
