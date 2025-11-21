@@ -11,6 +11,16 @@ echo "[PROGRESS] Package database updated and all packages upgraded."
 sudo apt install i3 -y
 echo "[PROGRESS] i3 desktop environment installed."
 
+# Set up i3 configuration.
+sudo apt install polybar -y
+echo "[PROGRESS] Installed polybar for i3 configuration."
+
+cp -f ./configs/polybar ~/.config/polybar/config.ini
+echo "[PROGRESS] Set up polybar config."
+
+cp -f ./configs/i3 ~/.config/i3/config
+echo "[PROGESS] Set up i3 config."
+
 #sudo apt install sway -y
 #echo "[PROGRESS] sway desktop environment installed."
 
@@ -39,7 +49,7 @@ cp -f ./configs/.xinputrc ~/.xinputrc
 echo "[PROGRESS] Set up .xinputrc file."
 
 # Install the JDK (JDK 25)
-sudo apt install openjdk-25-jre-headless
+sudo apt install openjdk-25-jre-headless -y
 echo "[PROGRESS] Jave JDK 25 installed and set up."
 
 # Set up flatpak with flathub repository.
@@ -51,10 +61,10 @@ cp -f ./configs/.bashrc ~/.bashrc
 source ~/.bashrc
 echo "[PROGRESS] Set up .bashrc - aliases set up."
 
-sudo apt install ssh
+sudo apt install ssh -y
 echo "[PROGRESS] Ssh installed."
 
-sudo apt remove firefox
+sudo apt remove firefox -y
 echo "[PROGRESS] Removed firefox."
 
 sudo apt install extrepo -y
