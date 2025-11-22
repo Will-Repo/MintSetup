@@ -123,6 +123,10 @@ alias github='browser https://github.com/'
 alias myuob='browser https://myuob.bham.ac.uk/dashboard/student-home'
 alias msteams='browser https://teams.microsoft.com/v2/'
 alias closeall='i3-msg "[class=\".*\"] kill"'
+alias add='git add .'
+alias commit='git commit -m'
+alias ac='git add . && git commit -m'
+alias push='git push origin main'
 
 canvas() {
     if [ -z "$1" ]; then
@@ -170,4 +174,8 @@ panopto() {
 		echo "Invalid parameter."
 		;;
     esac
+}
+
+volume() {
+    pactl set-sink-volume @DEFAULT_SINK@ $1%
 }
