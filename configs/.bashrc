@@ -137,6 +137,7 @@ alias stopgdrive='fusermount -u ~/Remote/gdrive'
 alias odgoogle='rclone mount odgoogle: ~/Remote/odgoogle --vfs-cache-mode full & > /dev/null && cd ~/Remote/odgoogle' # One drive google account
 alias stopodgoogle='fusermount -u ~/Remote/odgoogle'
 alias n='nvim'
+alias ytmusic='browser https://music.youtube.com/playlist?list=PLmiqf5NkGrMQVAk0eCf9PqR7Lj70j3IkB'
 
 canvas() {
     if [ -z "$1" ]; then
