@@ -58,7 +58,12 @@ echo "[PROGRESS] Jave JDK 25 installed and set up."
 wget https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1-Linux-x86_64.sh
 chmod +x cmake-4.1.1-Linux-x86_64.sh
 sudo ./cmake-4.1.1-Linux-x86_64.sh --prefix=/usr/local --skip-license
+rm ./cmake-4.1.1-Linux-x86_64.sh
 echo "[PROGRESS] Installed cmake."
+
+sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
+sudo apt install python3-jinja2
+echo "[PROGRESS] Installed glfw3 and opengl build dependencies."
 
 # Set up flatpak with flathub repository.
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
