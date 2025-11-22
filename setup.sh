@@ -55,6 +55,9 @@ echo "[PROGRESS] Set up .xinputrc file."
 sudo apt install openjdk-25-jre-headless -y
 echo "[PROGRESS] Jave JDK 25 installed and set up."
 
+sudo apt install cmake -y
+echo "[PROGRESS] Installed cmake."
+
 # Set up flatpak with flathub repository.
 flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 echo "[PROGRESS] Flatpak set up with flathub repository."
