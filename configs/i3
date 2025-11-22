@@ -190,3 +190,5 @@ bar {
 	status_command polybar
 	workspace_buttons no
 }
+
+workspace_layout stacked
