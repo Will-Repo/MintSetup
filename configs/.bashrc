@@ -116,6 +116,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+alias mc='flatpak run org.prismlauncher.PrismLauncher'
 alias prismmc='flatpak run org.prismlauncher.PrismLauncher'
 alias signout='i3-msg exit'
 alias browser='librewolf' 
@@ -127,6 +128,15 @@ alias add='git add .'
 alias commit='git commit -m'
 alias ac='git add . && git commit -m'
 alias push='git push origin main'
+alias gdrive='rclone mount gdrive: ~/Remote/gdrive --vfs-cache-mode full & > /dev/null && cd ~/Remote/gdrive'
+alias stopgdrive='fusermount -u ~/Remote/gdrive'
+#alias gphotos='rclone mount gphotos: ~/Remote/gphotos --vfs-cache-mode full & > /dev/null && cd ~/Remote/gphotos'
+#alias stopgphotos='fusermount -u ~/Remote/gphotos'
+#alias oduni='rclone mount oduni: ~/Remote/oduni --vfs-cache-mode full & > /dev/null && cd ~/Remote/oduni' # One drive uni - uni doesnt allow rclone :(
+#alias stopoduni='fusermount -u ~/Remote/oduni'
+alias odgoogle='rclone mount odgoogle: ~/Remote/odgoogle --vfs-cache-mode full & > /dev/null && cd ~/Remote/odgoogle' # One drive google account
+alias stopodgoogle='fusermount -u ~/Remote/odgoogle'
+alias n='nvim'
 
 canvas() {
     if [ -z "$1" ]; then
