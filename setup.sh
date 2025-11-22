@@ -55,7 +55,9 @@ echo "[PROGRESS] Set up .xinputrc file."
 sudo apt install openjdk-25-jre-headless -y
 echo "[PROGRESS] Jave JDK 25 installed and set up."
 
-sudo apt install cmake -y
+wget https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1-Linux-x86_64.sh
+chmod +x cmake-4.1.1-Linux-x86_64.sh
+sudo ./cmake-4.1.1-Linux-x86_64.sh --prefix=/usr/local --skip-license
 echo "[PROGRESS] Installed cmake."
 
 # Set up flatpak with flathub repository.
