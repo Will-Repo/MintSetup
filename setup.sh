@@ -78,6 +78,11 @@ echo "[PROGRESS] Set up .bashrc and .bash_aliases - aliases set up."
 sudo apt install ssh -y
 echo "[PROGRESS] Ssh installed."
 
+# Set up simple ssh keys.
+if [[ ! -d ~/.ssh ]]; then 
+    ssh-keygen -t ed25519
+fi
+
 xset s off 
 echo "[PROGRESS] Disabled automatic screen dimming."
 
