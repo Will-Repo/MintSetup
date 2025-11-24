@@ -71,11 +71,15 @@ echo "[PROGRESS] Flatpak set up with flathub repository."
 
 # Overwrite bashrc with my custom one, then set it up for this shell session.
 cp -f ./configs/.bashrc ~/.bashrc
-source ~/.bashrc
-echo "[PROGRESS] Set up .bashrc - aliases set up."
+cp -f ./configs/.bash_aliases ~/.bash_aliases
+source ~/.bashrc ~/.bash_aliases
+echo "[PROGRESS] Set up .bashrc and .bash_aliases - aliases set up."
 
 sudo apt install ssh -y
 echo "[PROGRESS] Ssh installed."
+
+xset s off 
+echo "[PROGRESS] Disabled automatic screen dimming."
 
 sudo apt remove firefox -y
 echo "[PROGRESS] Removed firefox."
@@ -150,3 +154,5 @@ if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
 	loginctl terminate-session "$XDG_SESSION_ID"
 fi
 
+sudo apt autoremove
+echo "[PROGRESS] Removed unecessary dependencies."
