@@ -2,6 +2,7 @@
 
 alias mc='flatpak run org.prismlauncher.PrismLauncher'
 alias prismmc='flatpak run org.prismlauncher.PrismLauncher'
+alias discord='flatpak run com.discordapp.Discord'
 alias signout='i3-msg exit'
 alias browser='librewolf' 
 alias github='browser https://github.com/'

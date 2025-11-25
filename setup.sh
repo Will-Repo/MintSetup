@@ -94,6 +94,9 @@ sudo extrepo enable librewolf
 sudo apt update && sudo apt install librewolf -y
 echo "[PROGESS] Librewolf installed."
 
+sudo flatpak install flathub com.discordapp.Discord -y
+echo "[PROGRESS] Installed discord."
+
 echo "[PROGRESS] Do you wish to install Prism Launcher? (Y/n)"
 read input
 if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
