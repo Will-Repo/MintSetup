@@ -44,6 +44,8 @@ sudo apt update
 sudo apt install neovim -y
 rm -rf ~/.config/nvim
 git clone https://github.com/Will-Repo/kickstart.nvim ~/.config/nvim
+rm -rf ~/.local/share/nvim/site/pack/packer/start
+git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 nvim --headless "+Laxy! sync" +qa
 echo "[PROGRESS] Neovim with kickstarter config set up."
 
