@@ -37,6 +37,9 @@ sudo ufw default allow outgoing
 sudo ufw status verbose
 echo "[PROGRESS] Set up basic firewall - outgoing allowed, incoming blocked."
 
+sudo apt install npm -y
+echo "[PROGRESS] Installed npm package manager."
+
 # Install neovim, with kickstarter config.
 # sudo apt install neovim -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
@@ -46,6 +49,7 @@ rm -rf ~/.config/nvim
 git clone https://github.com/Will-Repo/kickstart.nvim ~/.config/nvim
 rm -rf ~/.local/share/nvim/site/pack/packer/start
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+npm install tree-sitter-cli
 nvim --headless "+Laxy! sync" +qa
 echo "[PROGRESS] Neovim with kickstarter config set up."
 
