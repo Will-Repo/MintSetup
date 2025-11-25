@@ -44,12 +44,27 @@ echo "[PROGRESS] Installed npm package manager."
 # sudo apt install neovim -y
 sudo add-apt-repository ppa:neovim-ppa/stable -y
 sudo apt update
+#sudo apt install neovim -y
+#flatpak install --assumeyes flathub io.neovim.nvim
+#sudo apt install snap -y
+#sudo npm install snapd -y
+#sudo snap install neovim --classic -y
+#git clone https://github.com/neovim/neovim.git
+#cd neovim
+#git checkout stable
+#make CMAKE_BUILD_TYPE=Release
+#sudo make install
+#cd ..
+#rm -rf neovim
 sudo apt install neovim -y
 rm -rf ~/.config/nvim
 git clone https://github.com/Will-Repo/kickstart.nvim ~/.config/nvim
 rm -rf ~/.local/share/nvim/site/pack/packer/start
 git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 npm install tree-sitter-cli
+sudo apt install zathura -y
+sudo apt install texlive -y
+sudo apt install latexmk -y
 nvim --headless "+Laxy! sync" +qa
 echo "[PROGRESS] Neovim with kickstarter config set up."
 
