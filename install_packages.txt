@@ -13,3 +13,5 @@ libwayland-dev
 libxkbcommon-dev
 xorg-dev
 python3-jinja2
+
+#AFNOM - 

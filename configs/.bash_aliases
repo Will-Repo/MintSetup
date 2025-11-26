@@ -24,6 +24,21 @@ alias stopodgoogle='fusermount -u ~/Remote/odgoogle'
 alias n='nvim'
 alias ytmusic='browser https://music.youtube.com/playlist?list=PLmiqf5NkGrMQVAk0eCf9PqR7Lj70j3IkB'
 
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
 canvas() {
     if [ -z "$1" ]; then
 	    browser https://birmingham.instructure.com/
@@ -78,3 +93,8 @@ volume() {
 }
 alias vol='volume'
 alias v='volume'
+
+#AFNOM
+alias zap='flatpak run org.zaproxy.ZAP'
+alias osintframework='browser https://osintframework.com/'
+alias googlesearch='browser https://www.google.co.uk/advanced_search'

@@ -63,3 +63,6 @@ if ! command -v rclone &> /dev/null; then
 	echo "[PROGRESS] Installed rclone."
 fi
 
+# Afnom - web hacking
+# ZAP - web proxy/
+flatpak install flathub org.zaproxy.ZAP
