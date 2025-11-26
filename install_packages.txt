@@ -14,4 +14,13 @@ libxkbcommon-dev
 xorg-dev
 python3-jinja2
 
-#AFNOM - 
+#AFNOM
+exiftool
+python3-pycryptodome
+steghide
+audacity
+john
+binwalk
+compare
+imagemagick
+gdb

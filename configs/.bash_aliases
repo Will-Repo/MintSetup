@@ -98,3 +98,6 @@ alias v='volume'
 alias zap='flatpak run org.zaproxy.ZAP'
 alias osintframework='browser https://osintframework.com/'
 alias googlesearch='browser https://www.google.co.uk/advanced_search'
+alias tineye='browser https://tineye.com/'
+alias stegsolve='java -jar /usr/local/bin/stegsolve.jar "$@"' #preserve arguments passed to the alias.
+alias ghidra='/opt/ghidra/ghidraRun'

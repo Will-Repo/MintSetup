@@ -66,3 +66,12 @@ fi
 # Afnom - web hacking
 # ZAP - web proxy/
 flatpak install flathub org.zaproxy.ZAP
+
+wget http://www.caesum.com/handbook/Stegsolve.jar -O stegsolve.jar
+chmod +x stegsolve.jar
+sudo mv ./stegsolve.jar /usr/local/bin/ 
+
+wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.4.2_build/ghidra_11.4.2_PUBLIC_20250826.zip
+unzip ghidra_11.4.2_PUBLIC_20250826.zip
+sudo mv ghidra_11.4.2_PUBLIC /opt/ghidra
+rm ghidra_11.4.2_PUBLIC_20250826.zip
