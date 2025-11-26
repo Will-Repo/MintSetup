@@ -117,3 +117,8 @@ if ! shopt -oq posix; then
 fi
 
 export PATH="$PATH:$HOME/node_modules/.bin"
+
+# Screen dimming.
+xset dpms 600 900 1200
+
+# MOVE ABOVE ALIASES TO ALIAS FILE

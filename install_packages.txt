@@ -1,0 +1,15 @@
+i3
+polybar
+npm
+zathura
+texlive
+latexmk
+openjdk-21-jdk
+ssh
+extrepo
+
+#glfw3 and opengl build dependencies.
+libwayland-dev
+libxkbcommon-dev
+xorg-dev
+python3-jinja2

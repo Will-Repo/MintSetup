@@ -1,6 +1,20 @@
 # Run the script using the bash shell. 
 #!/bin/bash
 
+# STEPS
+# Ensure script stops on error.
+# Update package list and upgrade packages.
+# Install all apt packages using packages.txt.
+# Remove unecessary apt packages.
+# Run manual install script (for things that require latest/specific version) (neovim).
+# Set up config files - perhaps use stow.
+# Miscellaneus tasks
+    # Delete unecessary home drive folders.
+    # Set up firewall.
+    # Set up ssh keys.
+    # Set up remote directories.
+    # Autoremove unecessary packages.
+
 # Stop script execution if an error occurs. 
 set -e
 
@@ -8,24 +22,28 @@ set -e
 sudo apt update && sudo apt upgrade -y
 echo "[PROGRESS] Package database updated and all packages upgraded."
 
-sudo apt install i3 -y
-echo "[PROGRESS] i3 desktop environment installed."
+# Read all packages to install with apt into packages file, then install.
+while IFS= read -r package || [[ -n "$package" ]]; do
+    # If package isn't empty and doesnt start with #
+    if [[ -z "$package" || "$package" =~ ^# ]]; then
+        continue
+    fi
+    echo "Installing $package..."
+    sudo apt install -y "$package"
+done < install_packages.txt
 
-# Set up i3 configuration.
-sudo apt install polybar -y
-echo "[PROGRESS] Installed polybar for i3 configuration."
+while IFS= read -r package || [[ -n "$package" ]]; do
+    # If package isn't empty and doesnt start with #
+    if [[ -z "$package" || "$package" =~ ^# ]]; then
+        continue
+    fi
+    echo "Removing $package..."
+    sudo apt remove -y "$package"
+done < remove_packages.txt
 
-if [ ! -d ~/.config/polybar ]; then
-  mkdir ~/.config/polybar
-fi
-cp -f ./configs/polybar ~/.config/polybar/config.ini
-echo "[PROGRESS] Set up polybar config."
+./manual_package_installs.sh
 
-cp -f ./configs/i3 ~/.config/i3/config
-echo "[PROGESS] Set up i3 config."
-
-#sudo apt install sway -y
-#echo "[PROGRESS] sway desktop environment installed."
+./configs_setup.sh
 
 # Delete unecessary (empty) folders.
 rm -rf ~/Desktop/ ~/Games/ ~/Pictures/ ~/Videos/ ~/Templates/ ~/Music/ ~/Public/
@@ -37,109 +55,9 @@ sudo ufw default allow outgoing
 sudo ufw status verbose
 echo "[PROGRESS] Set up basic firewall - outgoing allowed, incoming blocked."
 
-sudo apt install npm -y
-echo "[PROGRESS] Installed npm package manager."
-
-# Install neovim, with kickstarter config.
-# sudo apt install neovim -y
-sudo add-apt-repository ppa:neovim-ppa/stable -y
-sudo apt update
-#sudo apt install neovim -y
-#flatpak install --assumeyes flathub io.neovim.nvim
-#sudo apt install snap -y
-#sudo npm install snapd -y
-#sudo snap install neovim --classic -y
-#git clone https://github.com/neovim/neovim.git
-#cd neovim
-#git checkout stable
-#make CMAKE_BUILD_TYPE=Release
-#sudo make install
-#cd ..
-#rm -rf neovim
-sudo apt install neovim -y
-rm -rf ~/.config/nvim
-git clone https://github.com/Will-Repo/kickstart.nvim ~/.config/nvim
-rm -rf ~/.local/share/nvim/site/pack/packer/start
-git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-npm install tree-sitter-cli
-sudo apt install zathura -y
-sudo apt install texlive -y
-sudo apt install latexmk -y
-nvim --headless "+Laxy! sync" +qa
-echo "[PROGRESS] Neovim with kickstarter config set up."
-
-# Copy my xinput config file to my home directory.
-cp -f ./configs/.xinputrc ~/.xinputrc 
-echo "[PROGRESS] Set up .xinputrc file."
-
-# Install the JDK (JDK 25)
-#sudo apt install openjdk-25-jre-headless -y
-sudo apt install openjdk-21-jdk -y
-echo "[PROGRESS] Jave JDK 21 installed and set up."
-
-wget https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1-Linux-x86_64.sh
-chmod +x cmake-4.1.1-Linux-x86_64.sh
-sudo ./cmake-4.1.1-Linux-x86_64.sh --prefix=/usr/local --skip-license
-rm ./cmake-4.1.1-Linux-x86_64.sh
-echo "[PROGRESS] Installed cmake."
-
-sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
-sudo apt install python3-jinja2
-echo "[PROGRESS] Installed glfw3 and opengl build dependencies."
-
-# Set up flatpak with flathub repository.
-flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-echo "[PROGRESS] Flatpak set up with flathub repository."
-
-# Overwrite bashrc with my custom one, then set it up for this shell session.
-cp -f ./configs/.bashrc ~/.bashrc
-cp -f ./configs/.bash_aliases ~/.bash_aliases
-source ~/.bashrc ~/.bash_aliases
-echo "[PROGRESS] Set up .bashrc and .bash_aliases - aliases set up."
-
-sudo apt install ssh -y
-echo "[PROGRESS] Ssh installed."
-
 # Set up simple ssh keys.
 if [[ ! -d ~/.ssh ]]; then 
     ssh-keygen -t ed25519
-fi
-
-xset dpms 300 600 900
-echo "[PROGRESS] Altered automatic screen dimming (standby after 300 seconds, suspend after 600, off after 900)."
-
-sudo apt remove firefox -y
-echo "[PROGRESS] Removed firefox."
-
-sudo apt install extrepo -y
-sudo extrepo enable librewolf
-sudo apt update && sudo apt install librewolf -y
-echo "[PROGESS] Librewolf installed."
-
-sudo flatpak install flathub com.discordapp.Discord -y
-echo "[PROGRESS] Installed discord."
-
-echo "[PROGRESS] Do you wish to install Prism Launcher? (Y/n)"
-read input
-if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
-	flatpak install -y --user flathub org.prismlauncher.PrismLauncher
-fi
-
-#echo "[PROGRESS] Do you wish to install Heroic Launcher? (Y/n)"
-#read input
-#if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
-#	flatpak install -y --user flathub com.heroicgameslauncher.hgl
-#fi
-
-#echo "[PROGRESS] Do you wish to install Lutris? (Y/n)"
-#read input
-#if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
-#	flatpak install -y --user flathub net.lutris.Lutris
-#fi
-
-if ! command -v rclone &> /dev/null; then
-	sudo -v ; curl https://rclone.org/install.sh | sudo bash
-	echo "[PROGRESS] Installed rclone."
 fi
 
 if [ ! -d ~/Remote ]; then
