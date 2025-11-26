@@ -105,8 +105,8 @@ if [[ ! -d ~/.ssh ]]; then
     ssh-keygen -t ed25519
 fi
 
-xset s off 
-echo "[PROGRESS] Disabled automatic screen dimming."
+xset dpms 300 600 900
+echo "[PROGRESS] Altered automatic screen dimming (standby after 300 seconds, suspend after 600, off after 900)."
 
 sudo apt remove firefox -y
 echo "[PROGRESS] Removed firefox."
