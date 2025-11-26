@@ -11,6 +11,7 @@
 # Miscellaneus tasks
     # Delete unecessary home drive folders.
     # Set up firewall.
+    # Set up git email and username (for commit data).
     # Set up ssh keys.
     # Set up remote directories.
     # Autoremove unecessary packages.
@@ -55,6 +56,9 @@ sudo ufw default allow outgoing
 sudo ufw status verbose
 echo "[PROGRESS] Set up basic firewall - outgoing allowed, incoming blocked."
 
+git config --global user.email "wricks2023.16@gmail.com"
+git config --global user.name "Will"
+
 # Set up simple ssh keys.
 if [[ ! -d ~/.ssh ]]; then 
     ssh-keygen -t ed25519
@@ -63,6 +67,7 @@ fi
 if [ ! -d ~/Remote ]; then
 	mkdir -p ~/Remote
 fi
+echo "[PROGRESS] SSH keys generated (if not already)."
 
 echo "[PROGRESS] Do you wish to set up a google drive folder using rclone (IMPORTANT: name the drive 'gdrive')?"
 read input
@@ -96,11 +101,12 @@ if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
 	echo "[PROGRESS] The latest drive (stored in ~/Remote/odgoogle) can be accessed by running the odgoogle command (alias), and will continue to update until the mounting is ended by stopodgoogle."
 fi
 
+
+sudo apt autoremove
+echo "[PROGRESS] Removed unecessary dependencies."
+
 echo "[PROGRESS] To apply some changes, please log out and log into the i3 desktop environment, would you like to do this automatically? (Y/n)"
 read input
 if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
 	loginctl terminate-session "$XDG_SESSION_ID"
 fi
-
-sudo apt autoremove
-echo "[PROGRESS] Removed unecessary dependencies."

@@ -21,6 +21,5 @@ steghide
 audacity
 john
 binwalk
-compare
 imagemagick
 gdb

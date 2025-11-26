@@ -7,14 +7,14 @@ sudo apt update
 #sudo apt install snap -y
 #sudo npm install snapd -y
 #sudo snap install neovim --classic -y
-#git clone https://github.com/neovim/neovim.git
-#cd neovim
-#git checkout stable
-#make CMAKE_BUILD_TYPE=Release
-#sudo make install
-#cd ..
-#rm -rf neovim
-sudo apt install neovim -y
+git clone https://github.com/neovim/neovim.git
+cd neovim
+git checkout stable
+make CMAKE_BUILD_TYPE=Release
+sudo make install
+cd ..
+rm -rf neovim
+#sudo apt install neovim -y
 rm -rf ~/.config/nvim
 git clone https://github.com/Will-Repo/kickstart.nvim ~/.config/nvim
 rm -rf ~/.local/share/nvim/site/pack/packer/start

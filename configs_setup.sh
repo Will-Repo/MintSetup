@@ -20,5 +20,3 @@ cp -f ./configs/.bashrc ~/.bashrc
 cp -f ./configs/.bash_aliases ~/.bash_aliases
 source ~/.bashrc ~/.bash_aliases
 echo "[PROGRESS] Set up .bashrc and .bash_aliases - aliases set up."
-
-
