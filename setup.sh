@@ -13,6 +13,7 @@
     # Set up firewall.
     # Set up git email and username (for commit data).
     # Set up ssh keys.
+    # Start ssh agent.
     # Set up remote directories.
     # Autoremove unecessary packages.
 
@@ -68,6 +69,10 @@ if [ ! -d ~/Remote ]; then
 	mkdir -p ~/Remote
 fi
 echo "[PROGRESS] SSH keys generated (if not already)."
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+echo "[PROGRESS] Started ssh agent and added private key (need user to add public key to github)."
 
 echo "[PROGRESS] Do you wish to set up a google drive folder using rclone (IMPORTANT: name the drive 'gdrive')?"
 read input
