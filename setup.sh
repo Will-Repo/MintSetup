@@ -73,8 +73,9 @@ cp -f ./configs/.xinputrc ~/.xinputrc
 echo "[PROGRESS] Set up .xinputrc file."
 
 # Install the JDK (JDK 25)
-sudo apt install openjdk-25-jre-headless -y
-echo "[PROGRESS] Jave JDK 25 installed and set up."
+#sudo apt install openjdk-25-jre-headless -y
+sudo apt install openjdk-21-jdk -y
+echo "[PROGRESS] Jave JDK 21 installed and set up."
 
 wget https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1-Linux-x86_64.sh
 chmod +x cmake-4.1.1-Linux-x86_64.sh
