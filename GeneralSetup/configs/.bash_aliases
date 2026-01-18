@@ -23,6 +23,8 @@ alias odgoogle='rclone mount odgoogle: ~/Remote/odgoogle --vfs-cache-mode full &
 alias stopodgoogle='fusermount -u ~/Remote/odgoogle'
 alias n='nvim'
 alias ytmusic='browser https://music.youtube.com/playlist?list=PLmiqf5NkGrMQVAk0eCf9PqR7Lj70j3IkB'
+alias stepmania='~/Games/StepMania-5.1.0-Linux/stepmania-5.1/stepmania'
+alias osu='~/Games/osu.AppImage'
 
 # some more ls aliases
 alias ll='ls -alF'
@@ -41,8 +43,8 @@ alias egrep='egrep --color=auto'
 alias whatsapp='https://web.whatsapp.com/'
 alias hgl='flatpak run com.heroicgameslauncher.hgl'
 
-alias type='browser https://www.keybr.com/'
-alias aternos='https://aternos.org/servers/'
+alias typetest='browser https://www.keybr.com/'
+alias aternos='browser https://aternos.org/servers/'
 
 canvas() {
     if [ -z "$1" ]; then
@@ -107,3 +109,8 @@ alias tineye='browser https://tineye.com/'
 alias stegsolve='java -jar /usr/local/bin/stegsolve.jar "$@"' #preserve arguments passed to the alias.
 alias ghidra='/opt/ghidra/ghidraRun'
 alias whilehex='while read -r line; do echo -e $line; done'
+
+#SPEEDRUNNING
+alias f3='/home/will/.local/bin/ahk_x11.AppImage "/home/will/.local/bin/f3.ahk"'
+alias ninjabrainbot='java -jar /home/will/.var/app/org.prismlauncher.PrismLauncher/data/PrismLauncher/instances/MCSRRanked-Linux-1.16.1-All/other/Ninjabrain-Bot-1.5.1.jar'
+

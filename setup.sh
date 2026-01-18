@@ -14,7 +14,6 @@
     # Set up git email and username (for commit data).
     # Set up ssh keys.
     # Start ssh agent.
-    # Set up remote directories.
     # Autoremove unecessary packages.
 
 # Stop script execution if an error occurs. 
@@ -32,7 +31,7 @@ while IFS= read -r package || [[ -n "$package" ]]; do
     fi
     echo "Installing $package..."
     sudo apt install -y "$package"
-done < install_packages.txt
+done < ./GeneralSetup/install_packages.txt
 
 while IFS= read -r package || [[ -n "$package" ]]; do
     # If package isn't empty and doesnt start with #
@@ -41,11 +40,11 @@ while IFS= read -r package || [[ -n "$package" ]]; do
     fi
     echo "Removing $package..."
     sudo apt remove -y "$package"
-done < remove_packages.txt
+done < ./GeneralSetup/remove_packages.txt
 
-./manual_package_installs.sh
+./GeneralSetup/manual_package_installs.sh
 
-./configs_setup.sh
+./GeneralSetup/configs_setup.sh
 
 # Delete unecessary (empty) folders.
 rm -rf ~/Desktop/ ~/Games/ ~/Pictures/ ~/Videos/ ~/Templates/ ~/Music/ ~/Public/
@@ -73,39 +72,6 @@ echo "[PROGRESS] SSH keys generated (if not already)."
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 echo "[PROGRESS] Started ssh agent and added private key (need user to add public key to github)."
-
-echo "[PROGRESS] Do you wish to set up a google drive folder using rclone (IMPORTANT: name the drive 'gdrive')?"
-read input
-if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
-	rclone config
-	mkdir -p ~/Remote/gdrive
-	echo "[PROGRESS] The latest drive (stored in ~/Remote/gdrive) can be accessed by running the gdrive command (alias), and will continue to update until the mounting is ended by stopgdrive."
-fi
-
-#echo "[PROGRESS] Do you wish to set up a google photos folder using rclone (IMPORTANT: name the drive 'gphotos')?"
-#read input
-#if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
-#	rclone config
-#	mkdir -p ~/Remote/gphotos
-#	echo "[PROGRESS] The latest drive (stored in ~/Remote/gphotos) can be accessed by running the gphotos command (alias), and will continue to update until the mounting is ended by stopgphotos."
-#fi
-
-#echo "[PROGRESS] Do you wish to set up a(n) OneDrive folder for university using rclone (IMPORTANT: name the drive 'oduni')?"
-#read input
-#if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
-#	rclone config
-#	mkdir -p ~/Remote/oduni
-#	echo "[PROGRESS] The latest drive (stored in ~/Remote/oduni) can be accessed by running the oduni command (alias), and will continue to update until the mounting is ended by stopoduni."
-#fi
-
-echo "[PROGRESS] Do you wish to set up a(n) OneDrive folder for a google account using rclone (IMPORTANT: name the drive 'odgoogle')?"
-read input
-if [[ "$input" == "Y" || "$input" == "y" || -z "$input" ]]; then
-	rclone config
-	mkdir -p ~/Remote/odgoogle
-	echo "[PROGRESS] The latest drive (stored in ~/Remote/odgoogle) can be accessed by running the odgoogle command (alias), and will continue to update until the mounting is ended by stopodgoogle."
-fi
-
 
 sudo apt autoremove
 echo "[PROGRESS] Removed unecessary dependencies."
