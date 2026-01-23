@@ -1,9 +1,15 @@
-{
-  "Games": {
-    "Name": "StepMania",
-    "Description": "",
-    "InstallScript": "",
-    "OverrideScript": ""
+[
+  {
+    "name": "StepMania",
+    "description": "StepMania description",
+    "installScript": "",
+    "overrideScript": ""
+  },
+  {
+    "name": "Osu",
+    "description": "Osu description",
+    "installScript": "",
+    "overrideScript": ""
   }
-}
+]
 
