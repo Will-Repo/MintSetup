@@ -20,13 +20,13 @@ display_game_menu() {
     for ((i=0; i<${#gamesName[@]}; i++)); do
         description="$(jq --arg name "${gamesName[i]}" '.[] | select(.name == $name) | .description' ./data/games.json)"
         options+=( \
-            "\"${gamesName[i]}\"" \
+            "${gamesName[i]}" \
             "$description" \
             "${gamesSelected[i]}" \
         )
     done
     
-    echo ${options[@]}
+    #echo ${options[@]}
     eval `resize`
     whiptail --title "Games install options" --checklist "Choose what game software to install" $LINES $COLUMNS $(($LINES - 8)) \
     "${options[@]}"
@@ -57,7 +57,17 @@ do
         "Applications")
             ;;
         "Games")                
-            display_game_menu
+            option="$(display_game_menu 3>&1 1>&2 2>&3)"
+            #echo $option
+            IFS=' ' 
+            read -a options <<< "$option" 
+            for opt in "${options[@]}"; do
+                opt=$(echo "$opt" | xargs)
+                #echo "$opt"
+                script="$(jq --arg name "$opt" -r '.[] | select(.name == $name) | .installScript | join("\n")' ./data/games.json)"
+                #echo "$script"
+                bash -c "$script"
+            done
             ;;
         "Setup/install selected")
             ;;
