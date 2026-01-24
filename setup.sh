@@ -8,9 +8,9 @@ display_main_menu() {
     whiptail --title "Setup menu - configure what to install within each catagory." --ok-button "DO NOT PRESS" --cancel-button "Exit" --menu "Options are selected by default, enter false as the parameter of the setup script to have all options selected to false." $LINES $COLUMNS $(($LINES - 8)) \
     "Select All" "" \
     "Deselect All" "" \
-    "Applications" "" \
-    "Package Installs" "" \
-    "Package Removal" "Removing unecessary packages." \
+    "Applications" "Standalone applications" \
+    "Package Installs" "Command line tools and other software dependencies." \
+    "Software Removal" "Removing unecessary packages and applications." \
     "Games" "" \
     "Configs" "" \
     "Miscellaneous" "" \
@@ -109,7 +109,7 @@ do
             ;;
         "Package Installs")
             ;;
-        "Package Removal")
+        "Software Removal")
             ;;
         "Games")
             # Enter the game menu. return the names of any options that change.

@@ -5,38 +5,76 @@
     "script": "sudo apt install -y vokoscreen-ng"
   },       
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "neovim",
+    "description": "Basic neovim install - text editor, keyboard based",
+    "script": "sudo apt install -y neovim"
   },
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "librewolf",
+    "description": "Privacy focused web browser",
+    "script": [
+            "if ! dpkg -s extrepo &>/dev/null; then",
+            "   sudo apt install -y extrepo",
+            "   sudo extrepo enable librewolf",
+            "   sudo apt update && sudo apt install librewolf -y",
+            "   sudo apt remove -y extrepo",
+            "else",
+            "   sudo extrepo enable librewolf",
+            "   sudo apt update && sudo apt install librewolf -y",
+            "fi"
+        ]
   },
   {
-    "name": "",
+    "name": "Discord",
     "description": "",
-    "script": ""
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "   flatpak install flathub com.discordapp.Discord -y",
+            "   sudo apt remove -y flatpak",
+            "else",
+            "   flatpak install flathub com.discordapp.Discord -y",
+            "fi"
+        ]
   },
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "Zap",
+    "description": "[AFNOM] Tool for finding vulnerabilities in web applications and monitoring web traffic.",
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "   flatpak install flathub org.zaproxy.ZAP",
+            "   sudo apt remove -y flatpak",
+            "else",
+            "   flatpak install flathub org.zaproxy.ZAP -y",
+            "fi"
+        ]
   },
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "Stegsolve",
+    "description": "[AFNOM] Used for manipulating images to find hidden data",
+    "script": [
+            "wget http://www.caesum.com/handbook/Stegsolve.jar -O stegsolve.jar",
+            "chmod +x stegsolve.jar",
+            "sudo mv ./stegsolve.jar /usr/local/bin/" 
+        ]
   },
   {
-    "name": "",
-    "description": "",
-    "script": ""
-  },
-  {
-    "name": "",
-    "description": "",
-    "script": ""
-  },
+    "name": "Ghidra",
+    "description": "[AFNOM] Used for analysing binary files - e.g decompiling into source code",
+    "script": [
+            "wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.4.2_build/ghidra_11.4.2_PUBLIC_20250826.zip",
+            "if ! dpkg -s unzip &>/dev/null; then",
+            "   sudo apt install -y unzip",
+            "   unzip ghidra_11.4.2_PUBLIC_20250826.zip",
+            "   sudo apt remove -y unzip",
+            "else",
+            "   unzip ghidra_11.4.2_PUBLIC_20250826.zip",
+            "fi",
+            "sudo mv ghidra_11.4.2_PUBLIC /opt/ghidra",
+            "rm ghidra_11.4.2_PUBLIC_20250826.zip"
+        ]
+  }
 ]

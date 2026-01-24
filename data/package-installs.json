@@ -50,9 +50,14 @@
     "script": "sudo apt install -y python3-pwntools"
   },
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "cmake",
+    "description": "Build system generator for C/C++ projects",
+    "script": [
+            "wget https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1-Linux-x86_64.sh",
+            "chmod +x cmake-4.1.1-Linux-x86_64.sh",
+            "sudo ./cmake-4.1.1-Linux-x86_64.sh --prefix=/usr/local --skip-license",
+            "rm ./cmake-4.1.1-Linux-x86_64.sh"
+        ]
   },
   {
     "name": "",

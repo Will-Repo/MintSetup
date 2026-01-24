@@ -1,18 +1,29 @@
 [  
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "Delete unecessary user directories.",
+    "description": "Deletes ~/Desktop ~/Pictures ~/Videos ~/Templates ~/Music ~/Public",
+    "script": "rm -rf ~/Desktop/ ~/Pictures/ ~/Videos/ ~/Templates/ ~/Music/ ~/Public/"
   },      
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "Basic firewall setup",
+    "description": "Deny incoming traffic, allow outgoing traffic, ",
+    "script": [
+            "sudo ufw default deny incoming",
+            "sudo ufw default allow outgoing"
+        ]
   },
   {
-    "name": "",
-    "description": "",
-    "script": ""
+    "name": "Set up git profile and ssh keys",
+    "description": "Set up global user data for git on this device, as well as generating ssh keys, starting the ssh agent, and setting up my private key",
+    "script": [
+            "git config --global user.email \"wricks2023.16@gmail.com\"",
+            "git config --global user.name \"Will\"",
+            "if [[ ! -d ~/.ssh ]]; then",
+            "   ssh-keygen -t ed25519",
+            "fi",
+            "eval \"$(ssh-agent -s)\"",
+            "ssh-add ~/.ssh/id_ed25519"
+        ]
   },
   {
     "name": "",

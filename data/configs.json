@@ -1,0 +1,45 @@
+[  
+  {
+    "name": "i3",
+    "description": "Tiling window manager - can be logged into instead of the default xfce desktop environment.",
+    "script": "sudo apt install -y i3"
+  },       
+  {
+    "name": "polybar",
+    "description": "Status bar",
+    "script": "sudo apt install -y polybar"
+  },
+  {
+    "name": "Flatpak with flathub repository",
+    "description": "",
+    "script": [
+            "sudo apt install flatpak",
+            "flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo"
+        ]
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+]
