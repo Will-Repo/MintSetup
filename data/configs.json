@@ -11,35 +11,10 @@
   },
   {
     "name": "Flatpak with flathub repository",
-    "description": "",
+    "description": "Flatpak virtualisation software with the remote flathub repository set up",
     "script": [
             "sudo apt install flatpak",
             "flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo"
         ]
-  },
-  {
-    "name": "",
-    "description": "",
-    "script": ""
-  },
-  {
-    "name": "",
-    "description": "",
-    "script": ""
-  },
-  {
-    "name": "",
-    "description": "",
-    "script": ""
-  },
-  {
-    "name": "",
-    "description": "",
-    "script": ""
-  },
-  {
-    "name": "",
-    "description": "",
-    "script": ""
-  },
+  }
 ]

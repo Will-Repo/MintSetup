@@ -11,7 +11,7 @@
   },
   {
     "name": "Heroic Launcher",
-    "description": "Games launcher - can run Rocket League through proton layer. Recommended: download to usb folder Laptop/Games/RocketLeague, and select for this script to be run."
+    "description": "Games launcher - can run Rocket League through proton layer. Recommended: download to usb folder Laptop/Games/RocketLeague, and select for this script to be run.",
     "script": "flatpak install -y --user flathub com.heroicgameslauncher.hgl"
   },
   {

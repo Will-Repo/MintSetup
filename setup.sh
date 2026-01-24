@@ -19,6 +19,57 @@ display_main_menu() {
     # The option selected is printed to stderr. Which has been redirected to stdcout.
 }
 
+display_application_menu() {
+    options=()
+    for i in "${!appsName[@]}"; do
+        description="$(jq --arg name "${appsName[i]}" '.[] | select(.name == $name) | .description' ./data/applications.json)"
+        options+=( \
+            "${appsName[i]}" \
+            "$description" \
+            "${appsSelected[i]}" \
+        )
+    done
+    
+    #echo ${options[@]}
+    eval `resize`
+    whiptail --title "Application install options" --checklist "Choose what applications to install" $LINES $COLUMNS $(($LINES - 8)) \
+    "${options[@]}"
+}
+
+display_installs_menu() {
+    options=()
+    for i in "${!installsName[@]}"; do
+        description="$(jq --arg name "${installsName[i]}" '.[] | select(.name == $name) | .description' ./data/package-installs.json)"
+        options+=( \
+            "${installsName[i]}" \
+            "$description" \
+            "${installsSelected[i]}" \
+        )
+    done
+    
+    #echo ${options[@]}
+    eval `resize`
+    whiptail --title "Package install options" --checklist "Choose what packages to install" $LINES $COLUMNS $(($LINES - 8)) \
+    "${options[@]}"
+}
+
+display_removals_menu() {
+    options=()
+    for i in "${!removalsName[@]}"; do
+        description="$(jq --arg name "${removalsName[i]}" '.[] | select(.name == $name) | .description' ./data/package-removals.json)"
+        options+=( \
+            "${removalsName[i]}" \
+            "$description" \
+            "${removalsSelected[i]}" \
+        )
+    done
+    
+    #echo ${options[@]}
+    eval `resize`
+    whiptail --title "Package removal options" --checklist "Choose what packages to uninstall" $LINES $COLUMNS $(($LINES - 8)) \
+    "${options[@]}"
+}
+
 display_game_menu() {
     options=()
     for i in "${!gamesName[@]}"; do
@@ -33,6 +84,40 @@ display_game_menu() {
     #echo ${options[@]}
     eval `resize`
     whiptail --title "Games install options" --checklist "Choose what game software to install" $LINES $COLUMNS $(($LINES - 8)) \
+    "${options[@]}"
+}
+
+display_configs_menu() {
+    options=()
+    for i in "${!configsName[@]}"; do
+        description="$(jq --arg name "${configsName[i]}" '.[] | select(.name == $name) | .description' ./data/configs.json)"
+        options+=( \
+            "${configsName[i]}" \
+            "$description" \
+            "${configsSelected[i]}" \
+        )
+    done
+    
+    #echo ${options[@]}
+    eval `resize`
+    whiptail --title "Configuration options" --checklist "Choose what configurations to set up" $LINES $COLUMNS $(($LINES - 8)) \
+    "${options[@]}"
+}
+
+display_misc_menu() {
+    options=()
+    for i in "${!configsName[@]}"; do
+        description="$(jq --arg name "${miscName[i]}" '.[] | select(.name == $name) | .description' ./data/miscellaneous.json)"
+        options+=( \
+            "${miscName[i]}" \
+            "$description" \
+            "${miscSelected[i]}" \
+        )
+    done
+    
+    #echo ${options[@]}
+    eval `resize`
+    whiptail --title "Miscellaneous options" --checklist "Choose what miscellanous options to set up" $LINES $COLUMNS $(($LINES - 8)) \
     "${options[@]}"
 }
 
@@ -75,7 +160,29 @@ fi
 
 # Read name data from json files, this will be used later to get specific data for each menu. Uses parallel arrays to store whether the corresponding option is enabled. 1st array names, 2nd array whether its enabled, 3rd array scripts, these can be changed when overwrite is enabled/disabled.
 # Application data
+mapfile -t appsName < <(jq -r '.[].name' ./data/applications.json)
+appScript=$(jq '.[].script' ./data/applications.json) # All entries must have a name and script, everything else is optional.
+appsSelected=()
+for ((i=0; i<${#appsName[@]}; i++)); do
+    appsSelected[i]="OFF"
+done
+
+# Package installs
+mapfile -t installsName < <(jq -r '.[].name' ./data/package-installs.json)
+installsScript=$(jq '.[].script' ./data/package-installs.json) # All entries must have a name and script, everything else is optional.
+installsSelected=()
+for ((i=0; i<${#installsName[@]}; i++)); do
+    installsSelected[i]="OFF"
+done
+
 # Removing unecessary packages
+mapfile -t removalsName < <(jq -r '.[].name' ./data/package-removals.json)
+removalsScript=$(jq '.[].script' ./data/package-removals.json) # All entries must have a name and script, everything else is optional.
+removalsSelected=()
+for ((i=0; i<${#removalsName[@]}; i++)); do
+    removalsSelected[i]="OFF"
+done
+
 # Game data
 mapfile -t gamesName < <(jq -r '.[].name' ./data/games.json)
 gamesScript=$(jq '.[].script' ./data/games.json) # All entries must have a name and script, everything else is optional.
@@ -83,16 +190,28 @@ gamesSelected=()
 for ((i=0; i<${#gamesName[@]}; i++)); do
     gamesSelected[i]="OFF"
 done
-# Remote data
+
 # Configs
+mapfile -t configsName < <(jq -r '.[].name' ./data/configs.json)
+configsScript=$(jq '.[].script' ./data/configs.json) # All entries must have a name and script, everything else is optional.
+configsSelected=()
+for ((i=0; i<${#configsName[@]}; i++)); do
+    configsSelected[i]="OFF"
+done
+
 # Miscellaneous - e.g. deleting unecessary folders.
+mapfile -t miscName < <(jq -r '.[].name' ./data/miscellaneous.json)
+miscScript=$(jq '.[].script' ./data/miscellaneous.json) # All entries must have a name and script, everything else is optional.
+miscSelected=()
+for ((i=0; i<${#miscName[@]}; i++)); do
+    miscSelected[i]="OFF"
+done
 
 #echo ${gamesName[*]}
 
 while [ "$option" != "Exit" ] 
 do
     option="$(display_main_menu 3>&1 1>&2 2>&3)" # stderr is redirected to stdout before display_main_menu is called.
-
     #echo $option
     case $option in
         "Select All")
@@ -106,10 +225,61 @@ do
             done
             ;;
         "Applications")
+            option="$(display_application_menu 3>&1 1>&2 2>&3)"
+            # Split option into individual names.
+            #IFS=' ' 
+            #read -a options <<< "$option"
+            eval "options=($option)"
+            for opt in "${options[@]}"; do
+                #echo $opt
+                opt=$(echo "$opt" | xargs)
+                index=$(getIndex "$opt")
+                if (( index != -1 )); then
+                    if [[ "${appsSelected[$index]}" == "OFF" ]]; then
+                        appsSelected[$index]="ON"
+                    else 
+                        appsSelected[$index]="OFF"
+                    fi
+                fi
+            done
             ;;
         "Package Installs")
+            option="$(display_installs_menu 3>&1 1>&2 2>&3)"
+            # Split option into individual names.
+            #IFS=' ' 
+            #read -a options <<< "$option"
+            eval "options=($option)"
+            for opt in "${options[@]}"; do
+                #echo $opt
+                opt=$(echo "$opt" | xargs)
+                index=$(getIndex "$opt")
+                if (( index != -1 )); then
+                    if [[ "${installsSelected[$index]}" == "OFF" ]]; then
+                        installsSelected[$index]="ON"
+                    else 
+                        installsSelected[$index]="OFF"
+                    fi
+                fi
+            done
             ;;
         "Software Removal")
+            option="$(display_removals_menu 3>&1 1>&2 2>&3)"
+            # Split option into individual names.
+            #IFS=' ' 
+            #read -a options <<< "$option"
+            eval "options=($option)"
+            for opt in "${options[@]}"; do
+                #echo $opt
+                opt=$(echo "$opt" | xargs)
+                index=$(getIndex "$opt")
+                if (( index != -1 )); then
+                    if [[ "${removalsSelected[$index]}" == "OFF" ]]; then
+                        removalsSelected[$index]="ON"
+                    else 
+                        removalsSelected[$index]="OFF"
+                    fi
+                fi
+            done
             ;;
         "Games")
             # Enter the game menu. return the names of any options that change.
@@ -133,8 +303,44 @@ do
             #echo "${gamesSelected[@]}"
             ;;
         "Configs")
+            # Enter the game menu. return the names of any options that change.
+            option="$(display_configs_menu 3>&1 1>&2 2>&3)"
+            # Split option into individual names.
+            #IFS=' ' 
+            #read -a options <<< "$option"
+            eval "options=($option)"
+            for opt in "${options[@]}"; do
+                #echo $opt
+                opt=$(echo "$opt" | xargs)
+                index=$(getIndex "$opt")
+                if (( index != -1 )); then
+                    if [[ "${configsSelected[$index]}" == "OFF" ]]; then
+                        configsSelected[$index]="ON"
+                    else 
+                        configsSelected[$index]="OFF"
+                    fi
+                fi
+            done
             ;;
         "Miscellaneous")
+            # Enter the game menu. return the names of any options that change.
+            option="$(display_misc_menu 3>&1 1>&2 2>&3)"
+            # Split option into individual names.
+            #IFS=' ' 
+            #read -a options <<< "$option"
+            eval "options=($option)"
+            for opt in "${options[@]}"; do
+                #echo $opt
+                opt=$(echo "$opt" | xargs)
+                index=$(getIndex "$opt")
+                if (( index != -1 )); then
+                    if [[ "${miscSelected[$index]}" == "OFF" ]]; then
+                        miscSelected[$index]="ON"
+                    else 
+                        miscSelected[$index]="OFF"
+                    fi
+                fi
+            done
             ;;
         "Setup/Install Selected")
             executeSelected

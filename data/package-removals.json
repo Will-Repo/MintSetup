@@ -8,5 +8,5 @@
     "name": "Unecessary packages",
     "description": "Remove all unecessary package dependencies",
     "script": "sudo apt autoremove -y"
-  },
+  }
 ]
