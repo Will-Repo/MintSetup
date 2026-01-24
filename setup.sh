@@ -9,9 +9,9 @@ display_main_menu() {
     "Select All" "" \
     "Deselect All" "" \
     "Applications" "" \
+    "Package Installs" "" \
     "Package Removal" "Removing unecessary packages." \
     "Games" "" \
-    "Remote Data" "" \
     "Configs" "" \
     "Miscellaneous" "" \
     "Setup/Install Selected" "" \
@@ -60,9 +60,12 @@ executeSelected() {
                 script="$(jq --arg name "${gamesName[$i]}" -r '.[] | select(.name == $name) | .script' ./data/games.json)"
             fi
             #echo $script
-            bash -c "$script"
+            #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=$(bash -c "$script" 2>/dev/null)
         fi
     done
+    eval `resize`
+    whiptail --scrolltext --msgbox "$output" $LINES $COLUMNS 
 }
 
 # Starting program.
@@ -93,10 +96,18 @@ do
     #echo $option
     case $option in
         "Select All")
+            for ((i=0; i<${#gamesName[@]}; i++)); do
+                gamesSelected[i]="ON"
+            done
             ;;
         "Deselect All")
+            for ((i=0; i<${#gamesName[@]}; i++)); do
+                gamesSelected[i]="OFF"
+            done
             ;;
         "Applications")
+            ;;
+        "Package Installs")
             ;;
         "Package Removal")
             ;;
@@ -121,8 +132,6 @@ do
             done
             #echo "${gamesSelected[@]}"
             ;;
-        "Remote Data")
-            ;;
         "Configs")
             ;;
         "Miscellaneous")
@@ -138,5 +147,4 @@ do
             exit
             ;;        
     esac
-done
-                
+done         

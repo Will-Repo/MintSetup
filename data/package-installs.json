@@ -1,0 +1,62 @@
+[  
+  {
+    "name": "Java Development Kit 21",
+    "description": "Software development tools for Java applications",
+    "script": "sudo apt install -y openjdk-21-jdk"
+  },       
+  {
+    "name": "SSH",
+    "description": "Network protocol tool for accessing/managing remote systems",
+    "script": "sudo apt install -y ssh"
+  },
+  {
+    "name": "extrepo",
+    "description": "Software tool for managing third-party repositories - e.g. enabling one to install its data using apt",
+    "script": "sudo apt install -y extrepo"
+  },
+  {
+    "name": "exiftool",
+    "description": "[AFNOM] View and manage file metadata.",
+    "script": "sudo apt install -y exiftool"
+  },
+  {
+    "name": "pycrptodome",
+    "description": "[AFNOM] Python library for cryptography - handles encryption, hashing, authentication, etc",
+    "script": "sudo apt install -y python3-pycrptodome"
+  },
+  {
+    "name": "steghide",
+    "description": "[AFNOM] cmd line tool for steganography - hiding information within other data, e.g. images",
+    "script": "sudo apt install -y steghide"
+  },
+  {
+    "name": "john",
+    "description": "[AFNOM] password cracking tool",
+    "script": "sudo apt install -y john"
+  },
+  {
+    "name": "binwalk",
+    "description": "[AFNOM] Tool for extracting embedded data from binary files",
+    "script": "sudo apt install -y binwalk"
+  },
+  {
+    "name": "imagemagick",
+    "description": "[AFNOM] Tool for displaying, creating and managing images. Provides commands such as convert (between image formats)",
+    "script": "sudo apt install -y imagemagick"
+  },
+  {
+    "name": "pwntools",
+    "description": "[AFNOM] Python library used for writing exploits quickly",
+    "script": "sudo apt install -y python3-pwntools"
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+]

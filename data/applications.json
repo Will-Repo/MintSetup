@@ -1,0 +1,42 @@
+[  
+  {
+    "name": "vokoscreen",
+    "description": "Video recording software",
+    "script": "sudo apt install -y vokoscreen-ng"
+  },       
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+  {
+    "name": "",
+    "description": "",
+    "script": ""
+  },
+]
