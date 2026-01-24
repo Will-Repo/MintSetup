@@ -9,3 +9,4 @@ I use whiptail to display a GUI for this program.
 
 ## To-do
 Make all apps open in a seperate window - particularly browser websites.
+Add exit prompt that asks whether they want to install selected.

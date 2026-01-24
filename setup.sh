@@ -17,7 +17,7 @@ display_main_menu() {
 
 display_game_menu() {
     options=()
-    for ((i=0; i<${#gamesName[@]}; i++)); do
+    for i in "${!gamesName[@]}"; do
         description="$(jq --arg name "${gamesName[i]}" '.[] | select(.name == $name) | .description' ./data/games.json)"
         options+=( \
             "${gamesName[i]}" \
@@ -30,6 +30,30 @@ display_game_menu() {
     eval `resize`
     whiptail --title "Games install options" --checklist "Choose what game software to install" $LINES $COLUMNS $(($LINES - 8)) \
     "${options[@]}"
+}
+
+getIndex() {
+    string=$1
+    index=-1
+    for i in "${!gamesName[@]}"; do
+        #echo "${gamesName[$i]}"
+        if [[ "${gamesName[$i]}" == "$string" ]]; then
+            index=$i
+            break
+        fi
+    done
+    echo $index
+}
+
+executeSelected() {
+    # Execute games commands.
+    for (( i=0; i<${#gamesName[@]}; i++ )); do
+        if [[ "${gamesSelected[$i]}" == "ON" ]]; then
+            script="$(jq --arg name "${gamesName[$i]}" -r '.[] | select(.name == $name) | .installScript | join("\n")' ./data/games.json)"
+            #echo $script
+            bash -c "$script"
+        fi
+    done
 }
 
 # Starting program.
@@ -56,20 +80,27 @@ do
             ;;
         "Applications")
             ;;
-        "Games")                
+        "Games")
+            # Enter the game menu. return the names of any options that change.
             option="$(display_game_menu 3>&1 1>&2 2>&3)"
-            #echo $option
+            # Split option into individual names.
             IFS=' ' 
             read -a options <<< "$option" 
             for opt in "${options[@]}"; do
                 opt=$(echo "$opt" | xargs)
-                #echo "$opt"
-                script="$(jq --arg name "$opt" -r '.[] | select(.name == $name) | .installScript | join("\n")' ./data/games.json)"
-                #echo "$script"
-                bash -c "$script"
+                index=$(getIndex "$opt")
+                if (( index != -1 )); then
+                    if [[ "${gamesSelected[$index]}" == "OFF" ]]; then
+                        gamesSelected[$index]="ON"
+                    else 
+                        gamesSelected[$index]="OFF"
+                    fi
+                fi
             done
+            echo "${gamesSelected[@]}"
             ;;
-        "Setup/install selected")
+        "Setup/Install Selected")
+            executeSelected
             ;;
         "Exit")                
             exit
@@ -80,3 +111,4 @@ do
             ;;        
     esac
 done
+                
