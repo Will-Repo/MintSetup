@@ -22,7 +22,7 @@ display_main_menu() {
 display_application_menu() {
     options=()
     for i in "${!appsName[@]}"; do
-        description="$(jq --arg name "${appsName[i]}" '.[] | select(.name == $name) | .description' ./data/applications.json)"
+        description="$(jq -r --arg name "${appsName[i]}" '.[] | select(.name == $name) | .description' ./data/applications.json)"
         options+=( \
             "${appsName[i]}" \
             "$description" \
@@ -39,7 +39,7 @@ display_application_menu() {
 display_installs_menu() {
     options=()
     for i in "${!installsName[@]}"; do
-        description="$(jq --arg name "${installsName[i]}" '.[] | select(.name == $name) | .description' ./data/package-installs.json)"
+        description="$(jq -r --arg name "${installsName[i]}" '.[] | select(.name == $name) | .description' ./data/package-installs.json)"
         options+=( \
             "${installsName[i]}" \
             "$description" \
@@ -56,7 +56,7 @@ display_installs_menu() {
 display_removals_menu() {
     options=()
     for i in "${!removalsName[@]}"; do
-        description="$(jq --arg name "${removalsName[i]}" '.[] | select(.name == $name) | .description' ./data/package-removals.json)"
+        description="$(jq -r --arg name "${removalsName[i]}" '.[] | select(.name == $name) | .description' ./data/package-removals.json)"
         options+=( \
             "${removalsName[i]}" \
             "$description" \
@@ -73,7 +73,7 @@ display_removals_menu() {
 display_game_menu() {
     options=()
     for i in "${!gamesName[@]}"; do
-        description="$(jq --arg name "${gamesName[i]}" '.[] | select(.name == $name) | .description' ./data/games.json)"
+        description="$(jq -r --arg name "${gamesName[i]}" '.[] | select(.name == $name) | .description' ./data/games.json)"
         options+=( \
             "${gamesName[i]}" \
             "$description" \
@@ -90,7 +90,7 @@ display_game_menu() {
 display_configs_menu() {
     options=()
     for i in "${!configsName[@]}"; do
-        description="$(jq --arg name "${configsName[i]}" '.[] | select(.name == $name) | .description' ./data/configs.json)"
+        description="$(jq -r --arg name "${configsName[i]}" '.[] | select(.name == $name) | .description' ./data/configs.json)"
         options+=( \
             "${configsName[i]}" \
             "$description" \
@@ -107,7 +107,7 @@ display_configs_menu() {
 display_misc_menu() {
     options=()
     for i in "${!configsName[@]}"; do
-        description="$(jq --arg name "${miscName[i]}" '.[] | select(.name == $name) | .description' ./data/miscellaneous.json)"
+        description="$(jq -r --arg name "${miscName[i]}" '.[] | select(.name == $name) | .description' ./data/miscellaneous.json)"
         options+=( \
             "${miscName[i]}" \
             "$description" \
@@ -215,13 +215,43 @@ do
     #echo $option
     case $option in
         "Select All")
+            for ((i=0; i<${#appsName[@]}; i++)); do
+                appsSelected[i]="ON"
+            done
+            for ((i=0; i<${#installsName[@]}; i++)); do
+                installsSelected[i]="ON"
+            done
+            for ((i=0; i<${#removalsName[@]}; i++)); do
+                removalsSelected[i]="ON"
+            done
             for ((i=0; i<${#gamesName[@]}; i++)); do
                 gamesSelected[i]="ON"
             done
+            for ((i=0; i<${#configsName[@]}; i++)); do
+                configsSelected[i]="ON"
+            done
+            for ((i=0; i<${#miscName[@]}; i++)); do
+                miscSelected[i]="ON"
+            done
             ;;
         "Deselect All")
+            for ((i=0; i<${#appsName[@]}; i++)); do
+                appsSelected[i]="OFF"
+            done
+            for ((i=0; i<${#installsName[@]}; i++)); do
+                installsSelected[i]="OFF"
+            done
+            for ((i=0; i<${#removalsName[@]}; i++)); do
+                removalsSelected[i]="OFF"
+            done
             for ((i=0; i<${#gamesName[@]}; i++)); do
                 gamesSelected[i]="OFF"
+            done
+            for ((i=0; i<${#configsName[@]}; i++)); do
+                configsSelected[i]="OFF"
+            done
+            for ((i=0; i<${#miscName[@]}; i++)); do
+                miscSelected[i]="OFF"
             done
             ;;
         "Applications")
