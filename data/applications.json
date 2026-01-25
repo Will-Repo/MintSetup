@@ -65,16 +65,20 @@
     "name": "Ghidra",
     "description": "[AFNOM] Used for analysing binary files - e.g decompiling into source code",
     "script": [
-            "wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.4.2_build/ghidra_11.4.2_PUBLIC_20250826.zip",
-            "if ! dpkg -s unzip &>/dev/null; then",
-            "   sudo apt install -y unzip",
-            "   unzip ghidra_11.4.2_PUBLIC_20250826.zip",
-            "   sudo apt remove -y unzip",
+            "if [[ ! -d /opt/ghidra ]]; then",
+            "   wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.4.2_build/ghidra_11.4.2_PUBLIC_20250826.zip",
+            "   if ! dpkg -s unzip &>/dev/null; then",
+            "       sudo apt install -y unzip",
+            "       unzip ghidra_11.4.2_PUBLIC_20250826.zip",
+            "       sudo apt remove -y unzip",
+            "   else",
+            "       unzip ghidra_11.4.2_PUBLIC_20250826.zip",
+            "   fi",
+            "   sudo mv ghidra_11.4.2_PUBLIC /opt/ghidra",
+            "   rm ghidra_11.4.2_PUBLIC_20250826.zip",
             "else",
-            "   unzip ghidra_11.4.2_PUBLIC_20250826.zip",
-            "fi",
-            "sudo mv ghidra_11.4.2_PUBLIC /opt/ghidra",
-            "rm ghidra_11.4.2_PUBLIC_20250826.zip"
+            "   echo \"Ghidra is already installed, delete it at /opt/ghidra to reinstall.\"",
+            "fi"
         ]
   }
 ]

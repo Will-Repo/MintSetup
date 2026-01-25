@@ -136,6 +136,56 @@ getIndex() {
 
 executeSelected() {
     # Execute games commands.
+    output=()
+    echo "Starting to execute commands"
+    for (( i=0; i<${#appsName[@]}; i++ )); do
+        if [[ "${appsSelected[$i]}" == "ON" ]]; then
+            # If string return string, if array join the array of strings.
+            if [[ $(jq --arg name "${appsName[$i]}" -r '.[] | select(.name == $name) | .script | type' ./data/applications.json) == "array" ]]; then
+                script="$(jq --arg name "${appsName[$i]}" -r '.[] | select(.name == $name) | .script | join("\n")' ./data/applications.json)"
+            else
+                script="$(jq --arg name "${appsName[$i]}" -r '.[] | select(.name == $name) | .script' ./data/applications.json)"
+            fi
+            #echo $script
+            #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$(bash -c "$script" 2>/dev/null)")
+            output+=("")
+        fi
+    done
+    echo "Executed all selected application commands."
+
+    for (( i=0; i<${#installsName[@]}; i++ )); do
+        if [[ "${installsSelected[$i]}" == "ON" ]]; then
+            # If string return string, if array join the array of strings.
+            if [[ $(jq --arg name "${installsName[$i]}" -r '.[] | select(.name == $name) | .script | type' ./data/package-installs.json) == "array" ]]; then
+                script="$(jq --arg name "${installsName[$i]}" -r '.[] | select(.name == $name) | .script | join("\n")' ./data/package-installs.json)"
+            else
+                script="$(jq --arg name "${installsName[$i]}" -r '.[] | select(.name == $name) | .script' ./data/package-installs.json)"
+            fi
+            #echo $script
+            #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$(bash -c "$script" 2>/dev/null)")
+            output+=("")
+        fi
+    done
+    echo "Executed all selected package install commands."
+
+    for (( i=0; i<${#removalsName[@]}; i++ )); do
+        if [[ "${removalsSelected[$i]}" == "ON" ]]; then
+            # If string return string, if array join the array of strings.
+            if [[ $(jq --arg name "${removalsName[$i]}" -r '.[] | select(.name == $name) | .script | type' ./data/package-removals.json) == "array" ]]; then
+                script="$(jq --arg name "${removalsName[$i]}" -r '.[] | select(.name == $name) | .script | join("\n")' ./data/package-removals.json)"
+            else
+                script="$(jq --arg name "${removalsName[$i]}" -r '.[] | select(.name == $name) | .script' ./data/package-removals.json)"
+            fi
+            #echo $script
+            #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$(bash -c "$script" 2>/dev/null)")
+            output+=("")
+        fi
+    done
+    echo "Executed all selected package removal commands."
+
     for (( i=0; i<${#gamesName[@]}; i++ )); do
         if [[ "${gamesSelected[$i]}" == "ON" ]]; then
             # If string return string, if array join the array of strings.
@@ -146,11 +196,58 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
-            output+=$(bash -c "$script" 2>/dev/null)
+            output+=("$(bash -c "$script" 2>/dev/null)")
+            output+=("")
         fi
     done
+    echo "Executed all selected game commands."
+
+    for (( i=0; i<${#configsName[@]}; i++ )); do
+        if [[ "${configsSelected[$i]}" == "ON" ]]; then
+            # If string return string, if array join the array of strings.
+            if [[ $(jq --arg name "${configsName[$i]}" -r '.[] | select(.name == $name) | .script | type' ./data/configs.json) == "array" ]]; then
+                script="$(jq --arg name "${configsName[$i]}" -r '.[] | select(.name == $name) | .script | join("\n")' ./data/configs.json)"
+            else
+                script="$(jq --arg name "${configsName[$i]}" -r '.[] | select(.name == $name) | .script' ./data/configs.json)"
+            fi
+            #echo $script
+            #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$(bash -c "$script" 2>/dev/null)")
+            output+=("")
+        fi
+    done
+    echo "Executed all selected configuration commands."
+
+    for (( i=0; i<${#miscName[@]}; i++ )); do
+        if [[ "${miscSelected[$i]}" == "ON" ]]; then
+            # If string return string, if array join the array of strings.
+            if [[ $(jq --arg name "${miscName[$i]}" -r '.[] | select(.name == $name) | .script | type' ./data/miscellaneous.json) == "array" ]]; then
+                script="$(jq --arg name "${miscName[$i]}" -r '.[] | select(.name == $name) | .script | join("\n")' ./data/miscellaneous.json)"
+            else
+                script="$(jq --arg name "${miscName[$i]}" -r '.[] | select(.name == $name) | .script' ./data/miscellaneous.json)"
+            fi
+            #echo $script
+            #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$(bash -c "$script" 2>/dev/null)")
+            output+=("")
+        fi
+    done
+    echo "Executed all selected miscellaneous commands."
+
+    output+=("All commands executed.")
+
     eval `resize`
-    whiptail --scrolltext --msgbox "$output" $LINES $COLUMNS 
+    outputSize=${#output[@]}
+    i=0
+    while [ $i -lt $outputSize ]; do        
+        text=""
+        for ((k=0; k<$LINES && i<$outputSize; k++)); do
+            text+="${output[$i]}" 
+            text+="\n"
+            ((i++))
+        done
+        whiptail --scrolltext --msgbox "$text" $LINES $COLUMNS
+    done 
 }
 
 # Starting program.
@@ -161,7 +258,6 @@ fi
 # Read name data from json files, this will be used later to get specific data for each menu. Uses parallel arrays to store whether the corresponding option is enabled. 1st array names, 2nd array whether its enabled, 3rd array scripts, these can be changed when overwrite is enabled/disabled.
 # Application data
 mapfile -t appsName < <(jq -r '.[].name' ./data/applications.json)
-appScript=$(jq '.[].script' ./data/applications.json) # All entries must have a name and script, everything else is optional.
 appsSelected=()
 for ((i=0; i<${#appsName[@]}; i++)); do
     appsSelected[i]="OFF"
@@ -169,7 +265,6 @@ done
 
 # Package installs
 mapfile -t installsName < <(jq -r '.[].name' ./data/package-installs.json)
-installsScript=$(jq '.[].script' ./data/package-installs.json) # All entries must have a name and script, everything else is optional.
 installsSelected=()
 for ((i=0; i<${#installsName[@]}; i++)); do
     installsSelected[i]="OFF"
@@ -177,7 +272,6 @@ done
 
 # Removing unecessary packages
 mapfile -t removalsName < <(jq -r '.[].name' ./data/package-removals.json)
-removalsScript=$(jq '.[].script' ./data/package-removals.json) # All entries must have a name and script, everything else is optional.
 removalsSelected=()
 for ((i=0; i<${#removalsName[@]}; i++)); do
     removalsSelected[i]="OFF"
@@ -185,7 +279,6 @@ done
 
 # Game data
 mapfile -t gamesName < <(jq -r '.[].name' ./data/games.json)
-gamesScript=$(jq '.[].script' ./data/games.json) # All entries must have a name and script, everything else is optional.
 gamesSelected=()
 for ((i=0; i<${#gamesName[@]}; i++)); do
     gamesSelected[i]="OFF"
@@ -193,7 +286,6 @@ done
 
 # Configs
 mapfile -t configsName < <(jq -r '.[].name' ./data/configs.json)
-configsScript=$(jq '.[].script' ./data/configs.json) # All entries must have a name and script, everything else is optional.
 configsSelected=()
 for ((i=0; i<${#configsName[@]}; i++)); do
     configsSelected[i]="OFF"
@@ -201,7 +293,6 @@ done
 
 # Miscellaneous - e.g. deleting unecessary folders.
 mapfile -t miscName < <(jq -r '.[].name' ./data/miscellaneous.json)
-miscScript=$(jq '.[].script' ./data/miscellaneous.json) # All entries must have a name and script, everything else is optional.
 miscSelected=()
 for ((i=0; i<${#miscName[@]}; i++)); do
     miscSelected[i]="OFF"
