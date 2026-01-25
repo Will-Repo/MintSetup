@@ -121,19 +121,6 @@ display_misc_menu() {
     "${options[@]}"
 }
 
-getIndex() {
-    string=$1
-    index=-1
-    for i in "${!gamesName[@]}"; do
-        #echo "${gamesName[$i]}"
-        if [[ "${gamesName[$i]}" == "$string" ]]; then
-            index=$i
-            break
-        fi
-    done
-    echo $index
-}
-
 executeSelected() {
     # Execute games commands.
     output=()
@@ -148,7 +135,11 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
-            output+=("$(bash -c "$script" 2>/dev/null)")
+            # To avoid one command returning enough lines to crash the terminal as one string, break each line into a seperate index.
+            #mapfile -t output < <(bash -c "$script" 2>/dev/null) # Overwrites output array, not what i want.
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null)
+            output+=("${tmp[@]}")
+            #output+=("$(bash -c "$script" 2>/dev/null)")
             output+=("")
         fi
     done
@@ -164,7 +155,8 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
-            output+=("$(bash -c "$script" 2>/dev/null)")
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            output+=("${tmp[@]}")     
             output+=("")
         fi
     done
@@ -180,7 +172,8 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
-            output+=("$(bash -c "$script" 2>/dev/null)")
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            output+=("${tmp[@]}")     
             output+=("")
         fi
     done
@@ -196,7 +189,8 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
-            output+=("$(bash -c "$script" 2>/dev/null)")
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            output+=("${tmp[@]}")     
             output+=("")
         fi
     done
@@ -212,7 +206,8 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
-            output+=("$(bash -c "$script" 2>/dev/null)")
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            output+=("${tmp[@]}")     
             output+=("")
         fi
     done
@@ -228,7 +223,8 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
-            output+=("$(bash -c "$script" 2>/dev/null)")
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            output+=("${tmp[@]}")     
             output+=("")
         fi
     done
@@ -351,16 +347,23 @@ do
             #IFS=' ' 
             #read -a options <<< "$option"
             eval "options=($option)"
+            for ((i=0; i<${#appsName[@]}; i++)); do
+                appsSelected[i]="OFF"
+            done
             for opt in "${options[@]}"; do
                 #echo $opt
                 opt=$(echo "$opt" | xargs)
-                index=$(getIndex "$opt")
-                if (( index != -1 )); then
-                    if [[ "${appsSelected[$index]}" == "OFF" ]]; then
-                        appsSelected[$index]="ON"
-                    else 
-                        appsSelected[$index]="OFF"
+                string=$1
+                index=-1
+                for i in "${!appsName[@]}"; do
+                    #echo "${gamesName[$i]}"
+                    if [[ "${appsName[$i]}" == "$opt" ]]; then
+                        index=$i
+                        break
                     fi
+                done
+                if (( index != -1 )); then
+                    appsSelected[$index]="ON"
                 fi
             done
             ;;
@@ -370,16 +373,23 @@ do
             #IFS=' ' 
             #read -a options <<< "$option"
             eval "options=($option)"
+            for ((i=0; i<${#installsName[@]}; i++)); do
+                installsSelected[i]="OFF"
+            done
             for opt in "${options[@]}"; do
                 #echo $opt
                 opt=$(echo "$opt" | xargs)
-                index=$(getIndex "$opt")
-                if (( index != -1 )); then
-                    if [[ "${installsSelected[$index]}" == "OFF" ]]; then
-                        installsSelected[$index]="ON"
-                    else 
-                        installsSelected[$index]="OFF"
+                string=$1
+                index=-1
+                for i in "${!installsName[@]}"; do
+                    #echo "${gamesName[$i]}"
+                    if [[ "${installsName[$i]}" == "$opt" ]]; then
+                        index=$i
+                        break
                     fi
+                done
+                if (( index != -1 )); then
+                    installsSelected[$index]="ON"
                 fi
             done
             ;;
@@ -389,16 +399,23 @@ do
             #IFS=' ' 
             #read -a options <<< "$option"
             eval "options=($option)"
+            for ((i=0; i<${#removalsName[@]}; i++)); do
+                removalsSelected[i]="OFF"
+            done
             for opt in "${options[@]}"; do
                 #echo $opt
                 opt=$(echo "$opt" | xargs)
-                index=$(getIndex "$opt")
-                if (( index != -1 )); then
-                    if [[ "${removalsSelected[$index]}" == "OFF" ]]; then
-                        removalsSelected[$index]="ON"
-                    else 
-                        removalsSelected[$index]="OFF"
+                string=$1
+                index=-1
+                for i in "${!removalsName[@]}"; do
+                    #echo "${gamesName[$i]}"
+                    if [[ "${removalsName[$i]}" == "$opt" ]]; then
+                        index=$i
+                        break
                     fi
+                done
+                if (( index != -1 )); then
+                    removalsSelected[$index]="ON"
                 fi
             done
             ;;
@@ -416,7 +433,15 @@ do
             for opt in "${options[@]}"; do
                 #echo $opt
                 opt=$(echo "$opt" | xargs)
-                index=$(getIndex "$opt")
+                string=$1
+                index=-1
+                for i in "${!gamesName[@]}"; do
+                    #echo "${gamesName[$i]}"
+                    if [[ "${gamesName[$i]}" == "$opt" ]]; then
+                        index=$i
+                        break
+                    fi
+                done
                 if (( index != -1 )); then
                     gamesSelected[$index]="ON"
                 fi
@@ -430,16 +455,23 @@ do
             #IFS=' ' 
             #read -a options <<< "$option"
             eval "options=($option)"
+            for ((i=0; i<${#configsName[@]}; i++)); do
+                configsSelected[i]="OFF"
+            done
             for opt in "${options[@]}"; do
                 #echo $opt
                 opt=$(echo "$opt" | xargs)
-                index=$(getIndex "$opt")
-                if (( index != -1 )); then
-                    if [[ "${configsSelected[$index]}" == "OFF" ]]; then
-                        configsSelected[$index]="ON"
-                    else 
-                        configsSelected[$index]="OFF"
+                string=$1
+                index=-1
+                for i in "${!configsName[@]}"; do
+                    #echo "${gamesName[$i]}"
+                    if [[ "${configsName[$i]}" == "$opt" ]]; then
+                        index=$i
+                        break
                     fi
+                done
+                if (( index != -1 )); then
+                    configsSelected[$index]="ON"
                 fi
             done
             ;;
@@ -450,16 +482,23 @@ do
             #IFS=' ' 
             #read -a options <<< "$option"
             eval "options=($option)"
+            for ((i=0; i<${#miscName[@]}; i++)); do
+                miscSelected[i]="OFF"
+            done
             for opt in "${options[@]}"; do
                 #echo $opt
                 opt=$(echo "$opt" | xargs)
-                index=$(getIndex "$opt")
-                if (( index != -1 )); then
-                    if [[ "${miscSelected[$index]}" == "OFF" ]]; then
-                        miscSelected[$index]="ON"
-                    else 
-                        miscSelected[$index]="OFF"
+                string=$1
+                index=-1
+                for i in "${!miscName[@]}"; do
+                    #echo "${gamesName[$i]}"
+                    if [[ "${miscName[$i]}" == "$opt" ]]; then
+                        index=$i
+                        break
                     fi
+                done
+                if (( index != -1 )); then
+                    miscSelected[$index]="ON"
                 fi
             done
             ;;
