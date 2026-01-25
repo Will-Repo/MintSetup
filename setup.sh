@@ -137,6 +137,7 @@ executeSelected() {
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
             # To avoid one command returning enough lines to crash the terminal as one string, break each line into a seperate index.
             #mapfile -t output < <(bash -c "$script" 2>/dev/null) # Overwrites output array, not what i want.
+            output+=("$script")
             mapfile -t tmp < <(bash -c "$script" 2>/dev/null)
             output+=("${tmp[@]}")
             #output+=("$(bash -c "$script" 2>/dev/null)")
@@ -155,6 +156,7 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$script")
             mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
             output+=("${tmp[@]}")     
             output+=("")
@@ -172,6 +174,7 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$script")
             mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
             output+=("${tmp[@]}")     
             output+=("")
@@ -189,6 +192,7 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$script")
             mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
             output+=("${tmp[@]}")     
             output+=("")
@@ -206,6 +210,7 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$script")
             mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
             output+=("${tmp[@]}")     
             output+=("")
@@ -223,6 +228,7 @@ executeSelected() {
             fi
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
+            output+=("$script")
             mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
             output+=("${tmp[@]}")     
             output+=("")
@@ -508,8 +514,8 @@ do
         "Exit")                
             exit
             ;;
-        *)
-            echo "Invalid option or exit selected"
+         *)
+            echo "Invalid option selected"
             exit
             ;;        
     esac

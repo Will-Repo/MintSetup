@@ -31,10 +31,10 @@
             "if ! dpkg -s flatpak &>/dev/null; then",
             "   sudo apt install -y flatpak",
             "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
-            "   flatpak install flathub com.discordapp.Discord -y",
+            "   flatpak install --user flathub com.discordapp.Discord -y",
             "   sudo apt remove -y flatpak",
             "else",
-            "   flatpak install flathub com.discordapp.Discord -y",
+            "   flatpak install --user flathub com.discordapp.Discord -y",
             "fi"
         ]
   },
@@ -45,10 +45,10 @@
             "if ! dpkg -s flatpak &>/dev/null; then",
             "   sudo apt install -y flatpak",
             "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
-            "   flatpak install flathub org.zaproxy.ZAP",
+            "   flatpak install --user flathub org.zaproxy.ZAP",
             "   sudo apt remove -y flatpak",
             "else",
-            "   flatpak install flathub org.zaproxy.ZAP -y",
+            "   flatpak install --user flathub org.zaproxy.ZAP -y",
             "fi"
         ]
   },
