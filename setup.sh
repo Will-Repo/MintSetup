@@ -409,16 +409,16 @@ do
             #IFS=' ' 
             #read -a options <<< "$option"
             eval "options=($option)"
+            # Options is a list of those that are enabled. Set all to disabled then iterate through setting new values.
+            for ((i=0; i<${#gamesName[@]}; i++)); do
+                gamesSelected[i]="OFF"
+            done
             for opt in "${options[@]}"; do
                 #echo $opt
                 opt=$(echo "$opt" | xargs)
                 index=$(getIndex "$opt")
                 if (( index != -1 )); then
-                    if [[ "${gamesSelected[$index]}" == "OFF" ]]; then
-                        gamesSelected[$index]="ON"
-                    else 
-                        gamesSelected[$index]="OFF"
-                    fi
+                    gamesSelected[$index]="ON"
                 fi
             done
             #echo "${gamesSelected[@]}"
