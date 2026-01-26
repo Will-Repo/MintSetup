@@ -46,5 +46,10 @@
     "name": "polybar config",
     "description": "polybar configuration file. Can be used for configuration and customisation",
     "script": "cp ./data/configs/polybar ~/.config/polybar/config.ini"
+  },
+  {
+    "name": "neofetch config",
+    "description": "neofetch configuration file. Configures the information displayed first in each terminal instance",
+    "script": "cp ./data/configs/neofetch ~/.config/neofetch/config.conf"
   }
 ]
