@@ -165,6 +165,8 @@ bar {
        # status_command i3status
 	status_command polybar
 	workspace_buttons no
+    # Hide system tray
+    tray_output none
 }
 
 workspace_layout stacked
