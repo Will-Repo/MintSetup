@@ -1,8 +1,8 @@
 [  
   {
     "name": "Delete unecessary user directories.",
-    "description": "Deletes ~/Desktop ~/Pictures ~/Videos ~/Templates ~/Music ~/Public",
-    "script": "rm -rf ~/Desktop/ ~/Pictures/ ~/Videos/ ~/Templates/ ~/Music/ ~/Public/"
+    "description": "Deletes ~/Desktop ~/Documents ~/Pictures ~/Videos ~/Templates ~/Music ~/Public",
+    "script": "rm -rf ~/Desktop/ ~/Documents ~/Pictures/ ~/Videos/ ~/Templates/ ~/Music/ ~/Public/"
   },      
   {
     "name": "Basic firewall setup",
