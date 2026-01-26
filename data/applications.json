@@ -80,5 +80,20 @@
             "   echo \"Ghidra is already installed, delete it at /opt/ghidra to reinstall.\"",
             "fi"
         ]
+  },
+  {
+    "name": "genymotion",
+    "description": "[AFNOM] android emulator",
+    "script": [
+            "if [[ ! -d ~/.local/share/genymotion ]]; then",
+            "   wget https://dl.genymotion.com/releases/genymotion-3.9.0/genymotion-3.9.0-linux_x64.run",
+            "   chmod +x genymotion-3.9.0-linux_x64.run",
+            "   ./genymotion-3.9.0-linux_x64.run -d ~/.local/share/",
+            "   rm genymotion-3.9.0-linux_x64.run",
+            "else",
+            "   echo \"genymotion is already installed, delete it at ~/.local/share/genymotion to reinstall.\"",
+            "fi"
+        ]
   }
+
 ]
