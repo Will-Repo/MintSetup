@@ -1,20 +1,5 @@
 [
   {
-    "name": "Prism Launcher",
-    "description": "Launcher for Minecraft.",
-    "script": "flatpak install -y --user flathub org.prismlauncher.PrismLauncher"
-  },
-  {
-    "name": "Steam",
-    "description": "Game store - some games run on linux.",
-    "script": "sudo apt install steam -y"
-  },
-  {
-    "name": "Heroic Launcher",
-    "description": "Games launcher - can run Rocket League through proton layer. Recommended: download to usb folder Laptop/Games/RocketLeague, and select for this script to be run.",
-    "script": "flatpak install -y --user flathub com.heroicgameslauncher.hgl"
-  },
-  {
     "name": "StepMania",
     "description": "StepMania description",
     "script": [

@@ -5,6 +5,7 @@ alias msteams='browser https://teams.microsoft.com/v2/'
 alias ytmusic='browser https://music.youtube.com/playlist?list=PLmiqf5NkGrMQVAk0eCf9PqR7Lj70j3IkB'
 alias typetest='browser https://www.keybr.com/'
 alias aternos='browser https://aternos.org/servers/'
+alias whatsapp='browser https://web.whatsapp.com/'
 canvas() {
     if [ -z "$1" ]; then
 	    browser https://birmingham.instructure.com/
