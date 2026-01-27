@@ -9,7 +9,7 @@
         "    rm -rf StepMania-5.1.0-Linux.tar.gz",
         "    sudo apt-get install -y libjpeg62-dev libpcre3 libpcre3-dev",
         "    sudo ln -s /usr/lib/x86_64-linux-gnu/libva.so.2 /usr/lib/x86_64-linux-gnu/libva.so.1",
-	"    mkdir -p ~/Games",
+	    "    mkdir -p ~/Games",
         "    mv StepMania-5.1.0-Linux/ ~/Games",
         "    mkdir ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/2013",
         "    sudo ln -s ~/usb/Games/stepmania/2013 ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/",
@@ -38,13 +38,13 @@
     "name": "Tetr.io",
     "description": "Tetris game",
     "script": [
-        "if [ ! -d /opt/TETR.IO ]; then",
-        "    wget https://tetr.io/about/desktop/builds/10/TETR.IO%20Setup.deb",
-        "    chmod +x TETR.IO\ Setup.deb",
-        "    sudo dpkg -i TETR.IO\ Setup.deb",
-        "    rm TETR.IO\ Setup.deb",
+        "if [ ! -d /opt/TETR.IO/ ]; then",
+        "    wget \"https://tetr.io/about/desktop/builds/10/TETR.IO%20Setup.deb\"",
+        "    chmod +x \"TETR.IO Setup.deb\"",
+        "    sudo dpkg -i \"TETR.IO Setup.deb\"",
+        "    rm \"TETR.IO Setup.deb\"",
         "else",
-        "    echo \"A tetrio folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/TETR.IO",
+        "    echo \"A tetrio folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/TETR.IO\"",
         "fi"
     ]
   }

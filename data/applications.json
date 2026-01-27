@@ -7,7 +7,20 @@
   {
     "name": "neovim",
     "description": "Basic neovim install - text editor, keyboard based",
-    "script": "sudo apt install -y neovim"
+    "script": [
+        "if [ ! -f /usr/local/bin/nvim ]; then",
+        "   sudo add-apt-repository ppa:neovim-ppa/stable -y",
+        "   sudo apt update",
+        "   git clone https://github.com/neovim/neovim.git",
+        "   cd neovim",
+        "   git checkout stable",
+        "   make CMAKE_BUILD_TYPE=Release",
+        "   sudo make install",
+        "   cd ..",
+        "   rm -rf neovim",
+        "else",
+        "   echo \"neovim is already installde. uninstall at /usr/opt/bin/nvim to reinstall\"",
+        "fi"
   },
   {
     "name": "librewolf",
