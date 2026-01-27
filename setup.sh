@@ -253,8 +253,11 @@ executeSelected() {
 }
 
 # Starting program.
-if ! dpkg -s jq &>/dev/null; then
+if ! command -v jq &>/dev/null; then
     sudo apt install jq -y # For interpreting json files.
+fi
+if ! command -v xterm &>/dev/null; then
+    sudo apt install xterm -y # For getting terminal size - resize command.
 fi
 
 # Read name data from json files, this will be used later to get specific data for each menu. Uses parallel arrays to store whether the corresponding option is enabled. 1st array names, 2nd array whether its enabled, 3rd array scripts, these can be changed when overwrite is enabled/disabled.
