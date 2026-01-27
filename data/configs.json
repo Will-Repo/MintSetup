@@ -35,21 +35,30 @@
   {
     "name": ".xinputrc",
     "description": "Bash script that sets up the input methods for the operating system",
-    "script": "cp ./data/configs/bashrc ~/.bashrc"
+    "script": "cp ./data/configs/xinputrc ~/.xinputrc"
   },
   {
     "name": "i3 config",
     "description": "i3 configuration file. Can be used for configuration and customisation",
-    "script": "cp ./data/configs/i3 ~/.config/i3/config"
+    "script": [
+	    "mkdir -p ~/.config/i3",
+	    "cp ./data/configs/i3 ~/.config/i3/config"
+	]
   },
   {
     "name": "polybar config",
     "description": "polybar configuration file. Can be used for configuration and customisation",
-    "script": "cp ./data/configs/polybar ~/.config/polybar/config.ini"
+    "script": [
+	    "mkdir -p ~/.config/polybar",
+	    "cp ./data/configs/polybar ~/.config/polybar/config.ini"
+	]
   },
   {
     "name": "neofetch config",
     "description": "neofetch configuration file. Configures the information displayed first in each terminal instance",
-    "script": "cp ./data/configs/neofetch ~/.config/neofetch/config.conf"
+    "script": [
+	    "mkdir -p ~/.config/neofetch",
+	    "cp ./data/configs/neofetch ~/.config/neofetch/config.conf"
+	]
   }
 ]

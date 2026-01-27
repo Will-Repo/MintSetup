@@ -96,4 +96,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
+source ~/.xinputrc
+
 export PATH="$PATH:$HOME/node_modules/.bin"

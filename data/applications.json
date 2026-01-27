@@ -74,6 +74,7 @@
             "   else",
             "       unzip ghidra_11.4.2_PUBLIC_20250826.zip",
             "   fi",
+	    "	mkdir -p /opt/ghidra",
             "   sudo mv ghidra_11.4.2_PUBLIC /opt/ghidra",
             "   rm ghidra_11.4.2_PUBLIC_20250826.zip",
             "else",
