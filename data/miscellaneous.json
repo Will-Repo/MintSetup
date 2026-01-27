@@ -24,5 +24,10 @@
             "eval \"$(ssh-agent -s)\"",
             "ssh-add ~/.ssh/id_ed25519"
         ]
+  },
+  {
+    "name": "Update system packages",
+    "description": "",
+    "script": "sudo apt update && sudo apt upgrade"
   }
 ]

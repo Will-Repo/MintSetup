@@ -33,6 +33,20 @@
         "    echo \"An Osu app image already exists, delete this first: ~/Games/osu.AppImage\"",
         "fi"
     ]
+  },
+  {
+    "name": "Tetr.io",
+    "description": "Tetris game",
+    "script": [
+        "if [ ! -d /opt/TETR.IO ]; then",
+        "    wget https://tetr.io/about/desktop/builds/10/TETR.IO%20Setup.deb",
+        "    chmod +x TETR.IO\ Setup.deb",
+        "    sudo dpkg -i TETR.IO\ Setup.deb",
+        "    rm TETR.IO\ Setup.deb",
+        "else",
+        "    echo \"A tetrio folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/TETR.IO",
+        "fi"
+    ]
   }
 ]
 

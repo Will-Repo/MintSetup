@@ -104,5 +104,19 @@
     "name": "Heroic Launcher",
     "description": "Games launcher - can run Rocket League through proton layer. Recommended: download to usb folder Laptop/Games/RocketLeague, and select for this script to be run.",
     "script": "flatpak install -y --user flathub com.heroicgameslauncher.hgl"
-  }
+  },
+  {
+    "name": "genymotion",
+    "description": "[AFNOM] android emulator",
+    "script": [
+            "if [[ ! -d ~/.local/share/genymotion ]]; then",
+            "   wget https://dl.genymotion.com/releases/genymotion-3.9.0/genymotion-3.9.0-linux_x64.run",
+            "   chmod +x genymotion-3.9.0-linux_x64.run",
+            "   ./genymotion-3.9.0-linux_x64.run -d ~/.local/share/ -y",
+            "   rm genymotion-3.9.0-linux_x64.run",
+            "else",
+            "   echo \"genymotion is already installed, delete it at ~/.local/share/genymotion to reinstall.\"",
+            "fi"
+        ]
+    }
 ]
