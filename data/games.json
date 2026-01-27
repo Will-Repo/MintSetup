@@ -9,7 +9,7 @@
         "    rm -rf StepMania-5.1.0-Linux.tar.gz",
         "    sudo apt-get install -y libjpeg62-dev libpcre3 libpcre3-dev",
         "    sudo ln -s /usr/lib/x86_64-linux-gnu/libva.so.2 /usr/lib/x86_64-linux-gnu/libva.so.1",
-        "    mv StepMania-5.1.0-Linux/ Games",
+        "    mv StepMania-5.1.0-Linux/ ~/Games",
         "    mkdir ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/2013",
         "    sudo ln -s ~/usb/Games/stepmania/2013 ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/",
         "    mkdir ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/2014",
