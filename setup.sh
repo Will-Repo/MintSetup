@@ -106,7 +106,7 @@ display_configs_menu() {
 
 display_misc_menu() {
     options=()
-    for i in "${!configsName[@]}"; do
+    for i in "${!miscName[@]}"; do
         description="$(jq -r --arg name "${miscName[i]}" '.[] | select(.name == $name) | .description' ./data/miscellaneous.json)"
         options+=( \
             "${miscName[i]}" \

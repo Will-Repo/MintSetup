@@ -29,5 +29,23 @@
     "name": "Update system packages",
     "description": "",
     "script": "sudo apt update && sudo apt upgrade"
+  },
+  {
+    "name": "Wine",
+    "description": "Compatibility layer for executing windows programs on linux.",
+    "script": [
+            "if [ ! -d /opt/wine-stable/ ]; then",
+            "   sudo apt remove --purge winehq-stable wine wine32 wine64",
+            "   sudo rm /etc/apt/sources.list.d/winehq-noble.sources",
+            "   sudo mkdir -pm755 /etc/apt/keyrings -y",
+            "   wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo gpg --dearmor -o /etc/apt/keyrings/winehq-archive.key -",
+            "   sudo dpkg --add-architecture i386 -y",
+            "   sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/noble/winehq-noble.sources -y",
+            "   sudo apt update -y",
+            "   sudo apt install --install-recommends winehq-stable -y",
+            "else",
+            "   echo \"Wine is already installed, delete the /opt/wine-stable folder to reinstall\"",
+            "fi"
+        ]
   }
 ]
