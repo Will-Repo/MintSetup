@@ -136,6 +136,14 @@
   {
     "name": "Lutris",
     "description": "linux game manager",
-    "script": "flatpak install flathub --user -y net.lutris.Lutris -y"
+    "script": [
+        "if [[ ! -d ~/.local/share/lutris ]]; then",
+        "   wget https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb",
+        "   sudo dpkg -i lutris_0.5.18_all.deb",
+        "   rm lutris_0.5.18_all.deb",
+        "else",
+        "   echo \"lutris is already installed, delete it at ~/.local/share/lutris to reinstall.\"",
+        "fi"
+    ]
   }
 ]
