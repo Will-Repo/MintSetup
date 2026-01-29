@@ -145,5 +145,19 @@
         "   echo \"lutris is already installed, delete it at ~/.local/share/lutris to reinstall.\"",
         "fi"
     ]
+  },
+  {
+    "name": "TickTick",
+    "description": "To do list and calender application - cross platform: android, ipados, linux",
+    "script": [
+        "if [[ ! -d /opt/ticktick ]]; then",
+        "   wget https://download.ticktick.app/download/linux/linux_appimage_x64/ticktick-6.0.40-x86_64.AppImage",
+        "   chmod +x ticktick-6.0.40-x86_64.AppImage",
+        "   sudo mkdir -p /opt/ticktick",
+        "   sudo mv ticktick-6.0.40-x86_64.AppImage /opt/ticktick",
+        "else",
+        "   echo \"ticktick is already installed, delete it at /opt/ticktick to reinstall.\"",
+        "fi"
+    ]
   }
 ]
