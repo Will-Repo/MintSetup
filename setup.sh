@@ -138,7 +138,7 @@ executeSelected() {
             # To avoid one command returning enough lines to crash the terminal as one string, break each line into a seperate index.
             #mapfile -t output < <(bash -c "$script" 2>/dev/null) # Overwrites output array, not what i want.
             output+=("$script")
-            mapfile -t tmp < <(bash -c "$script" 2>/dev/null)
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null | tee /dev/tty)
             output+=("${tmp[@]}")
             #output+=("$(bash -c "$script" 2>/dev/null)")
             output+=("")
@@ -157,7 +157,7 @@ executeSelected() {
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
             output+=("$script")
-            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null | tee /dev/tty) 
             output+=("${tmp[@]}")     
             output+=("")
         fi
@@ -175,7 +175,7 @@ executeSelected() {
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
             output+=("$script")
-            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null | tee /dev/tty) 
             output+=("${tmp[@]}")     
             output+=("")
         fi
@@ -193,7 +193,7 @@ executeSelected() {
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
             output+=("$script")
-            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null | tee /dev/tty) 
             output+=("${tmp[@]}")     
             output+=("")
         fi
@@ -211,7 +211,7 @@ executeSelected() {
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
             output+=("$script")
-            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null | tee /dev/tty) 
             output+=("${tmp[@]}")     
             output+=("")
         fi
@@ -229,7 +229,7 @@ executeSelected() {
             #echo $script
             #whiptail --scrolltext --msgbox "$(bash -c "$script")" 30 60
             output+=("$script")
-            mapfile -t tmp < <(bash -c "$script" 2>/dev/null) 
+            mapfile -t tmp < <(bash -c "$script" 2>/dev/null | tee /dev/tty) 
             output+=("${tmp[@]}")     
             output+=("")
         fi

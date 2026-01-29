@@ -94,8 +94,12 @@
     "name": "Waydroid",
     "description": "Android emulator",
     "script": [
-            "curl -s https://repo.waydro.id | sudo bash",
-            "sudo apt install -y waydroid"
+            "if ! dpkg -s waydroid >/dev/null 2>&1; then",
+            "   curl -s https://repo.waydro.id | sudo bash",
+            "   sudo apt install -y waydroid",
+            "else",
+            "   echo \"Waydroid is already installed, delete waydroid using apt first\"",
+            "fi"
         ]
   },
   {
