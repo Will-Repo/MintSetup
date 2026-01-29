@@ -45,11 +45,8 @@
             "if ! dpkg -s flatpak &>/dev/null; then",
             "   sudo apt install -y flatpak",
             "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
-            "   flatpak install --user flathub com.discordapp.Discord -y",
-            "   sudo apt remove -y flatpak",
-            "else",
-            "   flatpak install --user flathub com.discordapp.Discord -y",
-            "fi"
+            "fi",
+            "flatpak install --user flathub com.discordapp.Discord -y"
         ]
   },
   {
@@ -59,11 +56,8 @@
             "if ! dpkg -s flatpak &>/dev/null; then",
             "   sudo apt install -y flatpak",
             "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
-            "   flatpak install --user flathub org.zaproxy.ZAP",
-            "   sudo apt remove -y flatpak",
-            "else",
-            "   flatpak install --user flathub org.zaproxy.ZAP -y",
-            "fi"
+            "fi",
+            "flatpak install --user flathub org.zaproxy.ZAP" 
         ]
   },
   {
@@ -107,7 +101,13 @@
   {
     "name": "Prism Launcher",
     "description": "Launcher for Minecraft.",
-    "script": "flatpak install -y --user flathub org.prismlauncher.PrismLauncher"
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "fi",
+            "flatpak install -y --user flathub org.prismlauncher.PrismLauncher"
+        ]
   },
   {
     "name": "Steam",
@@ -117,7 +117,13 @@
   {
     "name": "Heroic Launcher",
     "description": "Games launcher - can run Rocket League through proton layer. Recommended: download to usb folder Laptop/Games/RocketLeague, and select for this script to be run.",
-    "script": "flatpak install -y --user flathub com.heroicgameslauncher.hgl"
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "fi",
+            "flatpak install -y --user flathub com.heroicgameslauncher.hgl"
+        ]
   },
   {
     "name": "genymotion",
