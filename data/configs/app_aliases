@@ -13,3 +13,5 @@ alias ninjabrainbot='java -jar /home/will/.var/app/org.prismlauncher.PrismLaunch
 alias genymotion='~/.local/share/genymotion/genymotion'
 alias tetris='TETR.IO'
 alias ticktick='/opt/ticktick/ticktick-6.0.40-x86_64.AppImage'
+alias soundspaceplus='/opt/SoundSpacePlus/SoundSpacePlus.x86_64'
+alias localsend='flatpak run org.localsend.localsend_app'

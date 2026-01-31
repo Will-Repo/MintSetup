@@ -46,7 +46,7 @@
             "   sudo apt install -y flatpak",
             "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
             "fi",
-            "flatpak install --user flathub com.discordapp.Discord -y"
+            "flatpak install -y --user flathub com.discordapp.Discord"
         ]
   },
   {
@@ -57,7 +57,7 @@
             "   sudo apt install -y flatpak",
             "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
             "fi",
-            "flatpak install --user flathub org.zaproxy.ZAP" 
+            "flatpak install -y --user flathub org.zaproxy.ZAP" 
         ]
   },
   {
@@ -169,5 +169,16 @@
         "   echo \"ticktick is already installed, delete it at /opt/ticktick to reinstall.\"",
         "fi"
     ]
+  },
+  {
+    "name": "LocalSend",
+    "description": "Cross platform data transfer tool between devices - android, ipados, linux",
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "fi",
+            "flatpak install -y --user flathub org.localsend.localsend_app" 
+        ]
   }
 ]

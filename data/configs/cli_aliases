@@ -22,6 +22,7 @@ alias v='volume'
 alias whilehex='while read -r line; do echo -e $line; done'
 alias network='nmtui'
 alias close='systemctl suspend'
+alias cls='clear'
 
 # Remote drive aliases.
 alias gdrive='rclone mount gdrive: ~/Remote/gdrive --vfs-cache-mode full & > /dev/null && cd ~/Remote/gdrive'

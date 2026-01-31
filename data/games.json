@@ -27,7 +27,7 @@
         "if [ ! -f ~/Games/osu.AppImage ]; then",
         "   wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage",
         "   chmod +x osu.AppImage",
-	"   mkdir -p ~/Games",
+	    "   mkdir -p ~/Games",
         "   mv /osu.AppImage ~/Games/",
         "else",
         "    echo \"An Osu app image already exists, delete this first: ~/Games/osu.AppImage\"",
@@ -45,6 +45,28 @@
         "    rm \"TETR.IO Setup.deb\"",
         "else",
         "    echo \"A tetrio folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/TETR.IO\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Sound Space Plus / Rhythia",
+    "description": "Block Rhythm Game",
+    "script": [
+        "if [ ! -d /opt/SoundSpacePlus/ ]; then",
+        "    sudo mkdir -p /opt/SoundSpacePlus",
+        "    wget \"https://github.com/David20122/sound-space-plus/releases/download/oct31-2024/linux.zip\"",
+        "    sudo mv linux.zip /opt/SoundSpacePlus",
+        "    if ! dpkg -s unzip &>/dev/null; then",
+        "        sudo apt install unzip -y",
+        "        sudo unzip /opt/SoundSpacePlus/linux.zip -d /opt/SoundSpacePlus",
+        "        sudo apt remove unzip -y",
+        "    else",
+        "        sudo unzip /opt/SoundSpacePlus/linux.zip -d /opt/SoundSpacePlus",
+        "    fi",
+        "    sudo chmod +x /opt/SoundSpacePlus/\"SoundSpacePlus.x86_64\"",
+        "    sudo rm /opt/SoundSpacePlus/linux.zip",
+        "else",
+        "    echo \"A Sound Space Plus folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/SoundSpacePlus\"",
         "fi"
     ]
   }
