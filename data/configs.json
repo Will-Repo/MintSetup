@@ -79,6 +79,7 @@
     "description": "fingerprint security configuration files",
     "script": [
             "cp ./data/configs/pam_login /etc/pam.d/login",
+            "cp ./data/configs/pam_common-auth /etc/pam.d/common-auth",
             "cp ./data/configs/pam_sudo /etc/pam.d/sudo"
         ]
   }

@@ -3,7 +3,7 @@
 #
 
 # My changes - allow 3 tries.
-auth sufficient pam_fprintd.so max_tries=3 timeout=10
+# auth sufficient pam_fprintd.so max_tries=3 timeout=10
 
 # Enforce a minimal delay in case of failure (in microseconds).
 # (Replaces the `FAIL_DELAY' setting from login.defs)
