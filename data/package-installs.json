@@ -58,5 +58,10 @@
             "sudo ./cmake-4.1.1-Linux-x86_64.sh --prefix=/usr/local --skip-license",
             "rm ./cmake-4.1.1-Linux-x86_64.sh"
         ]
+  },
+  {
+    "name": "btop",
+    "description": "System monitoring tool.",
+    "script": "sudo apt install -y btop"
   }
 ]

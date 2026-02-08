@@ -38,6 +38,11 @@
     "script": "cp ./data/configs/xinputrc ~/.xinputrc"
   },
   {
+    "name": ".Xresources",
+    "description": "Bash script that sets up the X11 resource configs - e.g. fonts and cursor",
+    "script": "cp ./data/configs/Xresources ~/.Xresources"
+  },
+  {
     "name": "i3 config",
     "description": "i3 configuration file. Can be used for configuration and customisation",
     "script": [
