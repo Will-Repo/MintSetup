@@ -173,3 +173,6 @@ bar {
 }
 
 workspace_layout stacked
+
+# Display wallpaper 
+exec_always feh --bg-fill ~/.config/background/background.jpg

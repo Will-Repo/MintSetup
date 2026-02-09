@@ -63,5 +63,10 @@
     "name": "btop",
     "description": "System monitoring tool.",
     "script": "sudo apt install -y btop"
+  },
+  {
+    "name": "feh",
+    "description": "Background display tool",
+    "script": "sudo apt install -y feh"
   }
 ]
