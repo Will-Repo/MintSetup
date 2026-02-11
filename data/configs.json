@@ -96,5 +96,13 @@
             "mkdir -p ~/.config/background",
             "mv 1920x1080.jpg ~/.config/background/background.jpg"
         ]
+  },
+  {
+    "name": "picom config",
+    "description": "picom configuration file. Configures the terminal and graphical effects.",
+    "script": [
+	    "mkdir -p ~/.config/picom",
+	    "cp ./data/configs/picom ~/.config/picom/picom.conf"
+	]
   }
 ]

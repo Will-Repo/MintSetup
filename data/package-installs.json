@@ -68,5 +68,10 @@
     "name": "feh",
     "description": "Background display tool",
     "script": "sudo apt install -y feh"
+  },
+  {
+    "name": "picom",
+    "description": "Customising terminal - making it transparent.",
+    "script": "sudo apt install -y picom"
   }
 ]

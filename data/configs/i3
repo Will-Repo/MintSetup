@@ -176,3 +176,6 @@ workspace_layout stacked
 
 # Display wallpaper 
 exec_always feh --bg-fill ~/.config/background/background.jpg
+
+# Make terminal transparent.
+exec_always picom -f
