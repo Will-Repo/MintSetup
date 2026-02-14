@@ -1,5 +1,4 @@
-alias mc='flatpak run org.prismlauncher.PrismLauncher'
-alias prismmc='flatpak run org.prismlauncher.PrismLauncher'
+alias mc='/opt/prismlauncher/PrismLauncher-Linux-x86_64.AppImage'
 alias discord='flatpak run com.discordapp.Discord'
 alias browser='librewolf --new-window' 
 alias b='browser'

@@ -106,11 +106,14 @@
     "name": "Prism Launcher",
     "description": "Launcher for Minecraft.",
     "script": [
-            "if ! dpkg -s flatpak &>/dev/null; then",
-            "   sudo apt install -y flatpak",
-            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
-            "fi",
-            "flatpak install -y --user flathub org.prismlauncher.PrismLauncher"
+            "if [[ ! -d /opt/prismlauncher ]]; then",
+            "   wget https://github.com/PrismLauncher/PrismLauncher/releases/download/10.0.2/PrismLauncher-Linux-x86_64.AppImage",
+            "   chmod +x PrismLauncher-Linux-x86_64.AppImage",
+            "   sudo mkdir -p /opt/prismlauncher",
+            "   sudo mv PrismLauncher-Linux-x86_64.AppImage /opt/prismlauncher",
+            "else",
+            "   echo \"Prism launcher is already installed, delete it at /opt/prismlauncher to reinstall.\"",
+            "fi"
         ]
   },
   {
