@@ -183,5 +183,19 @@
             "fi",
             "flatpak install -y --user flathub org.localsend.localsend_app" 
         ]
+  },
+  {
+    "name": "AutoHotkey for linux",
+    "description": "AHK scripting language and app for linux",
+    "script": [
+        "if [[ ! -d /opt/ahk ]]; then",
+        "   wget https://github.com/phil294/AHK_X11/releases/download/1.0.7/ahk_x11.AppImage",
+        "   chmod +x ahk_x11.AppImage",
+        "   sudo mkdir -p /opt/ahk",
+        "   sudo mv ahk_x11.AppImage /opt/ahk",
+        "else",
+        "   echo \"AutoHoteky for linux is already installed, delete it at /opt/ahk to reinstall.\"",
+        "fi"
+    ]
   }
 ]

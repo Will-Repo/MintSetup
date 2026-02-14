@@ -47,5 +47,18 @@
             "   echo \"Wine is already installed, delete the /opt/wine-stable folder to reinstall\"",
             "fi"
         ]
+  },
+  {
+    "name": "f3 reassignment",
+    "description": "Sets up ahk f3 script to assign ` to f3 instead.",
+    "script": [
+            "if [ ! -d ~/.local/share/ahkscripts ]; then",
+            "   mkdir -p ~/.local/share/ahkscripts",
+            "   cp ./data/scripts/f3 ~/.local/share/ahkscripts/f3.ahk",
+            "else",
+            "   echo \"The ahkscripts directory already exists, delete the ~/.local/share/ahkscripts folder to reinstall\"",
+            "fi"
+
+    ]
   }
 ]

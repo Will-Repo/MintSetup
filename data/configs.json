@@ -26,10 +26,10 @@
     "name": "bash aliases",
     "description": "A selection of bash alias scripts that provide shortcuts for commands to a seperate name",
     "script": [
-            "cp ./data/configs/app_aliases ~/.bash_app_aliases",
-            "cp ./data/configs/cli_aliases ~/.bash_cli_aliases",
-            "cp ./data/configs/web_aliases ~/.bash_web_aliases",
-            "cp ./data/configs/input_aliases ~/.bash_input_aliases"
+            "cp ./data/configs/aliases/app_aliases ~/.bash_app_aliases",
+            "cp ./data/configs/aliases/cli_aliases ~/.bash_cli_aliases",
+            "cp ./data/configs/aliases/web_aliases ~/.bash_web_aliases",
+            "cp ./data/configs/aliases/input_aliases ~/.bash_input_aliases"
         ]
   },
   {
