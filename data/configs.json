@@ -51,11 +51,12 @@
 	]
   },
   {
-    "name": "polybar config",
-    "description": "polybar configuration file. Can be used for configuration and customisation",
+    "name": "polybar config and startup script",
+    "description": "polybar configuration file. Can be used for configuration and customisation + startup script used when i3 loads.",
     "script": [
 	    "mkdir -p ~/.config/polybar",
-	    "cp ./data/configs/polybar ~/.config/polybar/config.ini"
+	    "cp ./data/configs/polybar ~/.config/polybar/config.ini",
+        "cp ./data/configs/polybarstart ~/.config/polybar/start.sh"
 	]
   },
   {

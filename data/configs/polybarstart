@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+pkill polybar 
+
+while pgrep -x polybar >/dev/null; do sleep 1; done
+
+polybar first &
+polybar second &
