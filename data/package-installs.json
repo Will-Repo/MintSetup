@@ -73,5 +73,20 @@
     "name": "picom",
     "description": "Customising terminal - making it transparent.",
     "script": "sudo apt install -y picom"
+  },
+  {
+    "name": "maim",
+    "description": "Command line screen capturing tool.",
+    "script": "sudo apt install -y maim"
+  },
+  {
+    "name": "xclip",
+    "description": "Interacts with the clipboard.",
+    "script": "sudo apt install -y xclip"
+  },
+  {
+    "name": "xdotool",
+    "description": "Used to get id of active window.",
+    "script": "sudo apt install -y xdotool"
   }
 ]

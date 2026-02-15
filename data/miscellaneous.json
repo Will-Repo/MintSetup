@@ -3,6 +3,11 @@
     "name": "Delete unecessary user directories.",
     "description": "Deletes ~/Desktop ~/Documents ~/Pictures ~/Videos ~/Templates ~/Music ~/Public",
     "script": "rm -rf ~/Desktop/ ~/Documents ~/Pictures/ ~/Videos/ ~/Templates/ ~/Music/ ~/Public/"
+  },   
+  {
+    "name": "Add screenshot user directory for maim output.",
+    "description": "Creates ~/Screenshots",
+    "script": "mkdir -p ~/Screenshots"
   },      
   {
     "name": "Basic firewall setup",

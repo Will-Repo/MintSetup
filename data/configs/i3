@@ -179,3 +179,12 @@ exec_always feh --bg-fill ~/.config/background/background.jpg
 
 # Make terminal transparent.
 exec_always picom -f
+
+# Set up scratchpad
+bindsym $mod+minus move scratchpad
+bindsym $mod+plus scratchpad show
+
+# Set up screenshots
+bindsym Print exec --no-startup-id sh -c 'maim ~/Screenshots/$(date +"%Y-%m-%d_%H-%M-%S-%N").png'
+bindsym $mod+Print exec --no-startup-id sh -c 'maim --window $(xdotool getactivewindow) ~/Screenshots/$(date +"%Y-%m-%d_%H-%M-%S-%N").png'
+bindsym $mod+Shift+Print exec --no-startup-id sh -c 'maim --select ~/Screenshots/$(date +"%Y-%m-%d_%H-%M-%S-%N").png'
