@@ -65,5 +65,19 @@
             "fi"
 
     ]
+  },
+  {
+    "name": "Resetti",
+    "description": "Window resizing tool for minecraft on linux",
+    "script": [
+        "if [[ ! -d /opt/resetti ]]; then",
+        "   wget https://github.com/tesselslate/resetti/releases/download/v0.7.0/resetti",
+        "   chmod +x resetti",
+        "   sudo mkdir -p /opt/resetti/",
+        "   sudo mv resetti /opt/resetti/resetti",
+        "else",
+        "   echo \"Resetti is already installed, delete it at /opt/resetti to reinstall.\"",
+        "fi"
+    ]
   }
 ]
