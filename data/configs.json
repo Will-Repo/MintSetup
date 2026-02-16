@@ -105,5 +105,13 @@
 	    "mkdir -p ~/.config/picom",
 	    "cp ./data/configs/picom ~/.config/picom/picom.conf"
 	]
+  },
+  {
+    "name": "resetti config",
+    "description": "resetti configuration file. sets minecraft window size changing keybinds and dimensions",
+    "script": [
+	    "mkdir -p ~/.config/resetti",
+	    "cp ./data/configs/resetti ~/.config/resetti/mc.toml"
+	]
   }
 ]
