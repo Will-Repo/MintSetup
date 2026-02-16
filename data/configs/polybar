@@ -44,7 +44,7 @@ separator-foreground = ${colors.disabled}
 font-0 = monospace;2
 #modules-left = systray xworkspaces xwindow
 modules-left = xworkspaces
-modules-right = battery filesystem pulseaudio memory cpu temperature wlan date
+modules-right = keyboard battery filesystem pulseaudio memory cpu temperature wlan date
 cursor-click = pointer
 cursor-scroll = ns-resize
 enable-ipc = false
@@ -100,6 +100,11 @@ label-empty-padding = 1
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:60:...%
+
+[module/keyboard]
+type = custom/text
+click-left = xinput enable "AT Translated Set 2 keyboard"
+label = "Reset Keyboard"
 
 [module/battery]
 type = internal/battery
