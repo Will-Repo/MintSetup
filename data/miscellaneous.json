@@ -75,6 +75,7 @@
         "   chmod +x resetti",
         "   sudo mkdir -p /opt/resetti/",
         "   sudo mv resetti /opt/resetti/resetti",
+        "   /opt/resetti/resetti new mc",
         "else",
         "   echo \"Resetti is already installed, delete it at /opt/resetti to reinstall.\"",
         "fi"

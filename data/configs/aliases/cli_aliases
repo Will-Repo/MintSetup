@@ -37,3 +37,6 @@ alias wine11='pkill wineserver && /opt/wine-stable/bin/wineserver'
 # Set up second monitor (hdmi) above main display. Need to reset i3 or windows persist across changing workspaces.
 alias monitor='xrandr --output HDMI-2 --auto --above eDP-1 --mode 1920x1080 --rate 100 && i3-msg restart'
 alias monitoroff='xrandr --output HDMI-2 --off'
+
+alias resetti='/opt/resetti/resetti mc'
+alias speedrun='f3 & resetti & ninjabrainbot &'
