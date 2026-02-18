@@ -98,6 +98,9 @@
         "    mv ~/test/usr/lib/x86_64-linux-gnu/lib* ~/Games/pwnieisland/PwnAdventure3/PwnAdventure3/Binaries/Linux/",
         "    rm -rf test",
         "    rm libssl1.0.0_1.0.2n-1ubuntu5.13_amd64.deb",
+        "    openssl req -new -key ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.key -out ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.csr \ -subj \"/C=US/ST=DC/L=Washington/O=Ghost in the Shellcode/CN=master\"",
+        "    openssl x509 -req -days 3650 -in ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.csr -signkey ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.key -out ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.crt",
+        "    cp ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.crt ~/Games/pwnieisland/PwnAdventure3/PwnAdventure3/Content/Server/",
         "else",
         "    echo \"A pwnieisland folder for this version is already present on the system, if you wish to redownload, delete this first: ~/Games/pwnieisland\"",
         "fi"

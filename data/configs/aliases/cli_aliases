@@ -44,4 +44,4 @@ alias resetti='/opt/resetti/resetti mc'
 alias pwnssh='ssh -i ~/.ssh/id_ed25519 hacker@dojo.pwn.college'
 
 # Start pwn3adventure master server.
-alias pwn3master='cd ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/ && sudo su postgres sh -c "export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH && ./MasterServer"'
+alias pwn3master='cd ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/ && sudo su postgres sh -c "export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH; ./MasterServer"'
