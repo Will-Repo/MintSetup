@@ -13,7 +13,7 @@ play_res = "1920x1080+0,0"
 # you do not want to use e.g. thin or tall window.
 #
 # You can declare multiple resolutions, like so:
-alt_res = ["400x1080+810,0", "1920x300+0,390"]
+alt_res = ["400x1080+810,0", "1920x300+0,390", "5760x3240+-1920,-1080"]
 
 # The hooks section allows you to specify various commands which are run
 # upon certain actions. Any blank hooks will be ignored.
@@ -61,3 +61,5 @@ focus_gained = ""
 #"Ctrl-Shift-F"      = ["ingame_focus"]
 "o"             = ["ingame_toggle_res(1)"]
 "p"             = ["ingame_toggle_res(2)"]
+"i"             = ["ingame_toggle_res(3)"]
+

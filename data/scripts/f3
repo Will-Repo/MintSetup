@@ -1,1 +1,2 @@
-Grave::F3
+Grave::Send {F3}
++¬::Send "{Shift down}{F3}"
