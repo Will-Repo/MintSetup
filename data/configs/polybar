@@ -44,7 +44,7 @@ separator-foreground = ${colors.disabled}
 font-0 = monospace;2
 #modules-left = systray xworkspaces xwindow
 modules-left = xworkspaces
-modules-right = capslock keyboard battery filesystem pulseaudio memory cpu temperature wlan date
+modules-right = capslock secondmonitor keyboard battery filesystem pulseaudio memory cpu temperature wlan date
 cursor-click = pointer
 cursor-scroll = ns-resize
 enable-ipc = false
@@ -101,16 +101,21 @@ label-empty-padding = 1
 type = internal/xwindow
 label = %title:0:60:...%
 
-[module/keyboard]
-type = custom/text
-click-left = xinput enable "AT Translated Set 2 keyboard"
-label = "Reset Keyboard"
-
 [module/capslock]
 type = custom/script
 #exec = xset -q | grep "Caps Lock" | awk '{print "Caps Lock: " $4}'
 exec = bash -c "xset -q | grep 'Caps Lock' | awk '{if (\$4 == \"on\") {print \"%{F#ff0000} caps on %{F-}\"} else {print \" caps off%{F-}\"}}'"
 interval = 0.01
+
+[module/secondmonitor]
+type = custom/text
+click-left = xrandr --output HDMI-2 --auto --above eDP-1 --mode 1920x1080 --rate 100 && i3-msg restart
+label = "Connect to 2nd Monitor"
+
+[module/keyboard]
+type = custom/text
+click-left = xinput enable "AT Translated Set 2 keyboard"
+label = "Reset Keyboard"
 
 [module/battery]
 type = internal/battery

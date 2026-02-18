@@ -69,6 +69,34 @@
         "    echo \"A Sound Space Plus folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/SoundSpacePlus\"",
         "fi"
     ]
+  },
+  {
+    "name": "Pwnie Island",
+    "description": "Open world MMORPG for testing game hacking.",
+    "script": [
+        "if [ ! -d ~/Games/pwnieisland]; then",
+        "    wget \"https://www.pwnadventure.com/PwnAdventure3_Linux.zip\"",
+        "    unzip PwnAdventure3_Linux.zip -d .",
+        "    rm PwnAdventure3_Linux.zip",
+        "    mkdir -p ~/Games/pwnieisland",
+        "    mv PwnAdventure3 ~/Games/pwnieisland",
+        "    wget https://www.pwnadventure.com/PwnAdventure3Server.tar.gz",
+        "    tar -xzf PwnAdventure3Server.tar.gz",
+        "    rm PwnAdventure3Server.tar.gz",
+        "    mv PwnAdventure3Servers ~/Games/pwnieisland",
+        "    sudo apt install -y postgresql",
+        "    useradd will",
+        "    sudo su postgres",
+        "    psql template1",
+        "    CREATE USER w;",
+        "    CREATE ROLE w;",
+        "    CREATE DATABASE master;",
+        "    GRANT ALL PRIVILEGES ON DATABASE master TO w;",
+        "    exit",
+        "else",
+        "    echo \"A pwnieisland folder for this version is already present on the system, if you wish to redownload, delete this first: ~/Games/pwnieisland\"",
+        "fi"
+    ]
   }
 ]
 
