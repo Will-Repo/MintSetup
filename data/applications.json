@@ -210,5 +210,19 @@
         "   echo \"NinjaBrainBot is already installed, delete it at /opt/nbb to reinstall.\"",
         "fi"
     ]
+  },
+  {
+    "name": "VirtualBox",
+    "description": "Virtual machine manager.",
+    "script": [
+        "if [[  ! -d /opt/VirtualBox ]]; then",
+        "   wget https://download.virtualbox.org/virtualbox/7.2.6/VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "   chmod +x VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "   sudo ./VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "   rm VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "else",
+        "   echo \"VirtualBox is already installed, delete it at /opt/VirtualBox to reinstall.\"",
+        "fi"
+    ]
   }
 ]
