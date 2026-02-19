@@ -1,1 +1,1 @@
-alias f3='/opt/ahk/ahk_x11.AppImage ~/.local/share/ahkscripts/f3.ahk'
+alias f3='bash -c '\''trap "setxkbmap -option" EXIT; setxkbmap -option caps:none; /opt/ahk/ahk_x11.AppImage ~/.local/share/ahkscripts/f3.ahk'\'''
