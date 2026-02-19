@@ -44,7 +44,7 @@ separator-foreground = ${colors.disabled}
 font-0 = monospace;2
 #modules-left = systray xworkspaces xwindow
 modules-left = xworkspaces
-modules-right = capslock secondmonitor keyboard battery filesystem pulseaudio memory cpu temperature wlan date
+modules-right = capslock bluetooth secondmonitor keyboard battery filesystem pulseaudio memory cpu temperature wlan date
 cursor-click = pointer
 cursor-scroll = ns-resize
 enable-ipc = false
@@ -71,7 +71,7 @@ separator-foreground = ${colors.disabled}
 font-0 = monospace;2
 #modules-left = systray xworkspaces xwindow
 modules-left = xworkspaces
-modules-right = battery pulseaudio memory cpu date
+modules-right = disconnectsecondmonitor battery pulseaudio memory cpu date
 cursor-click = pointer
 cursor-scroll = ns-resize
 enable-ipc = false
@@ -107,10 +107,20 @@ type = custom/script
 exec = bash -c "xset -q | grep 'Caps Lock' | awk '{if (\$4 == \"on\") {print \"%{F#ff0000} caps on %{F-}\"} else {print \" caps off%{F-}\"}}'"
 interval = 0.01
 
+[module/bluetooth]
+type = custom/text
+click-left = exec blueman-manager
+label = "Bluetooth"
+
 [module/secondmonitor]
 type = custom/text
 click-left = xrandr --output HDMI-2 --auto --above eDP-1 --mode 1920x1080 --rate 100 && i3-msg restart
 label = "Connect to 2nd Monitor"
+
+[module/disconnectsecondmonitor]
+type = custom/text
+click-left = xrandr --output HDMI-2 --off
+label = "Disconnect Monitor"
 
 [module/keyboard]
 type = custom/text
