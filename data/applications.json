@@ -224,5 +224,20 @@
         "   echo \"VirtualBox is already installed, delete it at /opt/VirtualBox to reinstall.\"",
         "fi"
     ]
+  },
+  {
+    "name": "Linux MultiMedia Studio",
+    "description": "FOSS music software (creation).",
+    "script": [
+        "if [[  ! -d /opt/llms ]]; then",
+        "   wget https://github.com/LMMS/lmms/releases/download/v1.2.2/lmms-1.2.2-linux-x86_64.AppImage",
+        "   chmod +x lmms-1.2.2-linux-x86_64.AppImage",
+        "   sudo mkdir -p /opt/lmms",
+        "   sudo mv ahk_x11.AppImage /opt/lmms",
+        "else",
+        "   echo \"lmms is already installed, delete it at /opt/lmms to reinstall.\"",
+        "fi"
+    ]
   }
+
 ]
