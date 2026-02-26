@@ -54,16 +54,30 @@
         ]
   },
   {
-    "name": "f3 reassignment",
-    "description": "Sets up ahk f3 script to assign ` to f3 instead.",
+    "name": "evremap",
+    "description": "Low level key remapping tool for linux.",
     "script": [
-            "if [ ! -d ~/.local/share/ahkscripts ]; then",
-            "   mkdir -p ~/.local/share/ahkscripts",
-            "   cp ./data/scripts/f3 ~/.local/share/ahkscripts/f3.ahk",
+            "if [ ! -d ~/.local/share/evremap ]; then",
+            "   mkdir -p ~/.local/share/evremap",
+            "   wget https://github.com/wez/evremap/archive/refs/heads/master.zip",
+            "   unzip master.zip",
+            "   mv evremap-master ~/.local/share/evremap/",
+            "   rm master.zip",
+            "   sudo apt install -y libevdev-dev pkg-config",
+            "   sudo apt install -y cargo",
+            "   cargo build --release --manifest-path ~/.local/share/evremap/evremap-master/Cargo.toml",
             "else",
-            "   echo \"The ahkscripts directory already exists, delete the ~/.local/share/ahkscripts folder to reinstall\"",
+            "   echo \"The xkeysnail config directory already exists, delete the ~/.config/xkeysnail folder to reinstall\"",
             "fi"
 
+    ]
+  },
+  {
+    "name": "key reassignment script - e.g. f3 remap",
+    "description": "Sets up evremap config file, this can be used to assign ` to f3 instead.",
+    "script": [
+            "mkdir -p ~/.config/evremap",
+            "cp ./data/configs/inputs.toml ~/.config/evremap/config.toml"
     ]
   },
   {

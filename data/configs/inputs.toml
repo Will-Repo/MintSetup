@@ -1,0 +1,4 @@
+device_name = "AT Translated Set 2 keyboard"
+[[remap]]
+input = ["KEY_GRAVE"]
+output = ["KEY_F3"]
