@@ -229,11 +229,11 @@
     "name": "Linux MultiMedia Studio",
     "description": "FOSS music software (creation).",
     "script": [
-        "if [[  ! -d ~/.local/share/llms ]]; then",
+        "if [[  ! -d ~/.local/share/lmms ]]; then",
         "   wget https://github.com/LMMS/lmms/releases/download/v1.2.2/lmms-1.2.2-linux-x86_64.AppImage",
         "   chmod +x lmms-1.2.2-linux-x86_64.AppImage",
-        "   mkdir -p ~/.local/share/llms",
-        "   mv ahk_x11.AppImage ~/.local/share/llms",
+        "   mkdir -p ~/.local/share/lmms",
+        "   mv lmms-1.2.2-linux-x86_64.AppImage ~/.local/share/llms/lmms-1.2.2-linux-x86_64.AppImage",
         "else",
         "   echo \"lmms is already installed, delete it at ~/.local/share/lmms to reinstall.\"",
         "fi"
