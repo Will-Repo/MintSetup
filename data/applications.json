@@ -251,5 +251,19 @@
         "   echo \"Spotify is already installed, delete it using apt to reinstall.",
         "fi"
     ]
+  },
+  {
+    "name": "Super Productivity",
+    "description": "Task management app",
+    "script": [
+        "if [[  ! -d ~/.local/share/superproductivity ]]; then",
+        "   wget https://github.com/super-productivity/super-productivity/releases/download/v17.2.4/superProductivity-x86_64.AppImage",
+        "   chmod +x superProductivity-x86_64.AppImage",
+        "   mkdir -p ~/.local/share/superproductivity",
+        "   mv superProductivity-x86_64.AppImage ~/.local/share/superproductivity/superProductivity-x86_64.AppImage",
+        "else",
+        "   echo \"Super Productivity is already installed, delete it at ~/.local/share/superproductivity to reinstall.\"",
+        "fi"
+    ]
   }
 ]
