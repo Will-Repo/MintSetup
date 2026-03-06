@@ -94,5 +94,26 @@
         "   echo \"Resetti is already installed, delete it at /opt/resetti to reinstall.\"",
         "fi"
     ]
+  },
+  {
+    "name": "Rust toolchain - including cargo.",
+    "description": "Installs rustup, installing the rust toolchain (rust compiler, cargo, standard library, etc).",
+    "script": [
+        "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs| sh -s -- -y",
+        "source ~/.cargo/env",
+        "rustup update"
+    ]
+  },
+  {
+    "name": "yazi",
+    "description": "Command line file manager - have to build for mint so requires rustup to be setup.",
+    "script": [
+        "git clone https://github.com/sxyazi/yazi.git",
+        "cd yazi",
+        "source ~/.cargo/enc",
+        "cargo build --release --locked",
+        "sud mv target/release/yazi target/release/ya /usr/local/bin/"
+    ]
   }
+
 ]
