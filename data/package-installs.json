@@ -88,5 +88,15 @@
     "name": "xdotool",
     "description": "Used to get id of active window.",
     "script": "sudo apt install -y xdotool"
+  },
+  {
+    "name": "xautolock",
+    "description": "Used to run command after some time without inputs.",
+    "script": "sudo apt install -y xautolock"
+  },
+  {
+    "name": "tmux",
+    "description": "Allows multiple terminals to be run inside one,.",
+    "script": "sudo apt install -y tmux"
   }
 ]
