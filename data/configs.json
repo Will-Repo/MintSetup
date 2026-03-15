@@ -113,5 +113,12 @@
 	    "mkdir -p ~/.config/resetti",
 	    "cp ./data/configs/resetti ~/.config/resetti/mc.toml"
 	]
+  },
+  {
+    "name": "tmux config",
+    "description": "tmux configuration file, primarily to get rid of delay when exiting insert mode in neovim - esc rebound.",
+    "script": [
+	    "cp ./data/configs/tmux ~/.tmux.conf"
+	]
   }
 ]
