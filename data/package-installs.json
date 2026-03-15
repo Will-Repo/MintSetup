@@ -96,7 +96,7 @@
   },
   {
     "name": "tmux",
-    "description": "Allows multiple terminals to be run inside one,.",
+    "description": "Terminal multiplexer - allows multiple terminals to be run inside one,.",
     "script": "sudo apt install -y tmux"
   }
 ]
