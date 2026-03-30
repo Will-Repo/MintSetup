@@ -270,7 +270,8 @@
     "name": "RetroArch",
     "description": "Console emulation manager",
     "script": [
-        "sudo add-apt-repository ppa:libretro/stable -y && sudo apt-get update && sudo apt-get install -y retroarc"
+        "sudo add-apt-repository ppa:libretro/stable -y && sudo apt-get update && sudo apt-get install -y retroarc",
+        "mkdir -p ~/Games/RetroArch/cores"
     ]
   }
 ]
