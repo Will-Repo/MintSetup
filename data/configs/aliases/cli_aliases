@@ -49,3 +49,6 @@ alias pwn3master='cd ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/ && s
 
 # evremap remap alias - set as f3 for now but may change as more functionality added
 alias f3='sudo ~/.local/share/evremap/evremap-master/target/release/evremap remap ~/.config/evremap/config.toml'
+
+# ls everything that appeared in last 5 mins
+alias latest='find -mmin -5'

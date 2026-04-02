@@ -96,7 +96,12 @@
   },
   {
     "name": "tmux",
-    "description": "Terminal multiplexer - allows multiple terminals to be run inside one,.",
+    "description": "Terminal multiplexer - allows multiple terminals to be run inside one.",
     "script": "sudo apt install -y tmux"
+  },
+  {
+    "name": "cdrdao",
+    "description": "CD read and write tool",
+    "script": "sudo apt install -y cdrdao"
   }
 ]
