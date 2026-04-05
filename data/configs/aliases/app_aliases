@@ -18,3 +18,4 @@ alias pwn3='cd ~/Games/pwnieisland/PwnAdventure3/PwnAdventure3/Binaries/Linux/; 
 alias lmms='~/.local/share/lmms/lmms-1.2.2-linux-x86_64.AppImage'
 alias superproductivity='~/.local/share/superproductivity/superProductivity-x86_64.AppImage'
 alias xenia='/opt/xenia/xenia_canary_linux.AppImage'
+alias blender='/opt/blender/blender-5.1.0-linux-x64/blender-launcher'
