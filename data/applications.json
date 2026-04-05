@@ -274,5 +274,20 @@
         "mkdir -p ~/Games/RetroArch/cores",
         "mkdir -p ~/Games/RetroArch/games"
     ]
+  },
+  {
+    "name": "Xenia",
+    "description": "Xbox 360 emulator",
+    "script": [
+        "if [[ ! -d /opt/xenia ]]; then",
+        "   wget https://github.com/xenia-canary/xenia-canary/releases/download/d2c8ca6/xenia_canary_linux.AppImage",
+        "   chmod +x xenia_canary_linux.AppImage",
+        "   sudo mkdir -p /opt/xenia",
+        "   sudo mv xenia_canary_linux.AppImage /opt/xenia",
+        "   mkdir -p ~/Games/Xbox360",
+        "else",
+        "   echo \"xenia is already installed, delete it at /opt/xenia to reinstall.\"",
+        "fi"
+    ]
   }
 ]

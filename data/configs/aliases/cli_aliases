@@ -52,3 +52,6 @@ alias f3='sudo ~/.local/share/evremap/evremap-master/target/release/evremap rema
 
 # ls everything that appeared in last 5 mins
 alias latest='find -mmin -5'
+
+# Create http server in directory.
+alias server='python3 -m http.server'
