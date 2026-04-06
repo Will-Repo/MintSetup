@@ -110,3 +110,6 @@ function y() {
 }
 
 export EDITOR=nvim
+
+# Add language servers to the path.
+export PATH="$HOME/.local/share/lua_ls/bin:$PATH"
