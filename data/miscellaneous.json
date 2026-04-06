@@ -114,6 +114,21 @@
         "sudo mv ./yazi/target/release/yazi ./yazi/target/release/ya /usr/local/bin/",
         "sudo rm -rf ./yazi"
     ]
+  },
+  {
+    "name": "Nvim lsp - lua-language-server",
+    "description": "Language server protocol for lua",
+    "script": [
+	"if [[ ! -f /usr/bin/lua-language-server ]]; then",
+        "    wget https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-linux-x64.tar.gz",
+	"    mkdir temp",
+        "    tar -xzf lua-language-server-3.18.0-linux-x64.tar.gz -C temp/",
+        "    rm lua-language-server-3.18.0-linux-x64.tar.gz",
+        "    sudo mv temp/bin/lua-language-server /usr/bin/",
+	"    rm -rf temp/",
+        "else ",
+	"    echo \"lua lsp is already installed, delete at /usr/bin/lua-language-server to redownload\"",
+	"fi"
+    ]
   }
-
 ]
