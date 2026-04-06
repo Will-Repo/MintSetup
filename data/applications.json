@@ -7,19 +7,15 @@
   {
     "name": "neovim",
     "description": "Basic neovim install - text editor, keyboard based",
-    "script": [
-        "if [ ! -f /usr/local/bin/nvim ]; then",
-        "   sudo add-apt-repository ppa:neovim-ppa/stable -y",
-        "   sudo apt update",
-        "   git clone https://github.com/neovim/neovim.git",
-        "   cd neovim",
-        "   git checkout stable",
-        "   make CMAKE_BUILD_TYPE=Release",
-        "   sudo make install",
-        "   cd ..",
-        "   rm -rf neovim",
+    "script": [	
+	"if [[ ! -d /opt/nvim ]]; then",
+	"    wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz",
+        "    tar -xzvf nvim-linux-x86_64.tar.gz",
+        "    rm -rf nvim-linux-x86_64.tar.gz",
+	"    sudo mkdir -p /opt/nvim",
+        "    sudo mv nvim-linux-x86_64/ /opt/nvim/",
         "else",
-        "   echo \"neovim is already installde. uninstall at /usr/opt/bin/nvim to reinstall\"",
+        "   echo \"neovim is already installed. uninstall at /opt/nvim to reinstall\"",
         "fi"
     ]
   },
@@ -298,7 +294,7 @@
         "    wget https://download.blender.org/release/Blender5.1/blender-5.1.0-linux-x64.tar.xz",
         "    tar -xJvf blender-5.1.0-linux-x64.tar.xz",
         "    rm -rf blender-5.1.0-linux-x64.tar.xz",
-	    "    sudo mkdir -p /opt/blender",
+	"    sudo mkdir -p /opt/blender",
         "    sudo mv blender-5.1.0-linux-x64/ /opt/blender",
         "else",
         "    echo \"A blender folder is already present on the system, if you wish to redownload, delete this first: /opt/blender\"",
