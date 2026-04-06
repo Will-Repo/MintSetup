@@ -117,7 +117,7 @@
   },
   {
     "name": "Nvim lsp - lua-language-server",
-    "description": "Language server protocol for lua",
+    "description": "Language server protocol for lua - remember to amend the path in bashrc to allow nvim to find the lsp.",
     "script": [
 	"if [[ ! -d ~/.local/share/lua_ls ]]; then",
         "    wget https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-linux-x64.tar.gz",

@@ -72,12 +72,10 @@
     "description": "neovim configuration files",
     "script": [
             "if [ ! -d ~/.config/nvim ]; then",
-            "    git clone https://github.com/Will-Repo/kickstart.nvim ~/.config/nvim",
-            "    rm -rf ~/.local/share/nvim/site/pack/packer/start",
-            "    git clone --depth 1 https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim",
-            "    npm install tree-sitter-cli",
-            "    nvim --headless \"+Lazy! sync\" +qa",
-	        "fi"
+            "    git clone https://github.com/Will-Repo/nvim ~/.config/nvim",
+	    "else",
+	    "	echo \"nvim config already set up, delete at ~/.config/nvim to redownload.\"",
+	    "fi"
         ]
   },
   {
