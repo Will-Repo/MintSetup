@@ -156,5 +156,22 @@
         "nvm use 20",
 	    "npm install markdownlint-cli2"
     ]
+  },
+  {
+    "name": "FiraMono Nerd Font",
+    "description": "FiraMono font patched to include icons.",
+    "script": [
+            "if [ ! -d ~/.local/share/fonts/FiraMonoNerd ]; then",
+            "   mkdir -p ~/.local/share/fonts/FiraMonoNerd",
+            "   wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraMono.zip",
+            "   mkdir temp",
+            "   unzip FiraMono.zip -d temp",
+            "   mv temp/* ~/.local/share/fonts/FiraMonoNerd",
+            "   rm FiraMono.zip",
+            "else",
+            "   echo \"The FiraMonoNerd font directory already exists, delete the ~/.local/share/fonts/FiraMonoNerd folder to reinstall\"",
+            "fi"
+
+    ]
   }
 ]

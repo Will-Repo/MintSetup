@@ -118,5 +118,12 @@
     "script": [
 	    "cp ./data/configs/tmux ~/.tmux.conf"
 	]
+  },
+  {
+    "name": "Terminal config",
+    "description": "xfce4terminal configuration file, primarily to change font to show symbols (nerd font).",
+    "script": [
+       "xfconf-query -c xfce4-terminal -p /font-name --create -t string -s \"FiraMono Nerd Font Mono 10\""
+    ]
   }
 ]
