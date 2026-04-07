@@ -68,13 +68,13 @@
 	]
   },
   {
-    "name": "neovim config - kickstart fork",
+    "name": "neovim config - personal config",
     "description": "neovim configuration files",
     "script": [
-            "if [ ! -d ~/.config/nvim ]; then",
+            "if [[ ! -d ~/.config/nvim ]]; then",
             "    git clone https://github.com/Will-Repo/nvim ~/.config/nvim",
 	    "else",
-	    "	echo \"nvim config already set up, delete at ~/.config/nvim to redownload.\"",
+	    "    echo \"nvim config already set up, delete at ~/.config/nvim to redownload.\"",
 	    "fi"
         ]
   },

@@ -121,15 +121,40 @@
     "script": [
 	"if [[ ! -d ~/.local/share/lua_ls ]]; then",
         "    wget https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-linux-x64.tar.gz",
-	"    mkdir temp",
+	    "    mkdir temp",
         "    tar -xzf lua-language-server-3.18.0-linux-x64.tar.gz -C temp/",
         "    rm lua-language-server-3.18.0-linux-x64.tar.gz",
-	"    mkdir -p ~/.local/share/lua_ls",
+	    "    mkdir -p ~/.local/share/lua_ls",
         "    sudo mv temp/* ~/.local/share/lua_ls",
-	"    rm -rf temp/",
+	    "    rm -rf temp/",
         "else ",
-	"    echo \"lua lsp is already installed, delete at /usr/bin/lua-language-server to redownload\"",
-	"fi"
+	    "    echo \"lua lsp is already installed, delete at /usr/bin/lua-language-server to redownload\"",
+	    "fi"
+    ]
+  },
+  {
+    "name": "Nvim lsp - marksman",
+    "description": "Language server protocol for markdown files - remember to amend the path in bashrc to allow nvim to find the lsp.",
+    "script": [
+	    "if [[ ! -d ~/.local/share/marksman ]]; then",
+        "    wget https://github.com/artempyanykh/marksman/releases/download/2026-02-08/marksman-linux-x64",
+        "    chmod +x marksman-linux-x64",
+    	"    mkdir -p ~/.local/share/marksman",
+        "    sudo mv marksman-linux-x64 ~/.local/share/marksman/marksman",
+        "else ",
+    	"    echo \"marksman (markdown) lsp is already installed, delete at /usr/bin/marksman to redownload\"",
+    	"fi"
+    ]
+  },
+  {
+    "name": "Markdown linter",
+    "description": "CLI linter for markdown files - remember to amend the path in bashrc to allow nvim to find the linter.",
+    "script": [
+        "sudo apt install -y npm",
+        "wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash",
+        "nvm install 20",
+        "nvm use 20",
+	    "npm install markdownlint-cli2"
     ]
   }
 ]
