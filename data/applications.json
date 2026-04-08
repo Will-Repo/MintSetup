@@ -3,7 +3,7 @@
     "name": "vokoscreen",
     "description": "Video recording software",
     "script": "sudo apt install -y vokoscreen-ng"
-  },       
+  },      
   {
     "name": "neovim",
     "description": "Basic neovim install - text editor, keyboard based",

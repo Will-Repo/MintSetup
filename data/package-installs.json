@@ -103,5 +103,10 @@
     "name": "cdrdao",
     "description": "CD read and write tool",
     "script": "sudo apt install -y cdrdao"
+  },
+  {
+    "name": "clangd-20",
+    "description": "cpp lsp",
+    "script": "sudo apt install -y clangd-20"
   }
 ]

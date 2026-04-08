@@ -148,13 +148,13 @@
   },
   {
     "name": "Markdown linter",
-    "description": "CLI linter for markdown files - remember to amend the path in bashrc to allow nvim to find the linter.",
+    "description": "CLI linter for markdown files. markdownlint-cli2",
     "script": [
         "sudo apt install -y npm",
         "wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash",
         "nvm install 20",
         "nvm use 20",
-	    "npm install markdownlint-cli2"
+	    "npm install -g markdownlint-cli2"
     ]
   },
   {
@@ -172,6 +172,33 @@
             "   echo \"The FiraMonoNerd font directory already exists, delete the ~/.local/share/fonts/FiraMonoNerd folder to reinstall\"",
             "fi"
 
+    ]
+  },
+  {
+    "name": "Terminal config",
+    "description": "xfce4terminal configuration file, primarily to change font to show symbols (nerd font).",
+    "script": [
+       "xfconf-query -c xfce4-terminal -p /font-name --create -t string -s \"FiraMono Nerd Font Mono 10\""
+    ]
+  },
+  {
+    "name": "Nvim lsp - jsonls",
+    "description": "Language server protocol for json files.",
+    "script": [
+	    "npm i -g vscode-langservers-extracted"
+    ]
+  },
+  {
+    "name": "ClamAV",
+    "description": "FOSS linux antivirus",
+    "script": [
+        "if [[ ! -d ~/.local/share/clamav ]]; then",
+        "   wget https://www.clamav.net/downloads/production/clamav-1.5.2.linux.x86_64.deb",
+        "   sudo dpkg -i clamav-1.5.2.linux.x86_64.deb",
+        "   rm clamav-1.5.2.linux.x86_64.deb",
+        "else",
+        "   echo \"ClamAV is already installed, delete it at ~/.local/share/clamav to reinstall.\"",
+        "fi"
     ]
   }
 ]
