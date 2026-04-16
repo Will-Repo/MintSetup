@@ -108,5 +108,40 @@
     "name": "clangd-20",
     "description": "cpp lsp",
     "script": "sudo apt install -y clangd-20"
+  },
+  {
+    "name": "smartmontools",
+    "description": "hdd testing software",
+    "script": "sudo apt install -y smartmontools"
+  },
+  {
+    "name": "libimobiledevice-utils",
+    "description": "ADD DESC - tool i use to get ipad data onto pc",
+    "script": "sudo apt install -y smartmontools"
+  },
+  {
+    "name": "ifuse",
+    "description": "tool for mounting ipad to pc",
+    "script": "sudo apt install -y ifuse"
+  },
+  {
+    "name": "mtp-tools",
+    "description": "ADD DESC - tool i use for connecting android phones to pc",
+    "script": "sudo apt install -y mtp-tools"
+  },
+  {
+    "name": "jmtpfs",
+    "description": "tool for mounting android phone to pc",
+    "script": "sudo apt install -y jmtpfs"
+  },
+  {
+    "name": "adb",
+    "description": "Android debug bridge - used for pulling files from android phone quickly.",
+    "script": "sudo apt install -y adb"
+  },
+  {
+    "name": "Ninja",
+    "description": "cpp compiler",
+    "script": "sudo apt install -y ninja-build"
   }
 ]

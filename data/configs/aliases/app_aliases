@@ -1,6 +1,6 @@
 alias mc='/opt/prismlauncher/PrismLauncher-Linux-x86_64.AppImage'
 alias discord='flatpak run com.discordapp.Discord'
-alias browser='librewolf --new-window' 
+alias browser='nohup librewolf --new-window &' 
 alias b='browser'
 alias stepmania='~/Games/StepMania-5.1.0-Linux/stepmania-5.1/stepmania'
 alias osu='~/Games/osu.AppImage'

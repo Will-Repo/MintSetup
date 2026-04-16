@@ -200,5 +200,29 @@
         "   echo \"ClamAV is already installed, delete it at ~/.local/share/clamav to reinstall.\"",
         "fi"
     ]
+  },
+  {
+    "name": "HardDrive automatic detection and mounting",
+    "description": "Using hdd uuid to set up mounting hdd automatically when it connects.",
+    "script": [
+        "if ! grep -q 'UUID=e4e31522-176a-4c56-b45d-b4ead246792b' '/etc/fstab'; then",
+        "   mkdir -p ~/External/HardDrive",
+        "   sudo sh -c 'echo \"UUID=e4e31522-176a-4c56-b45d-b4ead246792b /home/will/External/HardDrive ext4 defaults,nofail,x-systemd.device-timeout=2 0 0\" >> /etc/fstab'",
+        "else",
+        "   echo \"Automatic mounting for hdd is already set up, remove it from /etc/fstab to redo.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "USB automatic detection and mounting",
+    "description": "Using usb uuid to set up mounting usb automatically when it connects.",
+    "script": [
+        "if ! grep -q 'UUID=4E21-0000' '/etc/fstab'; then",
+        "   mkdir -p ~/External/HardDrive",
+        "   sudo sh -c 'echo \"UUID=4E21-0000 /home/will/External/usb exfat defaults,nofail,x-systemd.device-timeout=2 0 0\" >> /etc/fstab'",
+        "else",
+        "   echo \"Automatic mounting for usb is already set up, remove it from /etc/fstab to redo.\"",
+        "fi"
+    ]
   }
 ]
