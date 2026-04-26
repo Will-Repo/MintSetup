@@ -108,6 +108,30 @@
         "    echo \"A pwnieisland folder for this version is already present on the system, if you wish to redownload, delete this first: ~/Games/pwnieisland\"",
         "fi"
     ]
+  },
+  {
+    "name": "Unnamed sdvx clone",
+    "description": "Rhythm game",
+    "script": [
+        "if [ ! -d /opt/sdvx/ ]; then",
+        "   git clone https://github.com/Drewol/unnamed-sdvx-clone.git",
+        "   git -C SDL2 checkout master",
+        "   git -C unnamed-sdvx-clone/ submodule update --init --recursive",
+        "   git clone https://github.com/libsdl-org/SDL.git SDL2",
+        "   git -C SDL2/ checkout SDL2",
+        "   cmake -B SDL2/build -DCMAKE_BUILD_TYPE=Release SDL2",
+        "   cmake --build SDL2/build",
+        "   sudo cmake --install SDL2/build",
+        "   sudo apt install -y libogg-dev libvorbis-dev libarchive-dev",
+        "   cmake -S unnamed-sdvx-clone -B unnamed-sdvx-clone/build -DCMAKE_BUILD_TYPE=Release",
+        "   make -C unnamed-sdvx-clone/build",
+        "   sudo mkdir -p /opt/sdvx",
+        "   sudo cp -r unnamed-sdvx-clone/bin/* /opt/sdvx",
+        "   rm -rf SDL2 unnamed-sdvx-clone",
+        "else",
+        "    echo \"A sdvx folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/sdvx\"",
+        "fi"
+    ]
   }
 ]
 

@@ -20,6 +20,7 @@ alias blender='/opt/blender/blender-5.1.0-linux-x64/blender-launcher'
 alias renderdoc='/opt/renderdoc/bin/qrenderdoc'
 alias nvim='/opt/nvim/nvim-linux-x86_64/bin/nvim'
 alias n='nvim'
+alias sdvx='/opt/sdvx/usc-game'
 
 browser() {
   nohup librewolf --new-window "$@" >/dev/null 2>&1 &
