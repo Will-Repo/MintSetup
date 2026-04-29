@@ -24,5 +24,6 @@ alias sdvx='/opt/sdvx/usc-game'
 
 browser() {
   nohup librewolf --new-window "$@" >/dev/null 2>&1 &
+  exit
 }
 alias b='browser'
