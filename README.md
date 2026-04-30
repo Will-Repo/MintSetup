@@ -8,6 +8,7 @@ Installing something that is already on the system will result in the install no
 ## Dependencies
 [gum][https://github.com/charmbracelet/gum] must be installed.
 [jq][https://github.com/jqlang/jq] must be installed.
+Bash shell program must be at /bin/bash - or modify first line of the script to point to your bash program.
 
 ## Recommended Install Locations
 Install general applications to ~/.local/share/

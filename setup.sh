@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 checkDependencies() {
     exit="false"
@@ -16,6 +16,8 @@ checkDependencies() {
     if "$exit" = "true"; then
         exit
     fi
+
+    echo "All dependencies met"
 }
 
 
