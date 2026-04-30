@@ -2,6 +2,7 @@
 
 ## Overview
 This is a command line interface that will install the defaults for my system, and other optional applications and systems. 
+This uses [gum][https://github.com/charmbracelet/gum] to display the interface.
 Installing something that is already on the system will result in the install not happening.
 
 ## Interface
