@@ -5,12 +5,8 @@ This is a command line interface that will install the defaults for my system, a
 This uses [gum][https://github.com/charmbracelet/gum] to display the interface.
 Installing something that is already on the system will result in the install not happening.
 
-## Dependencies
-[gum][https://github.com/charmbracelet/gum] must be installed.
-[jq][https://github.com/jqlang/jq] must be installed.
-
-## Recommended Install Locations
-Install general applications to ~/.local/share/
+## Interface
+I use whiptail to display a GUI for this program.
 
 ## To-do
 Make all apps open in a seperate window - particularly browser websites.
