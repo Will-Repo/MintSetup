@@ -69,7 +69,6 @@
             "else",
             "   echo \"The xkeysnail config directory already exists, delete the ~/.config/xkeysnail folder to reinstall\"",
             "fi"
-
     ]
   },
   {

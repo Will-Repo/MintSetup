@@ -121,11 +121,14 @@
     "name": "Heroic Launcher",
     "description": "Games launcher - can run Rocket League through proton layer. Recommended: download to usb folder Laptop/Games/RocketLeague, and select for this script to be run.",
     "script": [
-            "if ! dpkg -s flatpak &>/dev/null; then",
-            "   sudo apt install -y flatpak",
-            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
-            "fi",
-            "flatpak install -y --user flathub com.heroicgameslauncher.hgl"
+            "if [[ ! -d /opt/hgl ]]; then",
+            "   wget https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.21.0/Heroic-2.21.0-linux-x86_64.AppImage",
+            "   chmod +x Heroic-2.21.0-linux-x86_64.AppImage",
+            "   sudo mkdir -p /opt/hgl",
+            "   sudo mv Heroic-2.21.0-linux-x86_64.AppImage /opt/hgl",
+            "else",
+            "   echo \"Heroic launcher is already installed, delete it at /opt/hgl to reinstall.\"",
+            "fi"
         ]
   },
   {

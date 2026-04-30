@@ -143,5 +143,10 @@
     "name": "Ninja",
     "description": "cpp compiler",
     "script": "sudo apt install -y ninja-build"
+  },
+  {
+    "name": "qalc",
+    "description": "cli calculator",
+    "script": "sudo apt install -y qalc"
   }
 ]
