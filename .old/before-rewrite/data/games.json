@@ -1,0 +1,137 @@
+[
+  {
+    "name": "StepMania",
+    "description": "StepMania description",
+    "script": [
+        "if [ ! -d ~/Games/StepMania-5.1.0-Linux/ ]; then",
+        "    wget https://github.com/stepmania/stepmania/releases/download/v5.1.0a3/StepMania-5.1.0-Linux.tar.gz",
+        "    tar -xzvf StepMania-5.1.0-Linux.tar.gz",
+        "    rm -rf StepMania-5.1.0-Linux.tar.gz",
+        "    sudo apt-get install -y libjpeg62-dev libpcre3 libpcre3-dev",
+        "    sudo ln -s /usr/lib/x86_64-linux-gnu/libva.so.2 /usr/lib/x86_64-linux-gnu/libva.so.1",
+	    "    mkdir -p ~/Games",
+        "    mv StepMania-5.1.0-Linux/ ~/Games",
+        "    mkdir ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/2013",
+        "    sudo ln -s ~/usb/Games/stepmania/2013 ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/",
+        "    mkdir ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/2014",
+        "    sudo ln -s ~/usb/Games/stepmania/2014 ~/Games/StepMania-5.1.0-Linux/stepmania-5.1/Songs/",
+        "else",
+        "    echo \"A StepMania folder for this version is already present on the system, if you wish to redownload, delete this first: ~/Games/StepMania-5.1.0-Linux/\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Osu",
+    "description": "Osu description",
+    "script": [
+        "if [ ! -f ~/Games/osu.AppImage ]; then",
+        "   wget https://github.com/ppy/osu/releases/latest/download/osu.AppImage",
+        "   chmod +x osu.AppImage",
+	    "   mkdir -p ~/Games",
+        "   mv /osu.AppImage ~/Games/",
+        "else",
+        "    echo \"An Osu app image already exists, delete this first: ~/Games/osu.AppImage\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Tetr.io",
+    "description": "Tetris game",
+    "script": [
+        "if [ ! -d /opt/TETR.IO/ ]; then",
+        "    wget \"https://tetr.io/about/desktop/builds/10/TETR.IO%20Setup.deb\"",
+        "    chmod +x \"TETR.IO Setup.deb\"",
+        "    sudo dpkg -i \"TETR.IO Setup.deb\"",
+        "    rm \"TETR.IO Setup.deb\"",
+        "else",
+        "    echo \"A tetrio folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/TETR.IO\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Sound Space Plus / Rhythia",
+    "description": "Block Rhythm Game",
+    "script": [
+        "if [ ! -d /opt/SoundSpacePlus/ ]; then",
+        "    sudo mkdir -p /opt/SoundSpacePlus",
+        "    wget \"https://github.com/David20122/sound-space-plus/releases/download/oct31-2024/linux.zip\"",
+        "    sudo mv linux.zip /opt/SoundSpacePlus",
+        "    if ! dpkg -s unzip &>/dev/null; then",
+        "        sudo apt install unzip -y",
+        "        sudo unzip /opt/SoundSpacePlus/linux.zip -d /opt/SoundSpacePlus",
+        "        sudo apt remove unzip -y",
+        "    else",
+        "        sudo unzip /opt/SoundSpacePlus/linux.zip -d /opt/SoundSpacePlus",
+        "    fi",
+        "    sudo chmod +x /opt/SoundSpacePlus/\"SoundSpacePlus.x86_64\"",
+        "    sudo rm /opt/SoundSpacePlus/linux.zip",
+        "else",
+        "    echo \"A Sound Space Plus folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/SoundSpacePlus\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Pwnie Island",
+    "description": "Open world MMORPG for testing game hacking.",
+    "script": [
+        "if [ ! -d ~/Games/pwnieisland ]; then",
+        "    wget \"https://www.pwnadventure.com/PwnAdventure3_Linux.zip\"",
+        "    unzip PwnAdventure3_Linux.zip -d .",
+        "    rm PwnAdventure3_Linux.zip",
+        "    mkdir -p ~/Games/pwnieisland",
+        "    mv PwnAdventure3 ~/Games/pwnieisland",
+        "    wget https://www.pwnadventure.com/PwnAdventure3Server.tar.gz",
+        "    tar -xzf PwnAdventure3Server.tar.gz",
+        "    rm PwnAdventure3Server.tar.gz",
+        "    mv PwnAdventure3Servers ~/Games/pwnieisland",
+        "    mv ~/Games/pwnieisland/PwnAdventure3Servers/GameServer/PwnAdventure3Server ~/Games/pwnieisland/PwnAdventure3/PwnAdventure3/Binaries/Linux/",
+        "    sudo apt --fix-broken install -y",
+        "    sudo apt install -y postgresql",
+        "    ",
+        "    cp ./data/configs/pwn3adventure/initdb.sql ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/initdb.sql",
+        "    cp ./data/configs/pwn3adventure/server.ini ~/Games/pwnieisland/PwnAdventure3/PwnAdventure3/Content/Server/server.ini",
+        "    ",
+        "    cd ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/",
+        "    sudo -u postgres bash -c \"psql template1 -c 'CREATE DATABASE master; GRANT ALL PRIVILEGES ON DATABASE master TO postgres;' && psql -f initdb.sql -d master -U postgres\"",
+        "    cd ~/MintSetup",
+        "    ",
+        "    wget https://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.13_amd64.deb",
+        "    dpkg-deb -xv libssl1.0.0_1.0.2n-1ubuntu5.13_amd64.deb test",
+        "    cp test/usr/lib/x86_64-linux-gnu/lib* ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/",
+        "    mv test/usr/lib/x86_64-linux-gnu/lib* ~/Games/pwnieisland/PwnAdventure3/PwnAdventure3/Binaries/Linux/",
+        "    rm -rf test",
+        "    rm libssl1.0.0_1.0.2n-1ubuntu5.13_amd64.deb",
+        "    openssl req -new -key ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.key -out ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.csr -subj \"/C=US/ST=DC/L=Washington/O=Ghost in the Shellcode/CN=master\"",
+        "    openssl x509 -req -days 3650 -in ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.csr -signkey ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.key -out ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.crt",
+        "    cp ~/Games/pwnieisland/PwnAdventure3Servers/MasterServer/server.crt ~/Games/pwnieisland/PwnAdventure3/PwnAdventure3/Content/Server/",
+       "else",
+        "    echo \"A pwnieisland folder for this version is already present on the system, if you wish to redownload, delete this first: ~/Games/pwnieisland\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Unnamed sdvx clone",
+    "description": "Rhythm game",
+    "script": [
+        "if [ ! -d /opt/sdvx/ ]; then",
+        "   git clone https://github.com/Drewol/unnamed-sdvx-clone.git",
+        "   git -C SDL2 checkout master",
+        "   git -C unnamed-sdvx-clone/ submodule update --init --recursive",
+        "   git clone https://github.com/libsdl-org/SDL.git SDL2",
+        "   git -C SDL2/ checkout SDL2",
+        "   cmake -B SDL2/build -DCMAKE_BUILD_TYPE=Release SDL2",
+        "   cmake --build SDL2/build",
+        "   sudo cmake --install SDL2/build",
+        "   sudo apt install -y libogg-dev libvorbis-dev libarchive-dev",
+        "   cmake -S unnamed-sdvx-clone -B unnamed-sdvx-clone/build -DCMAKE_BUILD_TYPE=Release",
+        "   make -C unnamed-sdvx-clone/build",
+        "   sudo mkdir -p /opt/sdvx",
+        "   sudo cp -r unnamed-sdvx-clone/bin/* /opt/sdvx",
+        "   rm -rf SDL2 unnamed-sdvx-clone",
+        "else",
+        "    echo \"A sdvx folder for this version is already present on the system, if you wish to redownload, delete this first: /opt/sdvx\"",
+        "fi"
+    ]
+  }
+]
+

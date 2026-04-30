@@ -1,0 +1,14 @@
+#%PAM-1.0
+
+# Set up user limits from /etc/security/limits.conf.
+session    required   pam_limits.so
+
+session    required   pam_env.so readenv=1 user_readenv=0
+session    required   pam_env.so readenv=1 envfile=/etc/default/locale user_readenv=0
+
+# My changes - allow password to be used at same time as fingerprint.
+auth sufficient pam_fprintd.so max_tries=3 timeout=10
+
+@include common-auth
+@include common-account
+@include common-session-noninteractive

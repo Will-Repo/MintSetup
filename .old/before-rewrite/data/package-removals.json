@@ -1,0 +1,12 @@
+[  
+  {
+    "name": "Firefox",
+    "description": "Remove pre-installed web browser",
+    "script": "sudo apt remove -y firefox"
+  },
+  {
+    "name": "Unecessary packages",
+    "description": "Remove all unecessary package dependencies",
+    "script": "sudo apt autoremove -y"
+  }
+]

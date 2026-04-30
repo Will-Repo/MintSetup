@@ -1,0 +1,322 @@
+[  
+  {
+    "name": "vokoscreen",
+    "description": "Video recording software",
+    "script": "sudo apt install -y vokoscreen-ng"
+  },      
+  {
+    "name": "neovim",
+    "description": "Basic neovim install - text editor, keyboard based",
+    "script": [	
+	"if [[ ! -d /opt/nvim ]]; then",
+	"    wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz",
+        "    tar -xzvf nvim-linux-x86_64.tar.gz",
+        "    rm -rf nvim-linux-x86_64.tar.gz",
+	"    sudo mkdir -p /opt/nvim",
+        "    sudo mv nvim-linux-x86_64/ /opt/nvim/",
+        "else",
+        "   echo \"neovim is already installed. uninstall at /opt/nvim to reinstall\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "librewolf",
+    "description": "Privacy focused web browser",
+    "script": [
+            "if ! dpkg -s extrepo &>/dev/null; then",
+            "   sudo apt install -y extrepo",
+            "   sudo extrepo enable librewolf",
+            "   sudo apt update && sudo apt install librewolf -y",
+            "   sudo apt remove -y extrepo",
+            "else",
+            "   sudo extrepo enable librewolf",
+            "   sudo apt update && sudo apt install librewolf -y",
+            "fi"
+        ]
+  },
+  {
+    "name": "Discord",
+    "description": "",
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "fi",
+            "flatpak install -y --user flathub com.discordapp.Discord"
+        ]
+  },
+  {
+    "name": "Zap",
+    "description": "[AFNOM] Tool for finding vulnerabilities in web applications and monitoring web traffic.",
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "fi",
+            "flatpak install -y --user flathub org.zaproxy.ZAP" 
+        ]
+  },
+  {
+    "name": "Stegsolve",
+    "description": "[AFNOM] Used for manipulating images to find hidden data",
+    "script": [
+            "wget http://www.caesum.com/handbook/Stegsolve.jar -O stegsolve.jar",
+            "chmod +x stegsolve.jar",
+            "sudo mv ./stegsolve.jar /usr/local/bin/" 
+        ]
+  },
+  {
+    "name": "Ghidra",
+    "description": "[AFNOM] Used for analysing binary files - e.g decompiling into source code",
+    "script": [
+            "if [[ ! -d /opt/ghidra ]]; then",
+            "   wget https://github.com/NationalSecurityAgency/ghidra/releases/download/Ghidra_11.4.2_build/ghidra_11.4.2_PUBLIC_20250826.zip",
+            "   if ! dpkg -s unzip &>/dev/null; then",
+            "       sudo apt install -y unzip",
+            "       unzip ghidra_11.4.2_PUBLIC_20250826.zip",
+            "       sudo apt remove -y unzip",
+            "   else",
+            "       unzip ghidra_11.4.2_PUBLIC_20250826.zip",
+            "   fi",
+	    "   mkdir -p /opt/ghidra",
+            "   sudo mv ghidra_11.4.2_PUBLIC /opt/ghidra",
+            "   rm ghidra_11.4.2_PUBLIC_20250826.zip",
+            "else",
+            "   echo \"Ghidra is already installed, delete it at /opt/ghidra to reinstall.\"",
+            "fi"
+        ]
+  },
+  {
+    "name": "Waydroid",
+    "description": "Android emulator",
+    "script": [
+            "if ! dpkg -s waydroid >/dev/null 2>&1; then",
+            "   curl -s https://repo.waydro.id | sudo bash",
+            "   sudo apt install -y waydroid",
+            "else",
+            "   echo \"Waydroid is already installed, delete waydroid using apt first\"",
+            "fi"
+        ]
+  },
+  {
+    "name": "Prism Launcher",
+    "description": "Launcher for Minecraft.",
+    "script": [
+            "if [[ ! -d /opt/prismlauncher ]]; then",
+            "   wget https://github.com/PrismLauncher/PrismLauncher/releases/download/10.0.2/PrismLauncher-Linux-x86_64.AppImage",
+            "   chmod +x PrismLauncher-Linux-x86_64.AppImage",
+            "   sudo mkdir -p /opt/prismlauncher",
+            "   sudo mv PrismLauncher-Linux-x86_64.AppImage /opt/prismlauncher",
+            "else",
+            "   echo \"Prism launcher is already installed, delete it at /opt/prismlauncher to reinstall.\"",
+            "fi"
+        ]
+  },
+  {
+    "name": "Steam",
+    "description": "Game store - some games run on linux. Install also sets game install location to ~/usb/Games/steamapps",
+    "script": "sudo apt install steam -y"
+  },
+  {
+    "name": "Heroic Launcher",
+    "description": "Games launcher - can run Rocket League through proton layer. Recommended: download to usb folder Laptop/Games/RocketLeague, and select for this script to be run.",
+    "script": [
+            "if [[ ! -d /opt/hgl ]]; then",
+            "   wget https://github.com/Heroic-Games-Launcher/HeroicGamesLauncher/releases/download/v2.21.0/Heroic-2.21.0-linux-x86_64.AppImage",
+            "   chmod +x Heroic-2.21.0-linux-x86_64.AppImage",
+            "   sudo mkdir -p /opt/hgl",
+            "   sudo mv Heroic-2.21.0-linux-x86_64.AppImage /opt/hgl",
+            "else",
+            "   echo \"Heroic launcher is already installed, delete it at /opt/hgl to reinstall.\"",
+            "fi"
+        ]
+  },
+  {
+    "name": "genymotion",
+    "description": "[AFNOM] android emulator",
+    "script": [
+            "if [[ ! -d ~/.local/share/genymotion ]]; then",
+            "   wget https://dl.genymotion.com/releases/genymotion-3.9.0/genymotion-3.9.0-linux_x64.run",
+            "   chmod +x genymotion-3.9.0-linux_x64.run",
+            "   ./genymotion-3.9.0-linux_x64.run -d ~/.local/share/ -y",
+            "   rm genymotion-3.9.0-linux_x64.run",
+            "else",
+            "   echo \"genymotion is already installed, delete it at ~/.local/share/genymotion to reinstall.\"",
+            "fi"
+        ]
+  },
+  {
+    "name": "Lutris",
+    "description": "linux game manager",
+    "script": [
+        "if [[ ! -d ~/.local/share/lutris ]]; then",
+        "   wget https://github.com/lutris/lutris/releases/download/v0.5.18/lutris_0.5.18_all.deb",
+        "   sudo dpkg -i lutris_0.5.18_all.deb",
+        "   rm lutris_0.5.18_all.deb",
+        "else",
+        "   echo \"lutris is already installed, delete it at ~/.local/share/lutris to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "TickTick",
+    "description": "To do list and calender application - cross platform: android, ipados, linux",
+    "script": [
+        "if [[ ! -d /opt/ticktick ]]; then",
+        "   wget https://download.ticktick.app/download/linux/linux_appimage_x64/ticktick-6.0.40-x86_64.AppImage",
+        "   chmod +x ticktick-6.0.40-x86_64.AppImage",
+        "   sudo mkdir -p /opt/ticktick",
+        "   sudo mv ticktick-6.0.40-x86_64.AppImage /opt/ticktick",
+        "else",
+        "   echo \"ticktick is already installed, delete it at /opt/ticktick to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "LocalSend",
+    "description": "Cross platform data transfer tool between devices - android, ipados, linux",
+    "script": [
+            "if ! dpkg -s flatpak &>/dev/null; then",
+            "   sudo apt install -y flatpak",
+            "   flatpak remote-add --user --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo",
+            "fi",
+            "flatpak install -y --user flathub org.localsend.localsend_app" 
+        ]
+  },
+  {
+    "name": "AutoHotkey for linux",
+    "description": "AHK scripting language and app for linux",
+    "script": [
+        "if [[ ! -d /opt/ahk ]]; then",
+        "   wget https://github.com/phil294/AHK_X11/releases/download/1.0.7/ahk_x11.AppImage",
+        "   chmod +x ahk_x11.AppImage",
+        "   sudo mkdir -p /opt/ahk",
+        "   sudo mv ahk_x11.AppImage /opt/ahk",
+        "else",
+        "   echo \"AutoHoteky for linux is already installed, delete it at /opt/ahk to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "NinjaBrainBot",
+    "description": "Minecraft speedrunning tool for finding the portal.",
+    "script": [
+        "if [[ ! -d /opt/nbb ]]; then",
+        "   wget https://github.com/Ninjabrain1/Ninjabrain-Bot/releases/download/1.5.1/Ninjabrain-Bot-1.5.1.jar",
+        "   sudo mkdir -p /opt/nbb/",
+        "   sudo mv Ninjabrain-Bot-1.5.1.jar /opt/nbb/Ninjabrain-Bot-1.5.1.jar",
+        "else",
+        "   echo \"NinjaBrainBot is already installed, delete it at /opt/nbb to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "VirtualBox",
+    "description": "Virtual machine manager.",
+    "script": [
+        "if [[ ! -d /opt/VirtualBox ]]; then",
+        "   wget https://download.virtualbox.org/virtualbox/7.2.6/VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "   chmod +x VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "   sudo ./VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "   rm VirtualBox-7.2.6-172322-Linux_amd64.run",
+        "else",
+        "   echo \"VirtualBox is already installed, delete it at /opt/VirtualBox to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Linux MultiMedia Studio",
+    "description": "FOSS music software (creation).",
+    "script": [
+        "if [[  ! -d ~/.local/share/lmms ]]; then",
+        "   wget https://github.com/LMMS/lmms/releases/download/v1.2.2/lmms-1.2.2-linux-x86_64.AppImage",
+        "   chmod +x lmms-1.2.2-linux-x86_64.AppImage",
+        "   mkdir -p ~/.local/share/lmms",
+        "   mv lmms-1.2.2-linux-x86_64.AppImage ~/.local/share/lmms/lmms-1.2.2-linux-x86_64.AppImage",
+        "else",
+        "   echo \"lmms is already installed, delete it at ~/.local/share/lmms to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Spotify",
+    "description": "Spotify client for linux.",
+    "script": [
+        "if ! dpkg -s extrepo &>/dev/null; then",
+        "   curl -sS https://download.spotify.com/debian/pubkey_5384CE82BA52C83A.asc | sudo gpg --dearmor --yes -o /etc/apt/trusted.gpg.d/spotify.gpg",
+        "   echo \"deb https://repository.spotify.com stable non-free\" | sudo tee /etc/apt/sources.list.d/spotify.list",
+        "   sudo apt-get update && sudo apt-get install spotify-client",
+        "else",
+        "   echo \"Spotify is already installed, delete it using apt to reinstall.",
+        "fi"
+    ]
+  },
+  {
+    "name": "Super Productivity",
+    "description": "Task management app",
+    "script": [
+        "if [[  ! -d ~/.local/share/superproductivity ]]; then",
+        "   wget https://github.com/super-productivity/super-productivity/releases/download/v17.2.4/superProductivity-x86_64.AppImage",
+        "   chmod +x superProductivity-x86_64.AppImage",
+        "   mkdir -p ~/.local/share/superproductivity",
+        "   mv superProductivity-x86_64.AppImage ~/.local/share/superproductivity/superProductivity-x86_64.AppImage",
+        "else",
+        "   echo \"Super Productivity is already installed, delete it at ~/.local/share/superproductivity to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "RetroArch",
+    "description": "Console emulation manager",
+    "script": [
+        "sudo add-apt-repository ppa:libretro/stable -y && sudo apt-get update && sudo apt-get install -y retroarc",
+        "mkdir -p ~/Games/RetroArch/cores",
+        "mkdir -p ~/Games/RetroArch/games"
+    ]
+  },
+  {
+    "name": "Xenia",
+    "description": "Xbox 360 emulator",
+    "script": [
+        "if [[ ! -d /opt/xenia ]]; then",
+        "   wget https://github.com/xenia-canary/xenia-canary/releases/download/d2c8ca6/xenia_canary_linux.AppImage",
+        "   chmod +x xenia_canary_linux.AppImage",
+        "   sudo mkdir -p /opt/xenia",
+        "   sudo mv xenia_canary_linux.AppImage /opt/xenia",
+        "   mkdir -p ~/Games/Xbox360",
+        "else",
+        "   echo \"xenia is already installed, delete it at /opt/xenia to reinstall.\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "Blender",
+    "description": "3d modelling software",
+    "script": [
+        "if [[ ! -d /opt/blender ]]; then",
+        "    wget https://download.blender.org/release/Blender5.1/blender-5.1.0-linux-x64.tar.xz",
+        "    tar -xJvf blender-5.1.0-linux-x64.tar.xz",
+        "    rm -rf blender-5.1.0-linux-x64.tar.xz",
+	"    sudo mkdir -p /opt/blender",
+        "    sudo mv blender-5.1.0-linux-x64/ /opt/blender",
+        "else",
+        "    echo \"A blender folder is already present on the system, if you wish to redownload, delete this first: /opt/blender\"",
+        "fi"
+    ]
+  },
+  {
+    "name": "RenderDoc",
+    "description": "OpenGL profiling tool - allows me to step through an OpenGL program's state.",
+    "script": [
+        "if [[ ! -d /opt/renderdoc ]]; then",
+        "    wget https://renderdoc.org/stable/1.43/renderdoc_1.43.tar.gz",
+        "    tar -xzvf renderdoc_1.43.tar.gz",
+        "    rm -rf renderdoc_1.43.tar.gz",
+	"    sudo mkdir -p /opt/renderdoc",
+        "    sudo mv renderdoc_1.43/ /opt/renderdoc",
+        "else",
+        "    echo \"A renderdoc folder is already present on the system, if you wish to redownload, delete this first: /opt/renderdoc\"",
+        "fi"
+    ]
+  }
+]
