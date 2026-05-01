@@ -67,16 +67,21 @@ createArrays() {
 showCategories() {
     #TODO: Use jq to get categories and description.
     while true; do
-        # Show menu list of categories, and their contents and description in preview.
+        # Show menu list of categories, and their contents (including currently checkboxed) and description in preview.
         choice=$(printf "%s\n" "${categories[@]}" | tac | fzf --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dir/data/categories.json\"")
-
+        #TODO: Add checkboxes selected and list of tasks to preview.
         case $choice in 
             "Install Selected")
                 printf "%s\n" "Installing Selected"
                 ;;
-            "Exit")
+            "" | "Exit")
                 printf "%s\n" "Exiting"
                 exit
+                ;;
+            *)
+                option="${choice// /_}"
+                declare -n arr="names${option}"
+                $(printf "%s\n" "${arr[@]}" | tac | fzf --multi --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dir/data/categories/$option.json\"")
                 ;;
         esac
     done
