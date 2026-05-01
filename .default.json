@@ -1,11 +1,11 @@
 [
     {
-        "category": "Games",
-        "description": "Game and game launcher installations."
-    },
-    {
         "category": "Install Selected",
         "description": "This will run the script associated with each selected item."
+    },
+    {
+        "category": "Change Data Directory",
+        "description": "Changes the directory the program looks for categories and data in."
     },
     {
         "category": "Exit",
