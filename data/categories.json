@@ -1,11 +1,11 @@
 [
     {
         "category": "Games",
-        "description": "These are games"
+        "description": "Game and game launcher installations."
     },
     {
         "category": "Install Selected",
-        "description": ""
+        "description": "This will run the script associated with each selected item."
     },
     {
         "category": "Exit",

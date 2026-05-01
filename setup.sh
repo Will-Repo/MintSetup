@@ -25,21 +25,57 @@ checkDependencies() {
     echo "All dependencies met"
 }
 
-showCategories() {
-    dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-    mapfile -t categories < <(jq -r '.[].category' $dir/data/categories.json)
+createArrays() {
+    # Get path to bash script directory, to allow script to be run from anywhere.
+    dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 
+    # Declare array of category names.
+    declare -g -a categories
+    # Fill array with all category names
+    mapfile -t categories < <(jq -r '.[].category' $dir/data/categories.json)
+    # Check for errors when reading categories.
+    if [[ $? -ne 0 ]]; then
+        echo "Error: jq failed to parse $dir/data/categories.json"
+        exit
+    fi
+
+    # Declare arrays containing checkbox state and names for each element of each category.
+    for i in "${!categories[@]}"; do
+        # Replace all spaces in category names with underscores.
+        category="${categories[$i]// /_}"
+
+        # Declare array with category name, for containing task names.
+        declare -g -n var="names${category}"
+        # Populate array
+        mapfile -t var < <(jq -r '.[].name' $dir/data/categories/"${categories[$i]}".json)
+
+        # Declare array with category state, for containing task names.
+        declare -g -n var2="state${category}"
+        # Populate array
+        for ((i=0; i<"${#var[@]}"; ++i));do 
+            var2[$i]=false
+        done
+    done
+        
+    # declare -p categories
+    # declare -p namesGames
+    # declare -p stateGames
+
+    # echo "${categories[@]}"
+}
+
+showCategories() {
     #TODO: Use jq to get categories and description.
     while true; do
         # Show menu list of categories, and their contents and description in preview.
-        choice=$(printf '%s\n' "${categories[@]}" | tac | fzf --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dir/data/categories.json\"")
+        choice=$(printf "%s\n" "${categories[@]}" | tac | fzf --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dir/data/categories.json\"")
 
         case $choice in 
             "Install Selected")
-                printf "Installing Selected"
+                printf "%s\n" "Installing Selected"
                 ;;
             "Exit")
-                printf "Exiting"
+                printf "%s\n" "Exiting"
                 exit
                 ;;
         esac
@@ -50,4 +86,5 @@ showCategories() {
 
 # Start of function calls and program flow.
 checkDependencies
+createArrays # Create arrays associated with each category, for storing current state of each checkbox.
 showCategories
