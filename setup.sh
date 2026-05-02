@@ -149,7 +149,7 @@ showCategories() {
                     
                     # Display to user and get state back. TODO: Check {q} is best practice. FIX THIS.
                     #json='.[] | {json: .name, input: ($name | sub("^(\\[\\]|\\[\\*\\]) "; "")), match: (.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; "")))}'
-                    json='.[] | select(.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; ""))) | "\(.description):\n\(.script)"'
+                    json='.[] | select(.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; ""))) | "Description:\n\(.description)\n\nScript:\n\(.script | join("\n"))"'
                     selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '$json' \"$dataPath/categories/$choice.json\"")
                     if [[ $? -eq 130 ]]; then 
                         break
