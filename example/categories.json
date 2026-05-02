@@ -3,10 +3,7 @@
         "category": "Example1 - Base System Setup",
         "description": "Example1 - Basic system utilities and misc required before using most OS functions - e.g. system updates."
     }, {
-        "category": "Example2 - Security",
-        "description": "Example2 - Security setup."
-    }, {
-        "category": "Example3 - Games",
-        "description": "Example3 - Game and game launcher installations."
+        "category": "Example2 - Games",
+        "description": "Example2 - Game and game launcher installations."
     }
 ]

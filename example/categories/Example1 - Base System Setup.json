@@ -1,12 +1,19 @@
 [
   {
-    "name": "StepMania",
-    "description": "StepMania description",
-    "script": "Script "
+    "name": "System Updates",
+    "description": "Updating system packages.",
+    "script": [
+        "sudo apt -s update",
+        "sudp apt -s upgrade"
+    ]
   },
   {
-    "name": "Osu",
-    "description": "Osu description",
-    "script": "Script "
+    "name": "Unnecessary Software Removal",
+    "description": "Removing unecessary software preinstalled on Linux Mint.",
+    "script": [
+        "sudo apt remove -y -s firefox",
+        "sudo apt remove -y -s thunderbird",
+        "sudo apt -y -s autoremove"
+    ]
   }
 ]

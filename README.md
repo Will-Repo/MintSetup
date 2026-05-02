@@ -23,4 +23,7 @@ Install general applications to ~/.local/share/
 Finalise the menu format.
 Add exit prompt that asks whether they want to install selected.
 Decide whether to replace tac with array reversal.
-Show current data directory on menu.
+Show full list of selected options under install selected - get rid of checkboxes, just names.
+Show description and script to be excecuted.
+Remove large files from being tracked - e.g. GHIDRA, oops lol.
+Check if data directory selected is valid.

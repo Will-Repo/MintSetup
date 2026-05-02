@@ -101,18 +101,23 @@ createArrays() {
     done
 }
 
+installSelected() {
+    :
+}
+
 showCategories() {
     #TODO: Use jq to get categories and description.
     while true; do
-        # Show menu list of categories, and their contents (including currently checkboxed) and description in preview.
+        # Show menu list of categories, and their contents (including currently checkboxed) and description in preview. TODO: Show full list of selected options under install selected - get rid of checkboxes, just names.
         choice=$(printf "%s\n" "${categories[@]}" "${defaults[@]}" | tac | fzf --header="Current data directory: $dataPath" --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dataPath/categories.json\" \"$dir/.default.json\"; cat "$dir/.temp/{}" 2>/dev/null")
         #TODO: Add checkboxes selected and list of tasks to preview.
         case $choice in 
             "Install Selected")
                 printf "%s\n" "Installing Selected"
+                installSelected
                 ;;
             "Change Data Directory")
-                choice=$(find "$dir" -type d ! -path "$dir" | fzf)
+                choice=$(find ~ -type d ! -path "$dir" | fzf)
                 # TODO: Check if valid folder.
                 # TODO: Output to terminal if not, wait for confirmation.
                 sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" $dir/.config
@@ -142,14 +147,16 @@ showCategories() {
                         fi
                     done
                     
-                    # Display to user and get state back.
-                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dataPath/categories/$choice.json\"")
+                    # Display to user and get state back. TODO: Check {q} is best practice. FIX THIS.
+                    #json='.[] | {json: .name, input: ($name | sub("^(\\[\\]|\\[\\*\\]) "; "")), match: (.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; "")))}'
+                    json='.[] | select(.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; ""))) | "\(.description):\n\(.script)"'
+                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '$json' \"$dataPath/categories/$choice.json\"")
                     if [[ $? -eq 130 ]]; then 
                         break
                     fi
 
                     # Split selected into items. TODO: Make this able to have spaces perhaps?
-                    mapfile -t indices < <(printf "%s\n" "$selected" |sed 's/^\(\[\]\|\[\*\]\) //')
+                    mapfile -t indices < <(printf "%s\n" "$selected" | sed 's/^\(\[\]\|\[\*\]\) //')
                     for item in "${indices[@]}"; do 
                         index=$(jq -r --arg name "$item" 'map(.name) | index($name)' "$dataPath/categories/$choice.json")
                         if [[ $index == "null" ]]; then
