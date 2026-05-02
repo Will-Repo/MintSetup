@@ -81,6 +81,7 @@ createArrays() {
         
     # For each category, make temp file and add initial data.
     mkdir -p .temp
+    rm -rf $dir/.temp/*
     for i in "${!categories[@]}"; do
         option="${categories[$i]// /_}"
         option="${option//-/_}"
