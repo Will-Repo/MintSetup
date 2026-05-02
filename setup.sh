@@ -103,7 +103,7 @@ showCategories() {
     #TODO: Use jq to get categories and description.
     while true; do
         # Show menu list of categories, and their contents (including currently checkboxed) and description in preview.
-        choice=$(printf "%s\n" "${categories[@]}" "${defaults[@]}" | tac | fzf --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dataPath/categories.json\" \"$dir/.default.json\"; cat "$dir/.temp/{}" 2>/dev/null")
+        choice=$(printf "%s\n" "${categories[@]}" "${defaults[@]}" | tac | fzf --header="Current data directory: $dataPath" --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dataPath/categories.json\" \"$dir/.default.json\"; cat "$dir/.temp/{}" 2>/dev/null")
         #TODO: Add checkboxes selected and list of tasks to preview.
         case $choice in 
             "Install Selected")
