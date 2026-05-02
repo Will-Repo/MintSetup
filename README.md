@@ -23,5 +23,4 @@ Install general applications to ~/.local/share/
 Finalise the menu format.
 Add exit prompt that asks whether they want to install selected.
 Decide whether to replace tac with array reversal.
-Move current data to example folder. Check if data folder exists and use that instead if it does. Add startup popup asking if they want to clone a git repo to get this data folder.
 Show current data directory on menu.

@@ -78,18 +78,32 @@ createArrays() {
         done
     done
         
-    # declare -p categories
-    # declare -p namesGames
-    # declare -p stateGames
-
-    # echo "${categories[@]}"
+    # For each category, make temp file and add initial data.
+    mkdir -p .temp
+    for i in "${!categories[@]}"; do
+        option="${categories[$i]// /_}"
+        # Get the namesCategory array that stores all names in a certain category.
+        declare -n arr="names${option}"
+        # Get the current state of each name in the category selected.
+        declare -n state="state${option}"
+        # Declare array of what is displayed to the user, populate it with checkbox from state and name from names.
+        declare -a items
+        for j in "${!arr[@]}"; do
+            if [[ ${state[j]} == "false" ]]; then
+                items[j]="[] ${arr[j]}"
+            else
+                items[j]="[*] ${arr[j]}"
+            fi
+        done
+        printf "%s\n" "${items[@]}" > "$dir/.temp/${categories[i]}"
+    done
 }
 
 showCategories() {
     #TODO: Use jq to get categories and description.
     while true; do
         # Show menu list of categories, and their contents (including currently checkboxed) and description in preview.
-        choice=$(printf "%s\n" "${categories[@]}" "${defaults[@]}" | tac | fzf --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dataPath/categories.json\" \"$dir/.default.json\"")
+        choice=$(printf "%s\n" "${categories[@]}" "${defaults[@]}" | tac | fzf --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dataPath/categories.json\" \"$dir/.default.json\"; cat "$dir/.temp/{}" 2>/dev/null")
         #TODO: Add checkboxes selected and list of tasks to preview.
         case $choice in 
             "Install Selected")
@@ -126,7 +140,7 @@ showCategories() {
                     done
                     
                     # Display to user and get state back.
-                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dataPath/categories/$option.json\"")
+                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dataPath/categories/$option.json\"")
                     if [[ $? -eq 130 ]]; then 
                         break
                     fi
@@ -145,6 +159,16 @@ showCategories() {
                             printf "%s\n" "Invalid option returned from item selection. $item"
                         fi
                     done
+
+                    # Get updated selection, output to temp file to be previewed from main menu.
+                    for i in "${!arr[@]}"; do
+                        if [[ ${state[i]} == "false" ]]; then
+                            items[i]="[] ${arr[i]}"
+                        else
+                            items[i]="[*] ${arr[i]}"
+                        fi
+                    done
+                    printf "%s\n" "${items[@]}" > "$dir/.temp/$choice"
                 done
                 ;;
         esac
