@@ -107,39 +107,44 @@ showCategories() {
                 exit
                 ;;
             *)
-                # TODO: Make this loop until exit selected.
-                # Remove spaces from chosen category.
-                option="${choice// /_}"
-                # Get the namesCategory array that stores all names in a certain category.
-                declare -n arr="names${option}"
-                # Get the current state of each name in the category selected.
-                declare -n state="state${option}"
-                # Declare array of what is displayed to the user, populate it with checkbox from state and name from names.
-                declare -a items
-                for i in "${!arr[@]}"; do
-                    if [[ ${state[i]} == "false" ]]; then
-                        items[i]="[] ${arr[i]}"
-                    else
-                        items[i]="[*] ${arr[i]}"
+                while true; do
+                    # TODO: Make this loop until exit selected.
+                    # Remove spaces from chosen category.
+                    option="${choice// /_}"
+                    # Get the namesCategory array that stores all names in a certain category.
+                    declare -n arr="names${option}"
+                    # Get the current state of each name in the category selected.
+                    declare -n state="state${option}"
+                    # Declare array of what is displayed to the user, populate it with checkbox from state and name from names.
+                    declare -a items
+                    for i in "${!arr[@]}"; do
+                        if [[ ${state[i]} == "false" ]]; then
+                            items[i]="[] ${arr[i]}"
+                        else
+                            items[i]="[*] ${arr[i]}"
+                        fi
+                    done
+                    
+                    # Display to user and get state back.
+                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dataPath/categories/$option.json\"")
+                    if [[ $? -eq 130 ]]; then 
+                        break
                     fi
-                done
-                
-                # Display to user and get state back.
-                selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dataPath/categories/$option.json\"")
 
-                # Split selected into items. TODO: Make this able to have spaces perhaps?
-                mapfile -t indices < <(printf "%s\n" "$selected" |sed 's/^\(\[\]\|\[\*\]\) //')
-                for item in "${indices[@]}"; do 
-                    index=$(jq -r --arg name "$item" 'map(.name) | index($name)' "$dataPath/categories/$option.json")
-                    if [[ $index == "null" ]]; then
-                        echo "Option returned has null index. $item"
-                    elif [[ ${state[index]} == "false" ]]; then
-                        state[index]=true
-                    elif [[ ${state[index]} == "true" ]]; then
-                        state[index]=false
-                    else 
-                        printf "%s\n" "Invalid option returned from item selection. $item"
-                    fi
+                    # Split selected into items. TODO: Make this able to have spaces perhaps?
+                    mapfile -t indices < <(printf "%s\n" "$selected" |sed 's/^\(\[\]\|\[\*\]\) //')
+                    for item in "${indices[@]}"; do 
+                        index=$(jq -r --arg name "$item" 'map(.name) | index($name)' "$dataPath/categories/$option.json")
+                        if [[ $index == "null" ]]; then
+                            echo "Option returned has null index. $item"
+                        elif [[ ${state[index]} == "false" ]]; then
+                            state[index]=true
+                        elif [[ ${state[index]} == "true" ]]; then
+                            state[index]=false
+                        else 
+                            printf "%s\n" "Invalid option returned from item selection. $item"
+                        fi
+                    done
                 done
                 ;;
         esac
