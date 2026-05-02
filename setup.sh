@@ -63,6 +63,7 @@ createArrays() {
     for i in "${!categories[@]}"; do
         # Replace all spaces in category names with underscores.
         category="${categories[$i]// /_}"
+        category="${category//-/_}"
 
         #TODO: FIX THIS RUNNING FOR NON-CHECKBOX ONES, like exit
         # Declare array with category name, for containing task names.
@@ -82,6 +83,7 @@ createArrays() {
     mkdir -p .temp
     for i in "${!categories[@]}"; do
         option="${categories[$i]// /_}"
+        option="${option//-/_}"
         # Get the namesCategory array that stores all names in a certain category.
         declare -n arr="names${option}"
         # Get the current state of each name in the category selected.
@@ -125,6 +127,7 @@ showCategories() {
                     # TODO: Make this loop until exit selected.
                     # Remove spaces from chosen category.
                     option="${choice// /_}"
+                    option="${option//-/_}"
                     # Get the namesCategory array that stores all names in a certain category.
                     declare -n arr="names${option}"
                     # Get the current state of each name in the category selected.
@@ -140,7 +143,7 @@ showCategories() {
                     done
                     
                     # Display to user and get state back.
-                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dataPath/categories/$option.json\"")
+                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '.[] | select(.name == \$name) | \"\(.description):\n\(.script)\"' \"$dataPath/categories/$choice.json\"")
                     if [[ $? -eq 130 ]]; then 
                         break
                     fi
@@ -148,7 +151,7 @@ showCategories() {
                     # Split selected into items. TODO: Make this able to have spaces perhaps?
                     mapfile -t indices < <(printf "%s\n" "$selected" |sed 's/^\(\[\]\|\[\*\]\) //')
                     for item in "${indices[@]}"; do 
-                        index=$(jq -r --arg name "$item" 'map(.name) | index($name)' "$dataPath/categories/$option.json")
+                        index=$(jq -r --arg name "$item" 'map(.name) | index($name)' "$dataPath/categories/$choice.json")
                         if [[ $index == "null" ]]; then
                             echo "Option returned has null index. $item"
                         elif [[ ${state[index]} == "false" ]]; then
