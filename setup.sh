@@ -183,6 +183,44 @@ installSelected() {
     #TODO: Print number of errors (how many scripts failed), and ask if user wants to continue, saying more installs will overrite log, so look now, or log to timestamp.
 }
 
+toggle=1
+toggleAll() {
+    for i in "${!categories[@]}"; do
+        # Replace all spaces in category names with underscores.
+        category="${categories[$i]// /_}"
+        category="${category//[^a-zA-Z0-9_]/_}"
+
+
+        declare -n names="names${category}"
+        # Populate array
+        mapfile -t names < <(jq -r '.[].name' "$dataPath"/categories/"${categories[$i]}".json)
+
+        # Declare array with category state, for containing task names.
+        declare -n state="state${category}"
+        # Populate array - for each element in names, add a corresponding state entry - defaulting to false.
+        for j in "${!names[@]}";do 
+            if [[ $toggle -eq 1 ]]; then
+                state[j]=true
+            else 
+                state[j]=false
+            fi
+        done
+    
+        unset items
+        declare -a items
+        for j in "${!names[@]}"; do
+            if [[ ${state[j]} == "false" ]]; then
+                items[j]="[] ${names[j]}"
+            else
+                items[j]="[*] ${names[j]}"
+            fi
+        done
+        printf "%s\n" "${items[@]}" > "$dir/.temp/${categories[$i]}"
+    done
+    
+    ((toggle *= -1))
+}
+
 # TODO: Create interactive terminal in tmux. Write all commands to be executed to a file - seperated by script. Give tmux script that iterates through this file and runs it, writing to the relevent files.
 showCategories() {
     while true; do
@@ -194,12 +232,15 @@ showCategories() {
                 --header="Current data directory: $dataPath" \
                 --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dataPath/categories.json\" \"$dir/.default.json\";
                           cat "$dir/.temp/{}" 2>/dev/null;
-                          if [[ {} == \"Install Selected\" ]]; then
+                          if [[ {} == \"Install Selected\" || {} == \"Toggle All\" ]]; then
                               printf \"\n%s\n\" \"Currently Selected:\"
                               cat "$dir/.temp/*" 2>/dev/null | grep '^\[\*\]' | sed 's/^\(\[\]\|\[\*\]\) //'
                           fi" \
         )
         case $choice in 
+            "Toggle All")
+                toggleAll
+                ;;
             "Install Selected")
                 printf "%s\n" "Installing Selected"
                 installSelected
