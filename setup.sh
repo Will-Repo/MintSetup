@@ -28,6 +28,104 @@ checkDependencies() {
     echo "All dependencies met"
 }
 
+getPkgm() {
+    type="$1"
+    if [[ $type == "unknown" ]]; then
+        header="Could not determine system package manager, please select the correct option."
+    else
+        header="Please select the correct option."
+    fi
+    input=$(printf "%s\n" "apt" "dnf" "pacman" "other" | tac | fzf --header="$header")
+    if [[ $input == "other" ]]; then 
+        printf "%s\n" "Please enter your package manager command: "
+        read pkgm 
+    else
+        pkgm=$input
+    fi
+}
+
+getInit() {
+    type="$1"
+    if [[ $type == "unknown" ]]; then
+        header="Could not determine init system, please select the correct option."
+    else
+        header="Please select the correct option."
+    fi
+    input=$(printf "%s\n" "dinit" "systemd" "runit" "s6" "other" | tac | fzf --header="$header")
+    if [[ $input == "other" ]]; then 
+        printf "%s\n" "Please enter your init system: "
+        read init 
+    else
+        init=$input
+    fi
+}
+
+getDs() {
+    type="$1"
+    if [[ $type == "unknown" ]]; then
+        header="Could not determine system display server, please select the correct option."
+    else
+        header="Please select the correct option."
+    fi
+    input=$(printf "%s\n" "wayland" "x11" "other" | tac | fzf --header="$header")
+    if [[ $input == "other" ]]; then 
+        printf "%s\n" "Please enter your display server (in format required by your scripts): "
+        read ds 
+    else
+        ds=$input
+    fi
+}
+
+determineSystem() {
+    # Get package manager
+    pkgm=""
+    if command -v apt >/dev/null; then
+        pkgm="apt"
+    elif command -v dnf /dev/null; then
+        pkgm="dnf"
+    elif command -v pacman /dev/null; then
+        pkgm="pacman"
+    else 
+        pkgm="unknown"
+    fi
+
+    # Get init system. #TODO: Permission errors?
+    init=""
+    exe=$(readlink /proc/1/exe 2>/dev/null)
+    case "$exe" in
+        *dinit*) init="dinit" ;;
+        *systemd*) init="systemd" ;;
+        *runit*) init="runit" ;;
+        *s6*) init="s6" ;;
+        *) init="unknown" ;;
+    esac
+
+    # Get display server
+    ds=""
+    if [[ "$XDG_SESSION_TYPE" == "wayland" ]]; then
+        ds="wayland"
+    elif [[ "$XDG_SESSION_TYPE" == "x11" ]]; then
+        ds="x11"
+    else
+        ds="unknown"
+    fi
+
+    #echo $pkgm $init $ds
+    # If any are unknown, let user select, if they select other, let them input on terminal and use that instead (they need to ensure this is consistent with their script.
+    if [[ $pkgm == "unknown" ]]; then 
+        getPkgm "unknown"
+    fi
+
+    if [[ $init == "unknown" ]]; then 
+        getInit "unknown"
+    fi
+
+    if [[ $ds == "unknown" ]]; then 
+        getDs "unknown"
+    fi
+
+}
+
 createArrays() {
     # Get path from executable to the directory storing user config data (or example). If this file doesn't exist, create and populate it.
     if [[ ! -e "$dir/.temp/.config" ]]; then
@@ -93,6 +191,16 @@ createArrays() {
         done
         printf "%s\n" "${items[@]}" > "$dir/.temp/${categories[$i]}"
     done
+
+    # Declare submenu categories
+    declare -g -a defaultsConfig
+    # Fill array with all category names
+    mapfile -t defaultsConfig < <(jq -r '.[].category' "$dir/.defaultConfigsMenu.json")
+    # Check for errors when reading categories.
+    if [[ $? -ne 0 ]]; then
+        echo "Error: jq failed to parse $dir/.defaultConfigsMenu.json"
+        exit
+    fi
 }
 
 runScripts() {
@@ -117,9 +225,9 @@ runScripts() {
                 stringScript=$(printf "%s\n" "${script[@]}")
                 # Execute script, log all commands to file, and errors seperately.
                 if [[ "$mode" == "execute" ]]; then
-                    bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log") 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log")
+                    PKGM="$pkgm" INIT="$init" DS="$ds" bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log") 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log")
                 else
-                    printf "NEW SCRIPT\n" >> "$dir/.temp/.scripts"    is expanded by the outer shell, before it ever reaches bash -c.
+                    printf "NEW SCRIPT\n" >> "$dir/.temp/.scripts"
                     printf "%s\n" "${stringScript[@]}" >> "$dir/.temp/.scripts"    
                 fi
             fi
@@ -137,13 +245,13 @@ runAllScripts() {
 
     for line in "${lines[@]}"; do 
         if [[ "$line" == "NEW SCRIPT" ]]; then
-            bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log" >/dev/null) 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log" >/dev/null) || true # Catch errors, prevents tmux closing. 
+            PKGM="$pkgm" INIT="$init" DS="$ds" bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log" >/dev/null) 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log" >/dev/null) || true # Catch errors, prevents tmux closing. 
             block=""
         else 
             block+="$line"$'\n'
         fi
     done
-    bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log") 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log") || true
+    PKGM="$pkgm" INIT="$init" DS="$ds" bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log") 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log") || true
 }
 
 installSelected() {
@@ -229,7 +337,6 @@ showCategories() {
             printf "%s\n" "${categories[@]}" "${defaults[@]}" \
             | tac \
             | fzf \
-                --header="Current data directory: $dataPath" \
                 --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dataPath/categories.json\" \"$dir/.default.json\";
                           cat "$dir/.temp/{}" 2>/dev/null;
                           if [[ {} == \"Install Selected\" || {} == \"Toggle All\" ]]; then
@@ -245,16 +352,41 @@ showCategories() {
                 printf "%s\n" "Installing Selected"
                 installSelected
                 ;;
-            "Change Data Directory")
-                choice=$(find ~ -type d ! -path "$dir" | fzf)
-                # If chosen directory contains categories.json file, accept it.
-                if [[ -f "$choice/categories.json" ]]; then
-                    sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" "$dir/.temp/.config"
-                    createArrays
-                else
-                    printf "%s\n" "Invalid directory $choice - does not contain categories.json file. Press Enter to return to menu."
-                    read
-                fi
+            "Change Configs")
+                while true; do
+                    input=$(
+                        printf "%s\n" "${defaultsConfig[@]}" \
+                        | tac \
+                        | fzf \
+                            --preview "jq -r --arg category {} '.[] | select(.category == \$category) | .description' \"$dir/.defaultConfigsMenu.json\";
+                                      printf '\nCurrent data directory: %s\nPackage manager: %s\nInit system: %s\nDisplay service: %s\n' \"$dataPath\" \"$pkgm\" \"$init\" \"$ds\""
+                    )
+                    case $input in
+                        "Change Data Directory")
+                            choice=$(find ~ -type d ! -path "$dir" | fzf)
+                            # If chosen directory contains categories.json file, accept it.
+                            if [[ -f "$choice/categories.json" ]]; then
+                                sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" "$dir/.temp/.config"
+                                createArrays
+                            else
+                                printf "%s\n" "Invalid directory $choice - does not contain categories.json file. Press Enter to return to menu."
+                                read
+                            fi
+                            ;;
+                        "Change Package Manager")
+                            getPkgm
+                            ;;
+                        "Change Init System")
+                            getInit
+                            ;;
+                        "Change Display Server")
+                            getDs
+                            ;;   
+                        "" | "Exit")
+                            break
+                            ;;
+                    esac
+                done
                 ;;
             "" | "Exit")
                 printf "%s\n" "Exiting"
@@ -320,5 +452,6 @@ showCategories() {
 
 # Start of function calls and program flow.
 checkDependencies # Check required dependencies - optionals checked when they would be used.
+determineSystem
 createArrays # Create arrays associated with each category, for storing current state of each checkbox. Also create temp files for each category.
 showCategories # Display menu.

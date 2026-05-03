@@ -1,0 +1,19 @@
+[
+    {
+        "category": "Change Data Directory",
+        "description": "Changes which directory the program looks for scripts in - must be directory with a categories.json file and categories folder."
+    }, {
+        "category": "Change Package Manager",
+        "description": "Alter the package manager currently passed into scripts as a variable."
+    }, {
+        "category": "Change Init System",
+        "description": "Alter the init system currently passed into scripts as a variable."
+    }, {
+        "category": "Change Display Server",
+        "description": "Alter the display server currently passed into scripts as a variable."
+    }, {
+        "category": "Exit",
+        "description": "Return to main menu."
+    }
+
+]

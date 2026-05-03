@@ -6,8 +6,8 @@
         "category": "Install Selected",
         "description": "This will run the script associated with each selected item."
     }, {
-        "category": "Change Data Directory",
-        "description": "Changes the directory the program looks for categories and data in."
+        "category": "Change Configs",
+        "description": "Alter the current data directory, package manager, display server, init system."
     }, {
         "category": "Exit",
         "description": "Exit the application, selected items will not be saved."

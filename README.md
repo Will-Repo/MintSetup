@@ -13,7 +13,10 @@ Press Enter to select a menu choice.
 To select a single checkbox, press Enter whilst hovering it - note that this will reload fzf, returning the selection tool to its initial position.\
 To select multiple checkboxes at once, press Tab whilst hovering each checkbox, then press Enter to apply changes.
 
-## Script Output
+## Scripts Information
+Scripts have access to the PKGM, INIT and DS variables for the package manager, init system and display service.
+
+## Scripts Output
 Log files are stored to .temp - all.log and errors.log respectively.\
 If tmux is installed, stderr of each script is outputted to one window, and combined stdout and stderr to another.\
 If tmux is not installed, all script output is displayed on the terminal.
@@ -29,6 +32,5 @@ Bash shell program (version 4 or later) must be found at /bin/bash - or modify f
 Add exit prompt that asks whether they want to install selected.
 Remove large files from being tracked - e.g. GHIDRA, oops lol.
 Add titles to each tmux pane.
-Add select all + deselect all.
 Add section on fzf keybinds - particularly select all + deselect all.
-Add git setup to example - useful for allowing user to pull their own scripts from a private repo.
+Add example scripts using config variables.
