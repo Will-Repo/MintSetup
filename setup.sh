@@ -30,19 +30,20 @@ checkDependencies() {
 
 createArrays() {
     # Get path from executable to the directory storing user config data (or example). If this file doesn't exist, create and populate it.
-    if [[ ! -e $dir/.config ]]; then
-        touch $dir/.config
-        echo "dataDirectory=$dir/example/" >> $dir/.config
+    if [[ ! -e "$dir/.temp/.config" ]]; then
+        mkdir -p "$dir/.temp"
+        touch $dir/.temp/.config
+        echo "dataDirectory=$dir/example/" >> "$dir/.temp/.config"
         dataPath="$dir/example"
     else 
-        source $dir/.config
+        source "$dir/.temp/.config"
         dataPath="$dataDirectory"
     fi
 
     # Declare array of default categories.
     declare -g -a defaults
     # Fill array with all category names
-    mapfile -t defaults < <(jq -r '.[].category' $dir/.default.json)
+    mapfile -t defaults < <(jq -r '.[].category' "$dir/.default.json")
     # Check for errors when reading categories.
     if [[ $? -ne 0 ]]; then
         echo "Error: jq failed to parse $dir/.default.json"
@@ -52,7 +53,7 @@ createArrays() {
     # Declare array of category names.
     declare -g -a categories
     # Fill array with all category names
-    mapfile -t categories < <(jq -r '.[].category' $dataPath/categories.json)
+    mapfile -t categories < <(jq -r '.[].category' "$dataPath/categories.json")
     # Check for errors when reading categories.
     if [[ $? -ne 0 ]]; then
         echo "Error: jq failed to parse $dataPath/categories.json"
@@ -68,7 +69,7 @@ createArrays() {
         # Declare array with category name, for containing task names.
         declare -g -n var="names${category}"
         # Populate array
-        mapfile -t var < <(jq -r '.[].name' $dataPath/categories/"${categories[$i]}".json)
+        mapfile -t var < <(jq -r '.[].name' "$dataPath"/categories/"${categories[$i]}".json)
 
         # Declare array with category state, for containing task names.
         declare -g -n var2="state${category}"
@@ -197,7 +198,7 @@ showCategories() {
                 choice=$(find ~ -type d ! -path "$dir" | fzf)
                 # If chosen directory contains categories.json file, accept it.
                 if [[ -f "$choice/categories.json" ]]; then
-                    sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" $dir/.config
+                    sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" "$dir/.temp/.config"
                     createArrays
                 else
                     printf "%s\n" "Invalid directory $choice - does not contain categories.json file."
