@@ -65,7 +65,6 @@ createArrays() {
         category="${categories[$i]// /_}"
         category="${category//-/_}"
 
-        #TODO: FIX THIS RUNNING FOR NON-CHECKBOX ONES, like exit
         # Declare array with category name, for containing task names.
         declare -g -n var="names${category}"
         # Populate array
@@ -102,14 +101,81 @@ createArrays() {
     done
 }
 
+runScripts() {
+    # Set mode to empty string if not passed in. Function utilises "output", for when wanting terminal output.
+    local mode="${1:-}"
+
+    for i in "${!categories[@]}"; do
+        option="${categories[$i]// /_}"
+        option="${option//-/_}"
+        declare -n arr="names${option}"
+        declare -n state="state${option}"
+
+        for j in "${!arr[@]}"; do
+            if [[ ${state[j]} == "true" ]]; then
+                # If array, flatten it. If string, return.
+                mapfile -t script < <(jq --arg name "${arr[$j]}" -r '.[] | select(.name == $name) | .script | if type == "array" then .[] else . end' "$dataPath/categories/${categories[i]}.json")
+                stringScript=$(printf "%s\n" "${script[@]}")
+                # Execute script, log all commands to file, and errors seperately.
+                if [[ "$mode" == "output" ]]; then
+                    bash -euo pipefail -x -c "$stringScript"
+                else
+                    bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log" > /dev/null) 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log" > /dev/null)
+                fi
+            fi
+        done
+    done
+    set +x
+
+    
+    if [[ "$mode" == "output" ]]; then
+        printf "%s\n" "[COMPLETE] All commands finished, press Enter to continue."
+        read
+    else
+        touch "$dir/.temp/tmux-exit"
+    fi
+}
+
 installSelected() {
-    :
+    # Clear and create files for storing log info - stdout (and stderr), and just stderr.
+    > "$dir/.temp/all.log"
+    > "$dir/.temp/errors.log"
+
+    #TODO: Add progress bar to pane 1.
+
+    if command -v tmux >/dev/null; then
+        # Create tmux session, with one pane that runs scripts and outputs instructions, another pane showing just stderr, and one showing all that would be outputted to terminal. User can resize. Also allow non-tmux if not installed.
+        # Run scripts in background.
+        runScripts &
+        # Display script data to user.
+        tmux kill-session -t logs >/dev/null
+        #Use bash per-command environment variable to pass in dir path into single quotes.
+        DIR="$dir" tmux new-session -d -x 200 -y 60 -s logs "tail -f \"\$DIR/.temp/errors.log\"" \; \
+        split-window -h -t 0 "tail -f \"\$DIR/.temp/all.log\"" \; \
+        select-layout even-horizontal \; \
+        split-window -f -t 0 -l 6 "bash -c '
+            while [ ! -f \"\$DIR/.temp/tmux-exit\" ]; do
+                sleep 1
+            done
+            printf \"All commands executed.\nPress Enter to exit tmux.\"
+            read
+            tmux kill-session -t logs
+        '" \; \
+        select-pane -t 2 \; \
+        set-option -t logs mouse on \; \
+        attach -t logs
+    else
+        # Run scripts in terminal, outputtng to stdout and stderr as normal.
+        runScripts "output"
+    fi
+    rm -f "$dir/.temp/tmux-exit"
+        
+    #TODO: Print number of errors (how many scripts failed), and ask if user wants to continue, saying more installs will overrite log, so look now, or log to timestamp.
 }
 
 showCategories() {
-    #TODO: Use jq to get categories and description.
     while true; do
-        # Show menu list of categories, and their contents (including currently checkboxed) and description in preview. TODO: Show full list of selected options under install selected - get rid of checkboxes, just names.
+        # Show menu list of categories, and their contents (including currently checkboxed) and description in preview.
         choice=$(
             printf "%s\n" "${categories[@]}" "${defaults[@]}" \
             | tac \
@@ -122,7 +188,6 @@ showCategories() {
                               cat "$dir/.temp/*" 2>/dev/null | grep '^\[\*\]' | sed 's/^\(\[\]\|\[\*\]\) //'
                           fi" \
         )
-        #TODO: Add checkboxes selected and list of tasks to preview.
         case $choice in 
             "Install Selected")
                 printf "%s\n" "Installing Selected"
@@ -159,8 +224,7 @@ showCategories() {
                         fi
                     done
                     
-                    # Display to user and get state back. TODO: Check {q} is best practice. FIX THIS.
-                    #json='.[] | {json: .name, input: ($name | sub("^(\\[\\]|\\[\\*\\]) "; "")), match: (.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; "")))}'
+                    # Display to user and get state back. 
                     json='.[] | select(.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; ""))) | "Description:\n\(.description)\n\nScript:\n\(.script | join("\n"))"'
                     selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '$json' \"$dataPath/categories/$choice.json\"")
                     if [[ $? -eq 130 ]]; then 
@@ -198,8 +262,6 @@ showCategories() {
 }
 
 # Start of function calls and program flow.
-checkDependencies
-createArrays # Create arrays associated with each category, for storing current state of each checkbox.
-showCategories
-
-# Pass 2 arrays to jq, one with stuff from categories.json, and one with stuff defined here, store these seperately.
+checkDependencies # Check required dependencies - optionals checked when they would be used.
+createArrays # Create arrays associated with each category, for storing current state of each checkbox. Also create temp files for each category.
+showCategories # Display menu.
