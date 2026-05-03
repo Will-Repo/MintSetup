@@ -201,7 +201,8 @@ showCategories() {
                     sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" "$dir/.temp/.config"
                     createArrays
                 else
-                    printf "%s\n" "Invalid directory $choice - does not contain categories.json file."
+                    printf "%s\n" "Invalid directory $choice - does not contain categories.json file. Press Enter to return to menu."
+                    read
                 fi
                 ;;
             "" | "Exit")
