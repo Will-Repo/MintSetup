@@ -3,7 +3,7 @@
         "category": "Example1 - Base System Setup",
         "description": "Example1 - Basic system utilities and misc required before using most OS functions - e.g. system updates."
     }, {
-        "category": "Example2 - Games",
-        "description": "Example2 - Game and game launcher installations."
+        "category": "Example2 - git",
+        "description": "Example2 - git ssh key setup, can be useful for speeding up cloning private repo containing other setup scripts."
     }
 ]

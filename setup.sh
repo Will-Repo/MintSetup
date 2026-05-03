@@ -32,7 +32,7 @@ createArrays() {
     # Get path from executable to the directory storing user config data (or example). If this file doesn't exist, create and populate it.
     if [[ ! -e "$dir/.temp/.config" ]]; then
         mkdir -p "$dir/.temp"
-        touch $dir/.temp/.config
+        touch "$dir/.temp/.config"
         echo "dataDirectory=$dir/example/" >> "$dir/.temp/.config"
         dataPath="$dir/example"
     else 
@@ -60,6 +60,9 @@ createArrays() {
         exit
     fi
 
+    # For each category, make temp file and add initial data.
+    mkdir -p "$dir/.temp"
+    rm -rf "$dir/.temp/*"
     # Declare arrays containing checkbox state and names for each element of each category.
     for i in "${!categories[@]}"; do
         # Replace all spaces in category names with underscores.
@@ -67,46 +70,39 @@ createArrays() {
         category="${category//[^a-zA-Z0-9_]/_}"
 
         # Declare array with category name, for containing task names.
-        declare -g -n var="names${category}"
+        declare -n names="names${category}"
         # Populate array
-        mapfile -t var < <(jq -r '.[].name' "$dataPath"/categories/"${categories[$i]}".json)
+        mapfile -t names < <(jq -r '.[].name' "$dataPath"/categories/"${categories[$i]}".json)
 
         # Declare array with category state, for containing task names.
-        declare -g -n var2="state${category}"
-        # Populate array
-        for ((i=0; i<"${#var[@]}"; ++i));do 
-            var2[$i]=false
+        declare -n state="state${category}"
+        # Populate array - for each element in names, add a corresponding state entry - defaulting to false.
+        for j in "${!names[@]}";do 
+            state[j]=false
         done
-    done
         
-    # For each category, make temp file and add initial data.
-    mkdir -p .temp
-    rm -rf $dir/.temp/*
-    for i in "${!categories[@]}"; do
-        option="${categories[$i]// /_}"
-        option="${option//[^a-zA-Z0-9_]/_}"
-
-        # Get the namesCategory array that stores all names in a certain category.
-        declare -n arr="names${option}"
-        # Get the current state of each name in the category selected.
-        declare -n state="state${option}"
         # Declare array of what is displayed to the user, populate it with checkbox from state and name from names.
+        unset items
         declare -a items
-        for j in "${!arr[@]}"; do
+        for j in "${!names[@]}"; do
             if [[ ${state[j]} == "false" ]]; then
-                items[j]="[] ${arr[j]}"
+                items[j]="[] ${names[j]}"
             else
-                items[j]="[*] ${arr[j]}"
+                items[j]="[*] ${names[j]}"
             fi
         done
-        printf "%s\n" "${items[@]}" > "$dir/.temp/${categories[i]}"
+        printf "%s\n" "${items[@]}" > "$dir/.temp/${categories[$i]}"
     done
 }
 
 runScripts() {
-    # Set mode to empty string if not passed in. Function utilises "output", for when wanting terminal output.
+    # Set mode to empty string if not passed in. 
     local mode="${1:-}"
-
+    # If mode is "execute", run the scripts straight away. Otherwise, create file representation of all commands to execute in tmux.
+    
+    if [[ "$mode" != "execute" ]]; then
+        > "$dir/.temp/.scripts"
+    fi
     for i in "${!categories[@]}"; do
         option="${categories[$i]// /_}"
         option="${option//[^a-zA-Z0-9_]/_}"
@@ -120,23 +116,34 @@ runScripts() {
                 mapfile -t script < <(jq --arg name "${arr[$j]}" -r '.[] | select(.name == $name) | .script | if type == "array" then .[] else . end' "$dataPath/categories/${categories[i]}.json")
                 stringScript=$(printf "%s\n" "${script[@]}")
                 # Execute script, log all commands to file, and errors seperately.
-                if [[ "$mode" == "output" ]]; then
-                    bash -euo pipefail -x -c "$stringScript"
+                if [[ "$mode" == "execute" ]]; then
+                    bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log") 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log")
                 else
-                    bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log" > /dev/null) 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log" > /dev/null)
+                    printf "NEW SCRIPT\n" >> "$dir/.temp/.scripts"    is expanded by the outer shell, before it ever reaches bash -c.
+                    printf "%s\n" "${stringScript[@]}" >> "$dir/.temp/.scripts"    
                 fi
             fi
         done
     done
-    set +x
+}
 
-    
-    if [[ "$mode" == "output" ]]; then
-        printf "%s\n" "[COMPLETE] All commands finished, press Enter to continue."
-        read
-    else
-        touch "$dir/.temp/tmux-exit"
-    fi
+runAllScripts() {
+    # Declare string for current script block
+    local block=""
+    # Create array of all scripts
+    mapfile -t lines < <(cat "$DIR/.temp/.scripts")
+    #declare -p lines
+    #printf "%b\n" "${lines[@]}"
+
+    for line in "${lines[@]}"; do 
+        if [[ "$line" == "NEW SCRIPT" ]]; then
+            bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log" >/dev/null) 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log" >/dev/null) || true # Catch errors, prevents tmux closing. 
+            block=""
+        else 
+            block+="$line"$'\n'
+        fi
+    done
+    bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log") 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log") || true
 }
 
 installSelected() {
@@ -148,34 +155,35 @@ installSelected() {
 
     if command -v tmux >/dev/null; then
         # Create tmux session, with one pane that runs scripts and outputs instructions, another pane showing just stderr, and one showing all that would be outputted to terminal. User can resize. Also allow non-tmux if not installed.
-        # Run scripts in background.
-        runScripts &
+        # Generate file of scripts to execute.
+        runScripts
+        # Pass in function to execute each script to tmux, alongside a file representation of all scripts to execute.
+        
+        export -f runAllScripts
         # Display script data to user.
         tmux kill-session -t logs >/dev/null
         #Use bash per-command environment variable to pass in dir path into single quotes.
         DIR="$dir" tmux new-session -d -x 200 -y 60 -s logs "tail -f \"\$DIR/.temp/errors.log\"" \; \
         split-window -h -t 0 "tail -f \"\$DIR/.temp/all.log\"" \; \
         select-layout even-horizontal \; \
-        split-window -f -t 0 -l 6 "bash -c '
-            while [ ! -f \"\$DIR/.temp/tmux-exit\" ]; do
-                sleep 1
-            done
-            printf \"All commands executed.\nPress Enter to exit tmux.\"
+        split-window -f -t 0 -l 10 "bash -c \"
+            runAllScripts
+            printf 'All commands executed.\nPress Enter to exit tmux.'
             read
             tmux kill-session -t logs
-        '" \; \
+        \"" \; \
         select-pane -t 2 \; \
         set-option -t logs mouse on \; \
         attach -t logs
     else
         # Run scripts in terminal, outputtng to stdout and stderr as normal.
-        runScripts "output"
+        runScripts "execute"
     fi
-    rm -f "$dir/.temp/tmux-exit"
         
     #TODO: Print number of errors (how many scripts failed), and ask if user wants to continue, saying more installs will overrite log, so look now, or log to timestamp.
 }
 
+# TODO: Create interactive terminal in tmux. Write all commands to be executed to a file - seperated by script. Give tmux script that iterates through this file and runs it, writing to the relevent files.
 showCategories() {
     while true; do
         # Show menu list of categories, and their contents (including currently checkboxed) and description in preview.
@@ -213,22 +221,22 @@ showCategories() {
                 ;;
             *)
                 while true; do
-                    # TODO: Make this loop until exit selected.
                     # Remove spaces from chosen category.
                     option="${choice// /_}"
                     option="${option//[^a-zA-Z0-9_]/_}"
 
                     # Get the namesCategory array that stores all names in a certain category.
-                    declare -n arr="names${option}"
+                    declare -n names="names${option}"
                     # Get the current state of each name in the category selected.
                     declare -n state="state${option}"
                     # Declare array of what is displayed to the user, populate it with checkbox from state and name from names.
+                    unset items
                     declare -a items
-                    for i in "${!arr[@]}"; do
+                    for i in "${!names[@]}"; do
                         if [[ ${state[i]} == "false" ]]; then
-                            items[i]="[] ${arr[i]}"
+                            items[i]="[] ${names[i]}"
                         else
-                            items[i]="[*] ${arr[i]}"
+                            items[i]="[*] ${names[i]}"
                         fi
                     done
                     
@@ -255,11 +263,11 @@ showCategories() {
                     done
 
                     # Get updated selection, output to temp file to be previewed from main menu.
-                    for i in "${!arr[@]}"; do
+                    for i in "${!names[@]}"; do
                         if [[ ${state[i]} == "false" ]]; then
-                            items[i]="[] ${arr[i]}"
+                            items[i]="[] ${names[i]}"
                         else
-                            items[i]="[*] ${arr[i]}"
+                            items[i]="[*] ${names[i]}"
                         fi
                     done
                     printf "%s\n" "${items[@]}" > "$dir/.temp/$choice"

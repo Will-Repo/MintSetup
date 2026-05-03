@@ -1,0 +1,13 @@
+[
+  {
+    "name": "git ssh keys",
+    "description": "Generates public and private keys for git. [NOTE] Requires input.",
+    "script": [
+        "mkdir -p ~/.ssh",
+        "ssh-add ~/.ssh/id_ed25519 2>/dev/null || {",
+        "    ssh-keygen -t ed25519 -C \"Linux Laptop\" -f ~/.ssh/id_ed25519",
+        "    ssh-add ~/.ssh/id_ed25519",
+        "}"
+    ]
+  }
+]
