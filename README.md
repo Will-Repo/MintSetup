@@ -31,3 +31,4 @@ Remove large files from being tracked - e.g. GHIDRA, oops lol.
 Add titles to each tmux pane.
 Add select all + deselect all.
 Add section on fzf keybinds - particularly select all + deselect all.
+Add git setup to example - useful for allowing user to pull their own scripts from a private repo.

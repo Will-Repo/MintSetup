@@ -64,7 +64,7 @@ createArrays() {
     for i in "${!categories[@]}"; do
         # Replace all spaces in category names with underscores.
         category="${categories[$i]// /_}"
-        category="${category//-/_}"
+        category="${category//[^a-zA-Z0-9_]/_}"
 
         # Declare array with category name, for containing task names.
         declare -g -n var="names${category}"
@@ -84,7 +84,8 @@ createArrays() {
     rm -rf $dir/.temp/*
     for i in "${!categories[@]}"; do
         option="${categories[$i]// /_}"
-        option="${option//-/_}"
+        option="${option//[^a-zA-Z0-9_]/_}"
+
         # Get the namesCategory array that stores all names in a certain category.
         declare -n arr="names${option}"
         # Get the current state of each name in the category selected.
@@ -108,7 +109,8 @@ runScripts() {
 
     for i in "${!categories[@]}"; do
         option="${categories[$i]// /_}"
-        option="${option//-/_}"
+        option="${option//[^a-zA-Z0-9_]/_}"
+
         declare -n arr="names${option}"
         declare -n state="state${option}"
 
@@ -214,7 +216,8 @@ showCategories() {
                     # TODO: Make this loop until exit selected.
                     # Remove spaces from chosen category.
                     option="${choice// /_}"
-                    option="${option//-/_}"
+                    option="${option//[^a-zA-Z0-9_]/_}"
+
                     # Get the namesCategory array that stores all names in a certain category.
                     declare -n arr="names${option}"
                     # Get the current state of each name in the category selected.
