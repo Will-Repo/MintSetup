@@ -1,3 +1,7 @@
 node_modules/**
+.old/**
 package.json
 package-lock.json
+data/**
+.config
+.temp/**

@@ -1,0 +1,19 @@
+[
+  {
+    "name": "System Updates",
+    "description": "Updating system packages.",
+    "script": [
+        "sudo apt update -y",
+        "sudo apt upgrade -y"
+    ]
+  },
+  {
+    "name": "Unnecessary Software Removal",
+    "description": "Removing unecessary software preinstalled on Linux Mint.",
+    "script": [
+        "sudo apt remove -y -s firefox",
+        "sudo apt remove -y -s thunderbird",
+        "sudo apt autoremove -y"
+    ]
+  }
+]

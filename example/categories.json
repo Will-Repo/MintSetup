@@ -1,0 +1,9 @@
+[
+    {
+        "category": "Example1 - Base System Setup",
+        "description": "Example1 - Basic system utilities and misc required before using most OS functions - e.g. system updates."
+    }, {
+        "category": "Example2 - Games",
+        "description": "Example2 - Game and game launcher installations."
+    }
+]
