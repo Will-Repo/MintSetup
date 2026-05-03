@@ -1,33 +1,33 @@
-# Initial installation manager for my Linux Mint install.
+# Script Management Tool
 
 ## Overview
-This is a command line interface that will install the defaults for my system, and other optional applications and systems. 
-This uses fzf and the terminal to display the interface.
-Installing something that is already on the system will result in the install not happening.
+fzf based checkbox interface for selecting scripts to run on a system.\
+Can be used for any scripts, but was originally intended for use as a clean OS install setup script.
 
-## Controls
+## UI Controls
+### Navigating the interface
+Use arrow keys or basic vim bindings (requires holding Ctrl) to navigate the menu.\
+Press Enter to select a menu choice.
+
 ### Selecting checkboxes
-Selecting options using enter automatically updates the checkbox, but causes screen flicker (fzf must reload).
-Selecting checkboxes using tab marks boxes as selected, but the checkboxes dont update until the next enter input.
+To select a single checkbox, press Enter whilst hovering it - note that this will reload fzf, returning the selection tool to its initial position.\
+To select multiple checkboxes at once, press Tab whilst hovering each checkbox, then press Enter to apply changes.
 
-## 
-Log files are stored to .temp - all.log and errors.log respectively.
+## Script Output
+Log files are stored to .temp - all.log and errors.log respectively.\
+If tmux is installed, stderr of each script is outputted to one window, and combined stdout and stderr to another.\
+If tmux is not installed, all script output is displayed on the terminal.
 
 ## Dependencies
-[fzf][https://github.com/junegunn/fzf] must be installed.
-[jq][https://github.com/jqlang/jq] must be installed.
-tac must be installed.
-Bash shell program (version 4 or later) must be at /bin/bash - or modify first line of the script to point to your bash program.
-Tmux
-
-## Recommended Install Locations
-Install general applications to ~/.local/share/
+[fzf][https://github.com/junegunn/fzf] must be installed.\
+[jq][https://github.com/jqlang/jq] must be installed.\
+tac must be installed.\
+Bash shell program (version 4 or later) must be found at /bin/bash - or modify first line of the script to point to your bash program.\
+[recommended] tmux
 
 ## To-do
 Add exit prompt that asks whether they want to install selected.
-Decide whether to replace tac with array reversal.
 Remove large files from being tracked - e.g. GHIDRA, oops lol.
-Check if data directory selected is valid.
-Add titles to each tmux panes.
+Add titles to each tmux pane.
 Add select all + deselect all.
 Add section on fzf keybinds - particularly select all + deselect all.
