@@ -195,10 +195,13 @@ showCategories() {
                 ;;
             "Change Data Directory")
                 choice=$(find ~ -type d ! -path "$dir" | fzf)
-                # TODO: Check if valid folder.
-                # TODO: Output to terminal if not, wait for confirmation.
-                sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" $dir/.config
-                createArrays
+                # If chosen directory contains categories.json file, accept it.
+                if [[ -f "$choice/categories.json" ]]; then
+                    sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" $dir/.config
+                    createArrays
+                else
+                    printf "%s\n" "Invalid directory $choice - does not contain categories.json file."
+                fi
                 ;;
             "" | "Exit")
                 printf "%s\n" "Exiting"
