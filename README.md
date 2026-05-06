@@ -34,3 +34,4 @@ Remove large files from being tracked - e.g. GHIDRA, oops lol.
 Add titles to each tmux pane.
 Add section on fzf keybinds - particularly select all + deselect all.
 Add example scripts using config variables.
+Only determine system if not stored in .config gile.
