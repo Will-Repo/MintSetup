@@ -3,8 +3,12 @@
     "name": "System Updates",
     "description": "Updating system packages.",
     "script": [
-        "sudo apt update -y",
-        "sudo apt upgrade -y"
+        "if [[ \"$PKGM\" == \"apt\" ]]; then",
+        "   sudo apt update -y",
+        "   sudo apt upgrade -y",
+        "elif [[ \"$PKGM\" == \"pacman\" ]]; then",
+        "   sudo pacman -Syu",
+        "fi"
     ]
   },
   {

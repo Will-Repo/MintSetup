@@ -121,7 +121,7 @@ getDs() {
 }
 
 determineSystem() {
-    if [[ ! $(cat "$dir/.temp/.config" | grep -q "pkgm") ]]; then
+    if ! grep -q "pkgm" "$dir/.temp/.config"; then
         # Get package manager
         detectPkgm
 
@@ -153,7 +153,7 @@ determineSystem() {
 
 createArrays() {
     # Get path from executable to the directory storing user config data (or example). If this file doesn't exist, create and populate it.
-    if [[ ! $(cat "$dir/.temp/.config" | grep -q "dataDirectory") ]]; then
+    if ! grep -q "dataDirectory" "$dir/.temp/.config"; then
         echo "dataDirectory=$dir/example/" >> "$dir/.temp/.config"
     fi
     source "$dir/.temp/.config"
@@ -245,7 +245,7 @@ runScripts() {
                 stringScript=$(printf "%s\n" "${script[@]}")
                 # Execute script, log all commands to file, and errors seperately.
                 if [[ "$mode" == "execute" ]]; then
-                    PKGM="$pkgm" INIT="$init" DS="$ds" bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log") 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log")
+                    DIR="$DIR" PKGM="$PKGM" INIT="$INIT" DS="$DS" bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log") 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log")
                 else
                     printf "NEW SCRIPT\n" >> "$dir/.temp/.scripts"
                     printf "%s\n" "${stringScript[@]}" >> "$dir/.temp/.scripts"    
@@ -262,16 +262,16 @@ runAllScripts() {
     mapfile -t lines < <(cat "$DIR/.temp/.scripts")
     #declare -p lines
     #printf "%b\n" "${lines[@]}"
-
+    #echo "$PKGM"
     for line in "${lines[@]}"; do 
         if [[ "$line" == "NEW SCRIPT" ]]; then
-            PKGM="$pkgm" INIT="$init" DS="$ds" bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log" >/dev/null) 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log" >/dev/null) || true # Catch errors, prevents tmux closing. 
+            DIR="$DIR" PKGM="$PKGM" INIT="$INIT" DS="$DS" bash -euo pipefail -x -c "$block"  > >(tee -a "$DIR/.temp/all.log") 2> >(tee -a "$DIR/.temp/errors.log" >> "$DIR/.temp/all.log") || true # Catch errors, prevents tmux closing.
             block=""
         else 
             block+="$line"$'\n'
         fi
     done
-    PKGM="$pkgm" INIT="$init" DS="$ds" bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log") 2> >(tee -a "$DIR/.temp/errors.log" | tee -a "$DIR/.temp/all.log") || true
+    DIR="$DIR" PKGM="$PKGM" INIT="$INIT" DS="$DS" bash -euo pipefail -x -c "$block" > >(tee -a "$DIR/.temp/all.log") 2> >(tee -a "$DIR/.temp/errors.log" >> "$DIR/.temp/all.log") || true
 }
 
 installSelected() {
@@ -291,16 +291,20 @@ installSelected() {
         # Display script data to user.
         tmux kill-session -t logs >/dev/null
         #Use bash per-command environment variable to pass in dir path into single quotes.
-        DIR="$dir" tmux new-session -d -x 200 -y 60 -s logs "tail -f \"\$DIR/.temp/errors.log\"" \; \
+        DIR="$dir" PKGM="$pkgm" INIT="$init" DS="$ds" tmux new-session -d -x 200 -y 60 -s logs "tail -f \"\$DIR/.temp/errors.log\"" \; \
+        set-option -g pane-border-status top \; \
+        select-pane -T "Errors (xtrace + stderr):" \; \
         split-window -h -t 0 "tail -f \"\$DIR/.temp/all.log\"" \; \
+        select-pane -T "All output (stdout + xtrace + stderr):" \; \
         select-layout even-horizontal \; \
-        split-window -f -t 0 -l 10 "bash -c \"
+        split-window -f -t 0 -l 6 "bash -c \"
             runAllScripts
             printf 'All commands executed.\nPress Enter to exit tmux.'
             read
             tmux kill-session -t logs
         \"" \; \
         select-pane -t 2 \; \
+        select-pane -T "Interactive pane" \; \
         set-option -t logs mouse on \; \
         attach -t logs
     else
@@ -388,6 +392,7 @@ showCategories() {
                             choice=$(find ~ -type d ! -path "$dir" | fzf)
                             # If chosen directory contains categories.json file, accept it.
                             if [[ -f "$choice/categories.json" ]]; then
+                                # Substitute line with dataDirectory= at the start, with dataDirectory=new value.
                                 sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" "$dir/.temp/.config"
                                 createArrays
                             else
@@ -397,12 +402,15 @@ showCategories() {
                             ;;
                         "Change Package Manager")
                             getPkgm
+                            sed -i "s|^pkgm=.*|pkgm=$pkgm|" "$dir/.temp/.config"
                             ;;
                         "Change Init System")
                             getInit
+                            sed -i "s|^init=.*|init=$init|" "$dir/.temp/.config"
                             ;;
                         "Change Display Server")
                             getDs
+                            sed -i "s|^ds=.*|ds=$ds|" "$dir/.temp/.config"
                             ;;   
                         "" | "Exit")
                             break
