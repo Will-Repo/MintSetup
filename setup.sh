@@ -253,9 +253,11 @@ runScripts() {
             fi
         done
     done
-    printf 'All commands executed.\nPress Enter to return to menu.'
-    read
 
+    if [[ "$mode" == "execute" ]]; then
+        printf 'All commands executed.\nPress Enter to return to menu.'
+        read
+    fi
 }
 
 runAllScripts() {
