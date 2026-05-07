@@ -12,6 +12,7 @@ Press Enter to select a menu choice.
 ### Selecting checkboxes
 To select a single checkbox, press Enter whilst hovering it - note that this will reload fzf, returning the selection tool to its initial position.\
 To select multiple checkboxes at once, press Tab whilst hovering each checkbox, then press Enter to apply changes.
+To toggle all, press Ctrl + a.
 
 ## Scripts Information
 Scripts have access to the PKGM, INIT and DS variables for the package manager, init system and display service.

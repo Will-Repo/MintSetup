@@ -448,7 +448,7 @@ showCategories() {
                     
                     # Display to user and get state back. 
                     json='.[] | select(.name == ($name | sub("^(\\[\\]|\\[\\*\\]) "; ""))) | "Description:\n\(.description)\n\nScript:\n\(.script | join("\n"))"'
-                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '$json' \"$dataDirectory/categories/$choice.json\"")
+                    selected=$(printf "%s\n" "${items[@]}" | tac | fzf --multi --bind 'tab:toggle,ctrl-a:toggle-all' --header="Press esc or ctrl-q to exit." --preview "jq -r --arg name {} '$json' \"$dataDirectory/categories/$choice.json\"")
                     if [[ $? -eq 130 ]]; then 
                         break
                     fi
