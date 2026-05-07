@@ -8,6 +8,8 @@
         "   sudo apt upgrade -y",
         "elif [[ \"$PKGM\" == \"pacman\" ]]; then",
         "   sudo pacman -Syu",
+        "elif [[ \"$PKGM\" == \"dnf\" ]]; then",
+        "   sudo dnf upgrade",
         "fi"
     ]
   },
@@ -15,9 +17,11 @@
     "name": "Unnecessary Software Removal",
     "description": "Removing unecessary software preinstalled on Linux Mint.",
     "script": [
-        "sudo apt remove -y -s firefox",
-        "sudo apt remove -y -s thunderbird",
-        "sudo apt autoremove -y"
+        "if [[ \"$PKGM\" == \"apt\" ]]; then",
+        "   sudo apt remove -y -s firefox",
+        "   sudo apt remove -y -s thunderbird",
+        "   sudo apt autoremove -y",
+        "fi"
     ]
   }
 ]
