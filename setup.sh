@@ -253,6 +253,9 @@ runScripts() {
             fi
         done
     done
+    printf 'All commands executed.\nPress Enter to return to menu.'
+    read
+
 }
 
 runAllScripts() {

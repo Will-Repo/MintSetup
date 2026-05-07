@@ -20,7 +20,9 @@
         "if [[ \"$PKGM\" == \"apt\" ]]; then",
         "   sudo apt remove -y -s firefox",
         "   sudo apt remove -y -s thunderbird",
-        "   sudo apt autoremove -y",
+        "   sudo apt clean",
+        "   sudo apt autoclean",
+        "   sudo apt autoremove -y --purge",
         "fi"
     ]
   }
