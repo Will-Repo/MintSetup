@@ -245,7 +245,7 @@ runScripts() {
                 stringScript=$(printf "%s\n" "${script[@]}")
                 # Execute script, log all commands to file, and errors seperately.
                 if [[ "$mode" == "execute" ]]; then
-                    DIR="$DIR" PKGM="$PKGM" INIT="$INIT" DS="$DS" bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log") 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log")
+                    DIR="$dir" PKGM="$pkgm" INIT="$init" DS="$ds" bash -euo pipefail -x -c "$stringScript" > >(tee -a "$dir/.temp/all.log") 2> >(tee -a "$dir/.temp/errors.log" | tee -a "$dir/.temp/all.log")
                 else
                     printf "NEW SCRIPT\n" >> "$dir/.temp/.scripts"
                     printf "%s\n" "${stringScript[@]}" >> "$dir/.temp/.scripts"    

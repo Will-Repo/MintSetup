@@ -4,7 +4,7 @@
     "description": "Updating system packages.",
     "script": [
         "if [[ \"$PKGM\" == \"apt\" ]]; then",
-        "   sudo apt update -y",
+        "   sudo apt update",
         "   sudo apt upgrade -y",
         "elif [[ \"$PKGM\" == \"pacman\" ]]; then",
         "   sudo pacman -Syu",
