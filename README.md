@@ -37,3 +37,5 @@ Add section on fzf keybinds - particularly select all + deselect all.
 Add example scripts using config variables.
 Only determine system if not stored in .config file.
 Add more category options, to allow them to do custom things. E.g. query custom field in category scripts json files. i.e. select all 'minimal' scripts.
+Add option for first menu to instead display folder locations of collections of scripts to select (e.g. scripts requiring inputs, and scripts that don't).
+Better fzf search, instead give options for where to start searching when looking for new data directory (e.g. ~ or /).

@@ -394,16 +394,27 @@ showCategories() {
                     )
                     case $input in
                         "Change Data Directory")
-                            choice=$(find ~ -type d ! -path "$dir" | fzf)
+                            #TODO: Add option to manually input path. Add cancel option.
+                            dataDir="/"
                             # If chosen directory contains categories.json file, accept it.
-                            if [[ -f "$choice/categories.json" ]]; then
-                                # Substitute line with dataDirectory= at the start, with dataDirectory=new value.
-                                sed -i "s|^dataDirectory=.*|dataDirectory=$choice|" "$dir/.temp/.config"
-                                createArrays
-                            else
-                                printf "%s\n" "Invalid directory $choice - does not contain categories.json file. Press Enter to return to menu."
-                                read
-                            fi
+                            while [[ ! -f "$dataDir/categories.json" ]]; do
+                                dataDirTemp=$(find "$dataDir" -maxdepth 1 -mindepth 1 -type d -printf "%f\n" | sed "/^\./d" | sed '/^[[:space:]]*$/d' | fzf)
+                                if [ -z "$dataDirTemp" ]; then 
+                                    # Return to previous level if ctrl c pressed.
+                                    dataDir=${dataDir%/*}
+                                else
+                                    if [ ! "$dataDir" = "/" ]; then 
+                                        dataDir="$dataDir/$dataDirTemp"
+                                        echo "$dataDir"
+                                    else 
+                                        # Avoids duplicate / at front of path.
+                                        dataDir="/$dataDirTemp"
+                                        echo "$dataDir"
+                                    fi
+                                fi
+                            done
+                            sed -i "s|^dataDirectory=.*|dataDirectory=$dataDir|" "$dir/.temp/.config"
+                            createArrays
                             ;;
                         "Change Package Manager")
                             getPkgm
